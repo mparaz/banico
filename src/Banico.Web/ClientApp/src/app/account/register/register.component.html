@@ -1,0 +1,51 @@
+<h1>Sign Up</h1>
+
+<span *ngIf="!isSuccessful">
+    <form #f="ngForm" novalidate (ngSubmit)="register(f)">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="Email">Email</label>
+            <div class="col-md-10">
+                <input class="form-control" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" value="" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="Password">Password</label>
+            <div class="col-md-10">
+                <input class="form-control" type="password" data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Password" name="Password" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="ConfirmPassword">Confirm password</label>
+            <div class="col-md-10">
+                <input class="form-control" type="password" data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="ConfirmPassword" name="ConfirmPassword" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div *ngIf="inviteOnly" class="form-group">
+            <label class="col-md-2 control-label" for="Code">Invite Code</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" id="Code" name="Code" value="" />
+                <span class="text-danger field-validation-valid" data-valmsg-for="Code" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </div>
+
+        <input data-val="true" data-val-required="The InviteOnly field is required." id="InviteOnly" name="InviteOnly" type="hidden" value="{{inviteOnly}}" />
+    </form>
+</span>
+
+<span *ngIf="isSuccessful">
+    Thank You!
+</span>
