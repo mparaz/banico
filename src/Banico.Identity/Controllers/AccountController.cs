@@ -23,6 +23,7 @@ using Banico.Identity.ViewModels.Account;
 
 namespace Banico.Identity.Controllers
 {
+    [Route("api/[controller]")]
     [Authorize]
     public class AccountController : Controller
     {

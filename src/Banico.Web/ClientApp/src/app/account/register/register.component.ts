@@ -9,7 +9,7 @@ import { UserService } from '../../shared/services/user.service';
   templateUrl: './register.component.html',
   styleUrls: []
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegisterComponent implements OnInit {
     isRequesting: boolean;
     isSuccessful: boolean;
     errors: string;  
