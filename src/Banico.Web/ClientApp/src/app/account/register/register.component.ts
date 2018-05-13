@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserRegistration } from '../../shared/models/user.registration.interface';
-import { UserService } from '../../shared/services/user.service';
+import { Register } from './register.interface';
+import { AccountService } from '../account.service';
 
 @Component({
   selector: 'register',
@@ -16,13 +16,16 @@ export class RegisterComponent implements OnInit {
     submitted: boolean = false;
 
     constructor (
-        private userService: UserService,
+        private accountService: AccountService,
         private router: Router
     ) { 
     }
 
-  public registerUser(
-      value: UserRegistration, 
+    ngOnInit() {
+    }
+  
+    public registerUser(
+      value: Register, 
       valid: boolean
     ) {
     this.submitted = true;
@@ -30,10 +33,11 @@ export class RegisterComponent implements OnInit {
     this.errors = '';
     if (valid) {
         this.isRequesting = true;
-        this.userService.register(
+        this.accountService.register(
             value.email,
             value.password,
-            value.code
+            value.confirmPassword,
+            value.inviteCode
         )
         .finally(() => this.isRequesting = false)
         .subscribe(result  => {

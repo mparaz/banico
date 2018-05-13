@@ -21,6 +21,7 @@ export class ResetPasswordComponent {
   public resetPassword(value: ResetPassword) {
     this.isRequesting = true;
     this.accountService.resetPassword(
+      value.email,
       value.code,
       value.password,
       value.resetPassword
@@ -28,7 +29,14 @@ export class ResetPasswordComponent {
     .finally(() => this.isRequesting = false)
     .subscribe(
       result  => {if(result){
-          this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
+          this.router.navigate(
+            ['/login'], {
+              queryParams: {
+                brandNew: true,
+                email: value.email
+              }
+            }
+          );                         
       }},
       errors =>  this.errors = errors);
 

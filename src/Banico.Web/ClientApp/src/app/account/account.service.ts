@@ -3,9 +3,12 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { ORIGIN_URL } from '../shared/constants/baseurl.constants';
 import { BaseService } from "../shared/services/base.service";
 import { Observable } from 'rxjs/Rx';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class AccountService extends BaseService {
+    public loggedIn: boolean;
+
     constructor(
         private http: Http,
         @Inject(PLATFORM_ID) private platformId: Object,
@@ -74,11 +77,13 @@ export class AccountService extends BaseService {
     }
 
     public resetPassword(
+        email: string,
         code: string,
         password: string,
         resetPassword: string
     ) {
         let body = JSON.stringify({ 
+            email,
             code,
             password,
             resetPassword 

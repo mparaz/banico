@@ -6,7 +6,7 @@ import { HttpModule, XHRBackend } from '@angular/http';
 import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { RouterModule } from '@angular/router';
 
-import { Routing } from './app.routing';
+import { AppRoutingModule } from './approuting.module';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -31,7 +31,7 @@ import { ConfigService } from './shared/utils/config.service';
     HttpModule,
     HttpClientModule,
     FormsModule,
-    Routing
+    AppRoutingModule
   ],
   providers: [ConfigService, { 
     provide: XHRBackend, 
