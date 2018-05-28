@@ -4,32 +4,23 @@
     <div class="col">
         <section>
             <p>Use service to log in.</p>                   
-            @{
                 var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 if (loginProviders.Count == 0)
-                {
                     <div>
                         <p>
                             There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
                             for details on setting up this ASP.NET application to support logging in via external services.
                         </p>
                     </div>
-                }
                 else
-                {
-                    <form method="post" method="post" class="form-horizontal" action="/api/Account/Login" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                    <form method="post" method="post" class="form-horizontal" action="/api/Account/Login">
                         <div>
-                            <p *ngFor="provider in loginProviders">
+                            <p *ngFor="let provider of loginProviders">
                                 @foreach (var provider in loginProviders)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="{{provider.Name}}" title="Log in using your {{privder.DisplayName}} account">{{provider.DisplayName}}</button>
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
+                                <button type="submit" class="btn btn-primary" name="provider" value="{{provider.Name}}" title="Log in using your {{provider.DisplayName}} account">{{provider.DisplayName}}</button>
                             </p>
                         </div>
                     </form>
-                }
-            }
         </section>
     </div>
 </div>
@@ -39,7 +30,7 @@
         <section>
             <form #f="ngForm" novalidate (ngSubmit)="login(f)">
                 <p>Use a local account to log in.</p>
-                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="text-danger"></div>
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="Email">Email</label>

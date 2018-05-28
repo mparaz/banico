@@ -2,7 +2,7 @@
 
 <span *ngIf="!isSuccessful">
     <form #f="ngForm" novalidate (ngSubmit)="register(f)">
-        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="text-danger"></div>
 
         <div class="form-group">
             <label class="col-md-2 control-label" for="Email">Email</label>

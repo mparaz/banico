@@ -3,8 +3,8 @@
 <span *ngIf="!isSuccessful">
     <div class="row">
         <div class="col-md-4">
-            <form #f="ngForm" novalidate (ngSubmit)="resendConfirmation(f)"
-                <div asp-validation-summary="All" class="text-danger"></div>
+            <form #f="ngForm" novalidate (ngSubmit)="resendConfirmation(f)">
+                <div class="text-danger"></div>
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="Email">Email</label>
                     <input asp-for="Email" class="form-control" />
