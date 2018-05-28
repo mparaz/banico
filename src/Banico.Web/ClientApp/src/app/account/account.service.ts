@@ -1,6 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { ORIGIN_URL } from '../shared/constants/baseurl.constants';
 import { BaseService } from "../shared/services/base.service";
 import { Observable } from 'rxjs/Rx';
 import { isPlatformBrowser } from '@angular/common';
@@ -12,7 +11,7 @@ export class AccountService extends BaseService {
     constructor(
         private http: Http,
         @Inject(PLATFORM_ID) private platformId: Object,
-        @Inject(ORIGIN_URL) private baseUrl: string
+        @Inject('BASE_URL') private baseUrl: string
     ) {
         super();
         if (isPlatformBrowser(this.platformId)) {

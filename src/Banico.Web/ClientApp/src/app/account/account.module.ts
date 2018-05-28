@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule }  from '@angular/forms';
 import { SharedModule }   from '../shared/modules/shared.module';
  
+import { AccountService }  from './account.service';
 import { UserService }  from '../shared/services/user.service';
 import { EmailValidator } from '../directives/email.validator.directive';
 
-import { Routing }  from './account.routing';
+import { AccountRoutingModule }  from './account.routing';
+import { AccountComponent } from './account.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -18,10 +20,11 @@ import { SetPasswordComponent } from './set-password/set-password.component';
   imports: [
     CommonModule,
     FormsModule,
-    Routing,
+    AccountRoutingModule,
     SharedModule
   ],
   declarations: [
+    AccountComponent,
     ChangePasswordComponent,
     LoginComponent, 
     RegisterComponent, 
@@ -29,6 +32,12 @@ import { SetPasswordComponent } from './set-password/set-password.component';
     ResetPasswordComponent,
     SetPasswordComponent
   ],
-  providers:    [ UserService ]
+  providers: [ 
+    AccountService,
+    UserService 
+  ],
+  bootstrap: [ 
+    AccountComponent 
+  ]
 })
 export class AccountModule { }

@@ -33,10 +33,12 @@ import { ConfigService } from './shared/utils/config.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [ConfigService, { 
-    provide: XHRBackend, 
-    useClass: AuthenticateXHRBackend
-  }],
+  providers: [
+    ConfigService, { 
+      provide: XHRBackend, 
+      useClass: AuthenticateXHRBackend
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
