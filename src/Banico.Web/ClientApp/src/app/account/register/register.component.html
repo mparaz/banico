@@ -7,7 +7,18 @@
         <div class="form-group">
             <label class="col-md-2 control-label" for="Email">Email</label>
             <div class="col-md-10">
-                <input class="form-control" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" value="" />
+                <input 
+                    class="form-control" 
+                    id="email"
+                    name="email"
+                    type="text" 
+                    validateEmail
+                    ngModel  
+                    #email="ngModel"
+                    />
+                    <!--
+                    data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" value="" 
+                    -->
                 <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
             </div>
         </div>

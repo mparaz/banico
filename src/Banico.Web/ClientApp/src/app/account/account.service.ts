@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { BaseService } from "../shared/services/base.service";
 import { Observable } from 'rxjs/Rx';
 import { isPlatformBrowser } from '@angular/common';
@@ -9,7 +9,7 @@ export class AccountService extends BaseService {
     public loggedIn: boolean;
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         @Inject(PLATFORM_ID) private platformId: Object,
         @Inject('BASE_URL') private baseUrl: string
     ) {
@@ -29,7 +29,7 @@ export class AccountService extends BaseService {
             newPassword,
             confirmPassword 
         });
-        return this.http.post(this.baseUrl + "/changePassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/ChangePassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -42,7 +42,7 @@ export class AccountService extends BaseService {
             email, 
             password 
         });
-        return this.http.post(this.baseUrl + "/login", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "/api/Account/Login", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -52,14 +52,14 @@ export class AccountService extends BaseService {
         password: string,
         confirmPassword: string,
         invite: string
-    ) {
+    ): Observable<Response> {
         let body = JSON.stringify({ 
             email,
             password,
             confirmPassword ,
             invite
         });
-        return this.http.post(this.baseUrl + "/register", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/Register", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -70,7 +70,7 @@ export class AccountService extends BaseService {
         let body = JSON.stringify({ 
             email
         });
-        return this.http.post(this.baseUrl + "/resendConfirmation", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "/api/Account/ResendConfirmation", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -87,7 +87,7 @@ export class AccountService extends BaseService {
             password,
             resetPassword 
         });
-        return this.http.post(this.baseUrl + "/resetPassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "/api/Account/ResetPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -100,7 +100,7 @@ export class AccountService extends BaseService {
             newPassword,
             confirmPassword 
         });
-        return this.http.post(this.baseUrl + "/setPassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "/api/Account/SetPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

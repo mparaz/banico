@@ -10,8 +10,8 @@ import { AccountService } from '../account.service';
   styleUrls: []
 })
 export class RegisterComponent implements OnInit {
-    isRequesting: boolean;
-    isSuccessful: boolean;
+    isRequesting: boolean = false;
+    isSuccessful: boolean = false;
     errors: string;  
     submitted: boolean = false;
 
@@ -24,36 +24,60 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
     }
   
-    public registerUser(
+    public cleanStringify(object) {
+        if (object && typeof object === 'object') {
+            object = copyWithoutCircularReferences([object], object);
+        }
+        return JSON.stringify(object);
+    
+        function copyWithoutCircularReferences(references, object) {
+            var cleanObject = {};
+            Object.keys(object).forEach(function(key) {
+                var value = object[key];
+                if (value && typeof value === 'object') {
+                    if (references.indexOf(value) < 0) {
+                        references.push(value);
+                        cleanObject[key] = copyWithoutCircularReferences(references, value);
+                        references.pop();
+                    } else {
+                        cleanObject[key] = '###_Circular_###';
+                    }
+                } else if (typeof value !== 'function') {
+                    cleanObject[key] = value;
+                }
+            });
+            return cleanObject;
+        }
+    }
+
+    public async register(
       value: Register, 
       valid: boolean
     ) {
-    this.submitted = true;
-    this.isRequesting = true;
-    this.errors = '';
-    if (valid) {
+        this.submitted = true;
         this.isRequesting = true;
-        this.accountService.register(
-            value.email,
-            value.password,
-            value.confirmPassword,
-            value.inviteCode
-        )
-        .finally(() => this.isRequesting = false)
-        .subscribe(result  => {
-            if (result) {
-                this.router.navigate(['/login'], {
-                    queryParams: {
-                        brandNew: true,
-                        email:value.email
-                    }
-                }); 
-            }
-        },
-        errors =>  this.errors = errors);
-    }      
- } 
-
-   
-
+        this.errors = '';
+        //if (valid) {
+            this.isRequesting = true;
+            this.accountService.register(
+                value.email,
+                value.password,
+                value.confirmPassword,
+                value.inviteCode
+            )
+            .finally(() => this.isRequesting = false)
+            .subscribe(result  => {
+                
+                this.isRequesting = false;
+                this.isSuccessful = true;
+                alert(this.cleanStringify(result));
+            },
+            errors =>  this.errors = errors);
+                    // this.router.navigate(['/login'], {
+                    //     queryParams: {
+                    //         brandNew: true,
+                    //         email:value.email
+                    //     }
+                    // }); 
+    }
 }

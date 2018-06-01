@@ -58,6 +58,7 @@ namespace Banico.Web
                     optionsBuilder => optionsBuilder.MigrationsAssembly("Banico.Data")));
             }
       
+            Console.WriteLine("11111");
             identityStartup.ConfigureServices(services);
             
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());

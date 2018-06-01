@@ -1,9 +1,9 @@
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
 export abstract class BaseService {  
-    public jsonHeader = new Headers({ 'Content-Type': 'application/json' });
-    public jsonRequestOptions = new RequestOptions({ headers: this.jsonHeader });
+    public jsonHeader = new HttpHeaders({ 'Content-Type': 'application/json' });
+    public jsonRequestOptions = { headers: this.jsonHeader };
 
     constructor() { }
 

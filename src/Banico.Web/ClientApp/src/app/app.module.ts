@@ -1,9 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { HttpModule, XHRBackend } from '@angular/http';
-import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
+import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
+//import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './approuting.module';
@@ -28,16 +27,16 @@ import { ConfigService } from './shared/utils/config.service';
   imports: [
     AccountModule,
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpModule,
     HttpClientModule,
     FormsModule,
     AppRoutingModule
   ],
   providers: [
-    ConfigService, { 
-      provide: XHRBackend, 
-      useClass: AuthenticateXHRBackend
-    }
+    ConfigService
+    // , { 
+    //   provide: HttpXhrBackend, 
+    //   useClass: AuthenticateXHRBackend
+    // }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 
 import { UserRegistration } from '../models/user.registration.interface';
 import { ConfigService } from '../utils/config.service';
@@ -27,7 +27,7 @@ export class UserService extends BaseService {
   private loggedIn = false;
 
   constructor(
-    private http: Http, 
+    private http: HttpClient, 
     private configService: ConfigService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
@@ -46,8 +46,8 @@ export class UserService extends BaseService {
     location: string): 
     Observable<UserRegistration> {
     let body = JSON.stringify({ email, password, firstName, lastName,location });
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    let options = { headers: headers };
 
     return this.http.post(this.baseUrl + "/accounts", body, options)
       .map(res => true)
@@ -57,7 +57,7 @@ export class UserService extends BaseService {
   public login(
     userName: string, 
     password: string) {
-    let headers = new Headers();
+    let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
 
     return this.http
@@ -69,10 +69,11 @@ export class UserService extends BaseService {
       }),{ 
         headers 
       })
-      .map(res => res.json())
+      //.map(res => res.json())
       .map(res => {
+        var result: any = res;
         if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('auth_token', res.auth_token);
+          localStorage.setItem('auth_token', result.auth_token);
         }
         this.loggedIn = true;
         return true;
@@ -94,16 +95,17 @@ export class UserService extends BaseService {
   public facebookLogin(
     accessToken: string
   ) {
-    let headers = new Headers();
+    let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
     let body = JSON.stringify({ accessToken });  
     return this.http
       .post(
       this.baseUrl + '/externalauth/facebook', body, { headers })
-      .map(res => res.json())
+      //.map(res => res.json())
       .map(res => {
+        var result: any = res;
         if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('auth_token', res.auth_token);
+          localStorage.setItem('auth_token', result.auth_token);
         }
         this.loggedIn = true;
 

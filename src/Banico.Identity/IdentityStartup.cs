@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Net;
 using System.Text;
@@ -42,18 +40,22 @@ namespace Banico.Identity
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      Console.WriteLine("22222");
+
       // Add framework services.
       string appDbContextConnectionString = Configuration.GetConnectionString("AppIdentityDbContext");
 
       if ((!String.IsNullOrEmpty(appDbContextConnectionString)) && 
           (!(this.developmentEnvironment)))
       {
+            Console.WriteLine("3333333");
           services.AddDbContext<AppIdentityDbContext>(options =>
               options.UseSqlServer(appDbContextConnectionString,
               optionsBuilder => optionsBuilder.MigrationsAssembly("Banico.Identity")));
       }
       else
       {
+            Console.WriteLine("4444444");
           var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "banico-identity.db" };
           appDbContextConnectionString = connectionStringBuilder.ToString();
           services.AddDbContext<AppIdentityDbContext>(options =>
@@ -115,6 +117,7 @@ namespace Banico.Identity
       });
 
       // add identity
+      Console.WriteLine("5555555");
       var builder = services.AddIdentityCore<AppUser>(o =>
       {
         // configure identity options
@@ -128,6 +131,17 @@ namespace Banico.Identity
       builder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
       services.AddAutoMapper();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    {
+      app.UseMvc(routes =>
+      {
+          routes.MapRoute(
+              name: "api",
+              template: "api/{controller}/{action=Index}");
+      });
     }
   }
 }

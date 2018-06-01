@@ -23,7 +23,7 @@ using Banico.Identity.ViewModels.Account;
 
 namespace Banico.Identity.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     public class AccountController : Controller
     {
@@ -73,7 +73,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/Login
+        // GET: /api/Account/Login
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
@@ -92,7 +92,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /api/Account/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -142,7 +142,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /api/Account/Register
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Register(string email = null, string code = null, string returnUrl = null)
@@ -194,12 +194,13 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /api/Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            Console.WriteLine("HERE!!!!!!");
             ViewData["ReturnUrl"] = returnUrl;
 
             string inviter = string.Empty;
@@ -239,7 +240,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/Logout
+        // POST: /api/Account/Logout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
@@ -251,7 +252,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/ExternalLogin
+        // POST: /api/Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -264,7 +265,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/ExternalLoginCallback
+        // GET: /api/Account/ExternalLoginCallback
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
@@ -333,7 +334,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/ExternalLoginConfirmation
+        // POST: /api/Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -379,7 +380,7 @@ namespace Banico.Identity.Controllers
             return View(model);
         }
 
-        // GET: /Account/ConfirmEmail
+        // GET: /api/Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
@@ -398,7 +399,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/ForgotPassword
+        // GET: /api/Account/ForgotPassword
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
@@ -407,7 +408,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/ForgotPassword
+        // POST: /api/Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -431,7 +432,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /api/Account/ForgotPasswordConfirmation
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ForgotPasswordConfirmation()
@@ -465,7 +466,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/ResetPassword
+        // GET: /api/Account/ResetPassword
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
@@ -474,7 +475,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/ResetPassword
+        // POST: /api/Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -500,7 +501,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/ResetPasswordConfirmation
+        // GET: /api/Account/ResetPasswordConfirmation
         [HttpGet]
         [AllowAnonymous]
         public IActionResult ResetPasswordConfirmation()
@@ -509,7 +510,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/SendCode
+        // GET: /api/Account/SendCode
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
@@ -525,7 +526,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/SendCode
+        // POST: /api/Account/SendCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -563,7 +564,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /Account/VerifyCode
+        // GET: /api/Account/VerifyCode
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
@@ -578,7 +579,7 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // POST: /Account/VerifyCode
+        // POST: /api/Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
