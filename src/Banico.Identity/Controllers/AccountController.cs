@@ -200,7 +200,6 @@ namespace Banico.Identity.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-            Console.WriteLine("HERE!!!!!!");
             ViewData["ReturnUrl"] = returnUrl;
 
             string inviter = string.Empty;

@@ -4,15 +4,20 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
+using Banico.Core.Entities;
+using Banico.Core.Repositories;
 using Banico.Data;
+using Banico.Data.Repositories;
 using Banico.Identity;
 using Banico.Identity.Extensions;
 using Banico.Services;
+using Banico.Services.Interfaces;
 
 namespace Banico.Web
 {
@@ -58,9 +63,21 @@ namespace Banico.Web
                     optionsBuilder => optionsBuilder.MigrationsAssembly("Banico.Data")));
             }
       
-            Console.WriteLine("11111");
             identityStartup.ConfigureServices(services);
             
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddScoped<IInviteRepository, InviteRepository>();
+            services.AddScoped<ISectionTypeRepository, SectionTypeRepository>();
+            services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddScoped<IInviteService, InviteService>();
+            services.AddScoped<ISuperAdminService, SuperAdminService>();
+            services.AddScoped<IItemSecurityService, ItemSecurityService>();
+
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             // In production, the Angular files will be served from this directory
