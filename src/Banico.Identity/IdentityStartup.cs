@@ -114,7 +114,7 @@ namespace Banico.Identity
       });
 
       // add identity
-      var builder = services.AddIdentityCore<AppUser>(o =>
+      var builder = services.AddIdentity<AppUser, AppRole>(o =>
       {
         // configure identity options
         o.Password.RequireDigit = false;
@@ -123,7 +123,7 @@ namespace Banico.Identity
         o.Password.RequireNonAlphanumeric = false;
         o.Password.RequiredLength = 6;
       });
-      builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
+      // builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
       builder.AddSignInManager<SignInManager<AppUser>>();
       builder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
 
