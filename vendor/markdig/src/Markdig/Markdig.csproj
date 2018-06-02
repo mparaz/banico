@@ -34,6 +34,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>  
   </PropertyGroup>
 
+  <!-- https://github.com/dotnet/corefx/issues/29820 -->
+  <PropertyGroup>
+    <DisablePackageAssetsCache>true</DisablePackageAssetsCache>
+  </PropertyGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
     <Reference Include="mscorlib" />
     <Reference Include="System" />

@@ -24,6 +24,11 @@
 	<RootNamespace>Ganss.XSS</RootNamespace>
   </PropertyGroup>
 
+  <!-- https://github.com/dotnet/corefx/issues/29820 -->
+  <PropertyGroup>
+    <DisablePackageAssetsCache>true</DisablePackageAssetsCache>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="[0.9.9]" />
   </ItemGroup>
