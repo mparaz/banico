@@ -26,7 +26,17 @@
         <div class="form-group">
             <label class="col-md-2 control-label" for="Password">Password</label>
             <div class="col-md-10">
-                <input class="form-control" type="password" data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Password" name="Password" />
+                <input 
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    type="password" 
+                    ngModel
+                    #password="ngModel"
+                    />
+                <!-- 
+                    data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Password" name="Password" 
+                -->
                 <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -34,7 +44,17 @@
         <div class="form-group">
             <label class="col-md-2 control-label" for="ConfirmPassword">Confirm password</label>
             <div class="col-md-10">
-                <input class="form-control" type="password" data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="ConfirmPassword" name="ConfirmPassword" />
+                <input 
+                    class="form-control" 
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password" 
+                    ngModel
+                    #confirmPassword="ngModel"
+                    />
+                <!-- 
+                    data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="ConfirmPassword" name="ConfirmPassword"
+                -->
                 <span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
             </div>
         </div>
@@ -42,7 +62,14 @@
         <div *ngIf="inviteOnly" class="form-group">
             <label class="col-md-2 control-label" for="Code">Invite Code</label>
             <div class="col-md-10">
-                <input class="form-control" type="text" id="Code" name="Code" value="" />
+                <input 
+                    class="form-control" 
+                    id="code" 
+                    name="code" 
+                    type="text" 
+                    ngModel
+                    #code="ngModel"
+                    value="" />
                 <span class="text-danger field-validation-valid" data-valmsg-for="Code" data-valmsg-replace="true"></span>
             </div>
         </div>

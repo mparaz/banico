@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { Register } from './register.interface';
@@ -51,12 +52,13 @@ export class RegisterComponent implements OnInit {
     }
 
     public async register(
-      value: Register, 
-      valid: boolean
+      form: NgForm
     ) {
         this.submitted = true;
         this.isRequesting = true;
         this.errors = '';
+        var value = form.value;
+        var valid = form.valid;
         //if (valid) {
             this.isRequesting = true;
             this.accountService.register(
@@ -67,7 +69,6 @@ export class RegisterComponent implements OnInit {
             )
             .finally(() => this.isRequesting = false)
             .subscribe(result  => {
-                
                 this.isRequesting = false;
                 this.isSuccessful = true;
                 alert(this.cleanStringify(result));
