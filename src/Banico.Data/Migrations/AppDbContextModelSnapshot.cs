@@ -19,23 +19,7 @@ namespace Banico.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
-            modelBuilder.Entity("Banico.Data.Invite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Code");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("Inviter");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Invites");
-                });
-
-            modelBuilder.Entity("Banico.Data.Item", b =>
+            modelBuilder.Entity("Banico.Core.Entities.ContentItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -90,22 +74,38 @@ namespace Banico.Data.Migrations
 
                     b.Property<DateTimeOffset>("LastUpdate");
 
+                    b.Property<string>("Name");
+
                     b.Property<int>("ParentId");
 
                     b.Property<string>("Sections");
 
                     b.Property<string>("Tenant");
 
-                    b.Property<string>("Title");
-
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("ContentItems");
                 });
 
-            modelBuilder.Entity("Banico.Data.Section", b =>
+            modelBuilder.Entity("Banico.Core.Entities.Invite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Code");
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Inviter");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invites");
+                });
+
+            modelBuilder.Entity("Banico.Core.Entities.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -137,7 +137,7 @@ namespace Banico.Data.Migrations
                     b.ToTable("Sections");
                 });
 
-            modelBuilder.Entity("Banico.Data.SectionType", b =>
+            modelBuilder.Entity("Banico.Core.Entities.SectionType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -159,7 +159,7 @@ namespace Banico.Data.Migrations
                     b.ToTable("SectionTypes");
                 });
 
-            modelBuilder.Entity("Banico.Data.Users", b =>
+            modelBuilder.Entity("Banico.Core.Entities.User", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();

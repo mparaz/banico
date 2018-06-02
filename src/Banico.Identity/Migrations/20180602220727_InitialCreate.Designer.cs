@@ -11,8 +11,8 @@ using System;
 namespace Banico.Identity.Migrations
 {
     [DbContext(typeof(AppIdentityDbContext))]
-    [Migration("20180427195823_Initial")]
-    partial class Initial
+    [Migration("20180602220727_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

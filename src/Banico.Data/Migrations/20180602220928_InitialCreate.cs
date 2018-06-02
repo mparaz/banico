@@ -4,27 +4,12 @@ using System.Collections.Generic;
 
 namespace Banico.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Invites",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Code = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    Inviter = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Invites", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Items",
+                name: "ContentItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -54,15 +39,30 @@ namespace Banico.Data.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
                     Sections = table.Column<string>(nullable: true),
                     Tenant = table.Column<string>(nullable: true),
-                    Title = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.PrimaryKey("PK_ContentItems", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Code = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Inviter = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invites", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -124,10 +124,10 @@ namespace Banico.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Invites");
+                name: "ContentItems");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "Invites");
 
             migrationBuilder.DropTable(
                 name: "Sections");
