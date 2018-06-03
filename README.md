@@ -40,6 +40,10 @@ cp sample.app.config.ts app.config.ts
 
 # edit app setting values
 
+# create database
+dotnet ef database update --context AppIdentityDbContext
+dotnet ef database update --context AppDbContext
+
 # run banico
 cd ..
 dotnet run
