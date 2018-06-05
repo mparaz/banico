@@ -16,16 +16,17 @@ export abstract class BaseService {
       }
 
       var modelStateErrors: string = '';
-      var serverError = error.json();
+      var serverError = error.error;
 
-      if (!serverError.type) {
-        for (var key in serverError) {
-          if (serverError[key])
-            modelStateErrors += serverError[key] + '\n';
-        }
-      }
+      return Observable.throw(serverError);
+      // if (!serverError.type) {
+      //   for (var key in serverError) {
+      //     if (serverError[key])
+      //       modelStateErrors += serverError[key] + '\n';
+      //   }
+      // }
 
-      modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
-      return Observable.throw(modelStateErrors || 'Server error');
+      // modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
+      // return Observable.throw(modelStateErrors || 'Server error');
     }
 }

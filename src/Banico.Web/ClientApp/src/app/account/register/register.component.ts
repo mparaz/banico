@@ -13,7 +13,7 @@ import { AccountService } from '../account.service';
 export class RegisterComponent implements OnInit {
     isRequesting: boolean = false;
     isSuccessful: boolean = false;
-    errors: string;  
+    errors: string[] = [];
     submitted: boolean = false;
 
     constructor (
@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
     ) {
         this.submitted = true;
         this.isRequesting = true;
-        this.errors = '';
+        this.errors = [];
         var value = form.value;
         var valid = form.valid;
         //if (valid) {
@@ -71,9 +71,23 @@ export class RegisterComponent implements OnInit {
             .subscribe(result  => {
                 this.isRequesting = false;
                 this.isSuccessful = true;
-                alert(this.cleanStringify(result));
+                //alert(this.cleanStringify(result));
             },
-            errors =>  this.errors = errors);
+            err => {
+                let validationErrorDictionary = err;
+                //JSON.parse(err);
+                for (var fieldName in validationErrorDictionary) {
+                    if (validationErrorDictionary.hasOwnProperty(fieldName)) {
+                        if (form.controls[fieldName]) {
+                            // integrate into angular's validation if we have field validation
+                            form.controls[fieldName].setErrors({ invalid: true });
+                        } else {
+                            // if we have cross field validation then show the validation error at the top of the screen
+                            this.errors.push(validationErrorDictionary[fieldName]);
+                        }
+                    }
+                }
+            });
                     // this.router.navigate(['/login'], {
                     //     queryParams: {
                     //         brandNew: true,
