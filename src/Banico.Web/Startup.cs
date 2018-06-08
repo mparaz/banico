@@ -71,6 +71,9 @@ namespace Banico.Web
                     optionsBuilder => optionsBuilder.MigrationsAssembly("Banico.Data")));
             }
       
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+            services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
+
             identityStartup.ConfigureServices(services);
             
             services.AddSingleton<IConfiguration>(Configuration);

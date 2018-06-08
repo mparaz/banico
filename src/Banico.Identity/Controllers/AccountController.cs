@@ -160,8 +160,9 @@ namespace Banico.Identity.Controllers
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             // Send an email with this link
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-
+            // var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+            var callbackUrl = "https://localhost:5001/account/confirm-email";
+            
             string confirmText = @"Hi,<br /><br />" +
             "Thank you for registering an account on our site.<br /><br />" +
             "You are one step away from being able to link your website to your chosen word.<br /><br />" +
