@@ -64,6 +64,23 @@ export class AccountService extends BaseService {
         .catch(this.handleError);
     }
 
+    public confirmEmail(
+        userId: string,
+        code: string
+    ): Observable<Response> {
+        let body = JSON.stringify({ 
+            userId,
+            code
+        });
+        return this.http.get(this.baseUrl + "api/Account/ConfirmEmail?userId=" +
+            userId +
+            "&code=" +
+            code, 
+        this.jsonRequestOptions)
+        .map(res => true)
+        .catch(this.handleError);
+    }
+
     public resendConfirmation(
         email: string
     ) {

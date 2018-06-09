@@ -161,7 +161,7 @@ namespace Banico.Identity.Controllers
             // Send an email with this link
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             // var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            var callbackUrl = "https://localhost:5001/account/confirm-email";
+            var callbackUrl = "https://localhost:5001/account/confirm-email?userId="+user.Id+"&code="+code;
             
             string confirmText = @"Hi,<br /><br />" +
             "Thank you for registering an account on our site.<br /><br />" +
@@ -387,15 +387,31 @@ namespace Banico.Identity.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return BadRequest(Errors.AddErrorToModelState("NoUserIdOrCode", "NoUserIdOrCode", ModelState));
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("Error");
+                return BadRequest(Errors.AddErrorToModelState("UserNotFound", "UserNotFound", ModelState));
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            try {
+                if (result.Succeeded) {
+                    return new OkObjectResult("Ok");
+                } else {
+                    string error = "";
+                    foreach (IdentityError identityError in result.Errors) {
+                        error += "CODE: " + identityError.Code;
+                        error += " / DESCRIPTION: " + identityError.Description;
+                        error += "; "; 
+                    }
+                    return Content(error);
+                }
+                //return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            }
+            catch (Exception ex) {
+                return Content(ex.Message);
+            }
         }
 
         //

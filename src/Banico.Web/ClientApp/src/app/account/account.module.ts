@@ -10,6 +10,7 @@ import { EmailValidator } from '../directives/email.validator.directive';
 import { AccountRoutingModule }  from './account.routing';
 import { AccountComponent } from './account.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
@@ -26,6 +27,7 @@ import { SetPasswordComponent } from './set-password/set-password.component';
   declarations: [
     AccountComponent,
     ChangePasswordComponent,
+    ConfirmEmailComponent,
     LoginComponent, 
     RegisterComponent, 
     ResendConfirmationComponent,
