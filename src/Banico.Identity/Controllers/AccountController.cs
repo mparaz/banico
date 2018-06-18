@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
@@ -159,7 +160,8 @@ namespace Banico.Identity.Controllers
         {
             // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
             // Send an email with this link
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var originalCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var code = WebUtility.UrlEncode(originalCode);
             // var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
             var callbackUrl = "https://localhost:5001/account/confirm-email?userId="+user.Id+"&code="+code;
             
@@ -394,15 +396,16 @@ namespace Banico.Identity.Controllers
             {
                 return BadRequest(Errors.AddErrorToModelState("UserNotFound", "UserNotFound", ModelState));
             }
-            var result = await _userManager.ConfirmEmailAsync(user, code);
+            var decodedCode = code.Replace(" ", "+");
+            var result = await _userManager.ConfirmEmailAsync(user, decodedCode);
             try {
                 if (result.Succeeded) {
                     return new OkObjectResult("Ok");
                 } else {
                     string error = "";
                     foreach (IdentityError identityError in result.Errors) {
-                        error += "CODE: " + identityError.Code;
-                        error += " / DESCRIPTION: " + identityError.Description;
+                        error += identityError.Code;
+                        error += " / " + identityError.Description;
                         error += "; "; 
                     }
                     return Content(error);
