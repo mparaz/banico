@@ -19,13 +19,6 @@ export class ConfirmEmailComponent {
   ) { }
 
   ngOnInit() {
-    // this.sub = this.route.params.subscribe(params => {
-    //     this.id = params['id'];
-    //     this.directoryService.GetDirectoryItem(this.id)
-    //         .subscribe(item => this.item = item);
-    // });
-
-    alert('1');
     this.sub = this.route.queryParams
       .filter(params => params.userId)
       .subscribe(params => {
@@ -35,14 +28,6 @@ export class ConfirmEmailComponent {
           this.confirmEmail(userId, code);
         }
       });
-
-    // this.sub = this.route.params.subscribe(params => {
-    //     alert('2');
-    //     var userId = params['userId'];
-    //     alert(JSON.stringify(params));
-    //     if (userId) {
-    //     }
-    // });
   }
   
   public confirmEmail(
