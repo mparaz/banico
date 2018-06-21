@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Banico.Core.Entities
 {
-    public class AppRole : IdentityRole
+    public class AppRole : IdentityRole<string>
     {
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }

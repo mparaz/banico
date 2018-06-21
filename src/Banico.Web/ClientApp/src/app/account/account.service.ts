@@ -42,7 +42,7 @@ export class AccountService extends BaseService {
             email, 
             password 
         });
-        return this.http.post(this.baseUrl + "/api/Account/Login", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/Login", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

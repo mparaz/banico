@@ -68,28 +68,29 @@ export class RegisterComponent implements OnInit {
                 value.inviteCode
             )
             .finally(() => this.isRequesting = false)
-            .subscribe(result  => {
-                this.isRequesting = false;
-                this.isSuccessful = true;
-                //alert(this.cleanStringify(result));
-            },
-            err => {
-                let validationErrorDictionary = err;
-                //JSON.parse(err);
-                for (var fieldName in validationErrorDictionary) {
-                    if (validationErrorDictionary.hasOwnProperty(fieldName)) {
-                        if (form.controls[fieldName]) {
-                            // integrate into angular's validation if we have field validation
-                            form.controls[fieldName].setErrors({ invalid: true });
+            .subscribe(
+                result  => {
+                    this.isRequesting = false;
+                    this.isSuccessful = true;
+                    //alert(this.cleanStringify(result));
+                },
+                err => {
+                    let validationErrorDictionary = err;
+                    //JSON.parse(err);
+                    for (var fieldName in validationErrorDictionary) {
+                        if (validationErrorDictionary.hasOwnProperty(fieldName)) {
+                            if (form.controls[fieldName]) {
+                                // integrate into angular's validation if we have field validation
+                                form.controls[fieldName].setErrors({ invalid: true });
+                            }
+                            // if we have cross field validation then show the validation error at the top of the screen
+                            var error: string[] = [];
+                            error.push(validationErrorDictionary[fieldName]);
+                            this.errors[fieldName] = [];
+                            this.errors[fieldName].push(error);
                         }
-                        // if we have cross field validation then show the validation error at the top of the screen
-                        var error: string[] = [];
-                        error.push(validationErrorDictionary[fieldName]);
-                        this.errors[fieldName] = [];
-                        this.errors[fieldName].push(error);
                     }
-                }
-            });
+                });
                     // this.router.navigate(['/login'], {
                     //     queryParams: {
                     //         brandNew: true,

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Login } from './login.interface';
@@ -9,7 +10,8 @@ import { Login } from './login.interface';
   styleUrls: []
 })
 export class LoginComponent {
-  isRequesting: boolean;
+  isRequesting: boolean = false;
+  isSuccessful: boolean = false;
   errors: string;  
 
   constructor(
@@ -17,18 +19,27 @@ export class LoginComponent {
     private router: Router
   ) { }
   
-  public login(value: Login) {
+  public login(
+    form: NgForm
+  ) {
     this.isRequesting = true;
+    var value = form.value;
+    var valid = form.valid;
     this.accountService.login(
       value.email,
       value.password
     )
     .finally(() => this.isRequesting = false)
     .subscribe(
-      result  => {if(result){
-          this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
-      }},
-      errors =>  this.errors = errors);
-
+      result  => {
+        if (result) {
+          this.isSuccessful = true;
+          //this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
+        } else {
+        }
+      },
+      errors => {
+        this.errors = errors;
+      });
   }
 }

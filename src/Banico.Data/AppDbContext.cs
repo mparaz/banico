@@ -40,34 +40,34 @@ namespace Banico.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
-/*             builder.Entity<AppUser>(i => {
-                    i.HasKey(x => x.Id);
-                });
+            // builder.Entity<AppUser>(i => {
+            //     i.HasKey(x => x.Id);
+            // });
 
             // builder.Entity<IdentityUserRole<int>>()
             //     .HasKey(p => new { p.UserId, p.RoleId});
                 
-            builder.Entity<AppUser>()
-                .HasMany(e => e.Claims)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            // builder.Entity<AppUser>()
+            //     .HasMany(e => e.Claims)
+            //     .WithOne()
+            //     .HasForeignKey(e => e.UserId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<AppUser>()
-                .HasMany(e => e.Logins)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            // builder.Entity<AppUser>()
+            //     .HasMany(e => e.Logins)
+            //     .WithOne()
+            //     .HasForeignKey(e => e.UserId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<AppUser>()
-                .HasMany(e => e.Roles)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
- */        }
+            // builder.Entity<AppUser>()
+            //     .HasMany(e => e.Roles)
+            //     .WithOne()
+            //     .HasForeignKey(e => e.UserId)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Cascade);
+         }
 
         //List of DB Models - Add your DB models here
         public DbSet<User> User { get; set; }

@@ -122,12 +122,13 @@ namespace Banico.Identity
         o.Password.RequireUppercase = false;
         o.Password.RequireNonAlphanumeric = false;
         o.Password.RequiredLength = 6;
-      });
-      // builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
-      builder.AddSignInManager<SignInManager<AppUser>>();
-      builder.AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+      })
+      .AddSignInManager<SignInManager<AppUser>>()
+      .AddEntityFrameworkStores<AppIdentityDbContext>()
+      .AddDefaultTokenProviders();
 
       services.AddAutoMapper();
+      // builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

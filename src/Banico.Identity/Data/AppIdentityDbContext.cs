@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Banico.Identity.Data
 {
-    public class AppIdentityDbContext : IdentityDbContext<AppUser>
+    public class AppIdentityDbContext : IdentityDbContext<AppUser,AppRole, string>
     {
         private readonly bool isMigration = false;
 
