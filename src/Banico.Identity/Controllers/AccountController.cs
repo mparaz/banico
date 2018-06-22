@@ -17,6 +17,8 @@ using Newtonsoft.Json;
 using System.Text.Encodings.Web;
 using Banico.Core.Entities;
 using Banico.Core.Repositories;
+using Banico.Identity.Auth;
+using Banico.Identity.Models;
 using Banico.Services;
 using Banico.Services.Interfaces;
 using Banico.Identity.Helpers;
@@ -37,6 +39,8 @@ namespace Banico.Identity.Controllers
         private readonly ISuperAdminService _superAdminService;
         private readonly string _externalCookieScheme;
         private readonly IConfiguration _configuration;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly JwtIssuerOptions _jwtOptions;
 
         private bool _InviteOnly = false;
 
@@ -48,7 +52,9 @@ namespace Banico.Identity.Controllers
             ILoggerFactory loggerFactory,
             IInviteService inviteService,
             ISuperAdminService superAdminService,
-            IConfiguration configuration)
+            IConfiguration configuration, 
+            IJwtFactory jwtFactory, 
+            IOptions<JwtIssuerOptions> jwtOptions)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -58,6 +64,8 @@ namespace Banico.Identity.Controllers
             _inviteService = inviteService;
             _superAdminService = superAdminService;
             _configuration = configuration;
+            _jwtFactory = jwtFactory;
+            _jwtOptions = jwtOptions.Value;
 
             if (_configuration["InviteOnly"] == "true")
             {
@@ -65,26 +73,26 @@ namespace Banico.Identity.Controllers
             }
         }
 
-        public override void OnActionExecuting(ActionExecutingContext filterContext)
-        {
-            ViewData["SiteName"] = _configuration["SiteName"];
-            ViewData["Footer"] = _configuration["Footer"];
-            ViewData["GoogleAnalytics"] = _configuration["GoogleAnalytics"];
-            ViewData["GoogleAdsense"] = _configuration["GoogleAdsense"];
-        }
+        // public override void OnActionExecuting(ActionExecutingContext filterContext)
+        // {
+        //     ViewData["SiteName"] = _configuration["SiteName"];
+        //     ViewData["Footer"] = _configuration["Footer"];
+        //     ViewData["GoogleAnalytics"] = _configuration["GoogleAnalytics"];
+        //     ViewData["GoogleAdsense"] = _configuration["GoogleAdsense"];
+        // }
 
         //
         // GET: /api/Account/Login
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public async Task<IActionResult> Login(string returnUrl = null)
+        // {
+        //     // Clear the existing external cookie to ensure a clean login process
+        //     await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
+        //     ViewData["ReturnUrl"] = returnUrl;
+        //     return View();
+        // }
 
         [AllowAnonymous]
         public async Task<JsonResult> IsLoggedIn()
@@ -119,8 +127,10 @@ namespace Banico.Identity.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var identity = _jwtFactory.GenerateClaimsIdentity(model.Email, user.Id);
                     _logger.LogInformation(1, "User logged in.");
-                    return new OkObjectResult("User logged in");
+                    var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+                    return new OkObjectResult(jwt);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -144,17 +154,17 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /api/Account/Register
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register(string email = null, string code = null, string returnUrl = null)
-        {
-            RegisterViewModel model = new RegisterViewModel();
-            model.Email = email;
-            model.Code = code;
-            model.InviteOnly = _InviteOnly;
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(model);
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult Register(string email = null, string code = null, string returnUrl = null)
+        // {
+        //     RegisterViewModel model = new RegisterViewModel();
+        //     model.Email = email;
+        //     model.Code = code;
+        //     model.InviteOnly = _InviteOnly;
+        //     ViewData["ReturnUrl"] = returnUrl;
+        //     return View(model);
+        // }
 
         private async Task SendConfirmationEmail(AppUser user)
         {
@@ -419,18 +429,18 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /api/Account/ForgotPassword
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult ForgotPassword()
+        // {
+        //     return View();
+        // }
 
         //
         // POST: /api/Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -452,18 +462,18 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /api/Account/ForgotPasswordConfirmation
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult ForgotPasswordConfirmation()
+        // {
+        //     return View();
+        // }
 
-        [AllowAnonymous]
-        public IActionResult ResendConfirmation()
-        {
-            return View();
-        }
+        // [AllowAnonymous]
+        // public IActionResult ResendConfirmation()
+        // {
+        //     return View();
+        // }
 
         [AllowAnonymous]
         [HttpPost]
@@ -474,24 +484,25 @@ namespace Banico.Identity.Controllers
             {
                 await this.SendConfirmationEmail(user);
             }
-            return RedirectToAction(nameof(ConfirmationSent));
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ConfirmationSent()
-        {
+            //return RedirectToAction(nameof(ConfirmationSent));
             return View();
         }
 
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult ConfirmationSent()
+        // {
+        //     return View();
+        // }
+
         //
         // GET: /api/Account/ResetPassword
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
-        {
-            return code == null ? View("Error") : View();
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult ResetPassword(string code = null)
+        // {
+        //     return code == null ? View("Error") : View();
+        // }
 
         //
         // POST: /api/Account/ResetPassword
@@ -508,12 +519,14 @@ namespace Banico.Identity.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return View();
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return View();
             }
             AddErrors(result);
             return View();
@@ -521,12 +534,12 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /api/Account/ResetPasswordConfirmation
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public IActionResult ResetPasswordConfirmation()
+        // {
+        //     return View();
+        // }
 
         //
         // GET: /api/Account/SendCode
@@ -584,18 +597,18 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /api/Account/VerifyCode
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
-        {
-            // Require that the user has already logged in via username/password or external login
-            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-            if (user == null)
-            {
-                return View("Error");
-            }
-            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
-        }
+        // [HttpGet]
+        // [AllowAnonymous]
+        // public async Task<IActionResult> VerifyCode(string provider, bool rememberMe, string returnUrl = null)
+        // {
+        //     // Require that the user has already logged in via username/password or external login
+        //     var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+        //     if (user == null)
+        //     {
+        //         return View("Error");
+        //     }
+        //     return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        // }
 
         //
         // POST: /api/Account/VerifyCode
@@ -631,11 +644,11 @@ namespace Banico.Identity.Controllers
 
         //
         // GET /Account/AccessDenied
-        [HttpGet]
-        public IActionResult AccessDenied()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // public IActionResult AccessDenied()
+        // {
+        //     return View();
+        // }
 
         #region Helpers
 

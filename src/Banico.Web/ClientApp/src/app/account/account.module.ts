@@ -6,6 +6,7 @@ import { SharedModule }   from '../shared/modules/shared.module';
 import { AccountService }  from './account.service';
 import { UserService }  from '../shared/services/user.service';
 import { EmailValidator } from '../directives/email.validator.directive';
+import { AuthGuard } from '../shared/services/auth.guard';
 
 import { AccountRoutingModule }  from './account.routing';
 import { AccountComponent } from './account.component';
@@ -36,7 +37,8 @@ import { SetPasswordComponent } from './set-password/set-password.component';
   ],
   providers: [ 
     AccountService,
-    UserService 
+    UserService,
+    AuthGuard 
   ],
   bootstrap: [ 
     AccountComponent 
