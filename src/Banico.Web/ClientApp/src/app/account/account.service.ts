@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/com
 import { BaseService } from "../shared/services/base.service";
 import { Observable } from 'rxjs/Rx';
 import { isPlatformBrowser } from '@angular/common';
+import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
 
 @Injectable()
 export class AccountService extends BaseService {
@@ -18,7 +19,29 @@ export class AccountService extends BaseService {
             this.loggedIn = !!localStorage.getItem('auth_token');
         }
     }
-    
+
+    private authHeader(): HttpHeaders {
+        let headers = new HttpHeaders();
+        headers = headers.set('Content-Type', 'application/json');
+        let authToken = localStorage.getItem('auth_token');
+        headers = headers.set('Authorization', 'Bearer ' + authToken);
+        alert(JSON.stringify(headers));
+        return headers;
+    }
+
+    public isLoggedIn(): Observable<Response> {
+        let headers = this.authHeader();
+        return this.http.get(this.baseUrl + "api/Account/IsLoggedIn", { headers })
+        .catch(this.handleError);
+    }
+
+    public loggedInAs(): Observable<Response> {
+        let headers = this.authHeader();
+        //alert(JSON.stringify(headers));
+        return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , { headers })
+        .catch(this.handleError);
+    }
+
     public changePassword(
         oldPassword: string,
         newPassword: string,
@@ -43,7 +66,6 @@ export class AccountService extends BaseService {
             password 
         });
         return this.http.post(this.baseUrl + "api/Account/Login", body, this.jsonRequestOptions)
-        .map(res => true)
         .catch(this.handleError);
     }
 

@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -41,6 +42,7 @@ namespace Banico.Identity.Controllers
         private readonly IConfiguration _configuration;
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
+        private readonly ClaimsPrincipal _caller;
 
         private bool _InviteOnly = false;
 
@@ -54,7 +56,8 @@ namespace Banico.Identity.Controllers
             ISuperAdminService superAdminService,
             IConfiguration configuration, 
             IJwtFactory jwtFactory, 
-            IOptions<JwtIssuerOptions> jwtOptions)
+            IOptions<JwtIssuerOptions> jwtOptions,
+            IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -66,6 +69,7 @@ namespace Banico.Identity.Controllers
             _configuration = configuration;
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
+            _caller = httpContextAccessor.HttpContext.User;
 
             if (_configuration["InviteOnly"] == "true")
             {
@@ -94,10 +98,22 @@ namespace Banico.Identity.Controllers
         //     return View();
         // }
 
+        private Task<AppUser> GetCurrentUserAsync()
+        {
+            //var customer = await _appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
+            return _userManager.GetUserAsync(HttpContext.User);
+        }
+
         [AllowAnonymous]
         public async Task<JsonResult> IsLoggedIn()
         {
             return new JsonResult(_signInManager.IsSignedIn(User).ToString());
+        }
+
+        public async Task<JsonResult> LoggedInAs()
+        {
+            var userId = _caller.Claims.Single(c => c.Type == "id");
+            return new JsonResult(userId);
         }
 
         //

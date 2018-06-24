@@ -1,11 +1,14 @@
 using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 using Banico.Identity.Auth;
 using Banico.Identity.Data;
 using Banico.Identity.Helpers;
 using Banico.Identity.Models;
 using Banico.Core.Entities;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -127,9 +130,25 @@ namespace Banico.Identity
       .AddEntityFrameworkStores<AppIdentityDbContext>()
       .AddDefaultTokenProviders();
 
+      services.ConfigureApplicationCookie(options =>
+        {
+            options.Events = new CookieAuthenticationEvents
+            {
+                OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, context => options.Events.RedirectToAccessDenied(context)),
+                OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, context => options.Events.RedirectToLogin(context))
+            };
+        });
+        
       services.AddAutoMapper();
       // builder = new IdentityBuilder(builder.UserType, typeof(AppRole), builder.Services);
     }
+
+    private Func<RedirectContext<CookieAuthenticationOptions>, Task> ReplaceRedirector(HttpStatusCode statusCode, Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
+    context =>
+    {
+      context.Response.StatusCode = (int)statusCode;
+      return Task.CompletedTask;
+    };
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)

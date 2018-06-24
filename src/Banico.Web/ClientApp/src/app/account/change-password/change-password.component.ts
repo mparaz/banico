@@ -16,7 +16,14 @@ export class ChangePasswordComponent {
   constructor(
     private accountService: AccountService,
     private router: Router
-  ) { }
+  ) { 
+    this.accountService.loggedInAs()
+    .subscribe(
+      result => {
+        alert(JSON.stringify(result));
+      }
+    );
+  }
   
   public changePassword(value: ChangePassword) {
     this.isRequesting = true;
