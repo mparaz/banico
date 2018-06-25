@@ -128,9 +128,11 @@ namespace Banico.Web
                     });
             }
 
-            app.UseDefaultFiles();
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseJwtTokenMiddleware();
             app.UseSpaStaticFiles();
             app.UseCookiePolicy();
 
@@ -141,7 +143,6 @@ namespace Banico.Web
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseAuthentication();
 
             app.UseSpa(spa =>
             {
