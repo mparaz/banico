@@ -113,7 +113,8 @@ namespace Banico.Identity.Controllers
 
         public async Task<JsonResult> LoggedInAs()
         {
-            var userId = _caller.Claims.Single(c => c.Type == "id");
+            var userIdClaim = _caller.Claims.Single(c => c.Type == "id");
+            var userId = userIdClaim.Value;
             return new JsonResult(userId);
         }
 
