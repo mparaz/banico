@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { ChangePassword } from './change-password.interface';
@@ -25,8 +26,10 @@ export class ChangePasswordComponent {
     );
   }
   
-  public changePassword(value: ChangePassword) {
+  public changePassword(
+    form: NgForm) {
     this.isRequesting = true;
+    var value = form.value;
     this.accountService.changePassword(
       value.oldPassword,
       value.newPassword,

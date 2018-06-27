@@ -20,25 +20,14 @@ export class AccountService extends BaseService {
         }
     }
 
-    private authHeader(): HttpHeaders {
-        let headers = new HttpHeaders();
-        headers = headers.set('Content-Type', 'application/json');
-        let authToken = localStorage.getItem('auth_token');
-        headers = headers.set('Authorization', 'Bearer ' + authToken);
-        alert(JSON.stringify(headers));
-        return headers;
-    }
-
     public isLoggedIn(): Observable<Response> {
-        let headers = this.authHeader();
-        return this.http.get(this.baseUrl + "api/Account/IsLoggedIn", { headers })
+        return this.http.get(this.baseUrl + "api/Account/IsLoggedIn", this.jsonAuthRequestOptions )
         .catch(this.handleError);
     }
 
     public loggedInAs(): Observable<Response> {
-        let headers = this.authHeader();
         //alert(JSON.stringify(headers));
-        return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , { headers })
+        return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }
 
@@ -52,7 +41,7 @@ export class AccountService extends BaseService {
             newPassword,
             confirmPassword 
         });
-        return this.http.post(this.baseUrl + "api/Account/ChangePassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Manage/ChangePassword", body, this.jsonAuthRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

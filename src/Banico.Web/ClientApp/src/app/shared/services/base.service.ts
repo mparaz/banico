@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 export abstract class BaseService {  
     public jsonHeader = new HttpHeaders({ 'Content-Type': 'application/json' });
     public jsonRequestOptions = { headers: this.jsonHeader };
+    public jsonAuthRequestOptions = { headers: this.authHeader() };
 
     constructor() { }
 
@@ -28,5 +29,14 @@ export abstract class BaseService {
 
       // modelStateErrors = modelStateErrors = '' ? null : modelStateErrors;
       // return Observable.throw(modelStateErrors || 'Server error');
+    }
+
+    private authHeader(): HttpHeaders {
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/json');
+      let authToken = localStorage.getItem('auth_token');
+      headers = headers.set('Authorization', 'Bearer ' + authToken);
+      alert(JSON.stringify(headers));
+      return headers;
     }
 }
