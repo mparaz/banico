@@ -102,6 +102,17 @@ export class AccountService extends BaseService {
         .catch(this.handleError);
     }
 
+    public forgotPassword(
+        email: string
+    ): Observable<Response> {
+        let body = JSON.stringify({ 
+            email 
+        });
+        return this.http.post(this.baseUrl + "api/Account/ForgotPassword", body)
+        .map(res => true)
+        .catch(this.handleError);
+    }
+
     public resetPassword(
         email: string,
         code: string,

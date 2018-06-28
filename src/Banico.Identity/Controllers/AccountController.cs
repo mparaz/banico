@@ -467,11 +467,11 @@ namespace Banico.Identity.Controllers
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return new OkObjectResult("");
                 }
 
                 await this.SendForgotPasswordEmail(user);
-                return View("ForgotPasswordConfirmation");
+                return new OkObjectResult("");
             }
 
             // If we got this far, something failed, redisplay form

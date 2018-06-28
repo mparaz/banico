@@ -17,6 +17,7 @@ import { RegisterComponent } from './register/register.component';
 import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { SetPasswordComponent } from './set-password/set-password.component';
     RegisterComponent, 
     ResendConfirmationComponent,
     ResetPasswordComponent,
-    SetPasswordComponent
+    SetPasswordComponent,
+    ForgotPasswordComponent
   ],
   providers: [ 
     AccountService,
