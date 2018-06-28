@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Banico.Core.Entities;
 using Banico.Identity.Auth;
+using Banico.Identity.Helpers;
 using Banico.Identity.ViewModels.Manage;
 using Banico.Services;
 using Banico.Services.Interfaces;
@@ -30,6 +33,7 @@ namespace Banico.Identity.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
+        private readonly ClaimsPrincipal _caller;
 
         public ManageController(
           UserManager<AppUser> userManager,
@@ -37,7 +41,8 @@ namespace Banico.Identity.Controllers
           IEmailSender emailSender,
           ISmsSender smsSender,
           ILoggerFactory loggerFactory,
-          IConfiguration configuration)
+          IConfiguration configuration,
+          IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -45,6 +50,7 @@ namespace Banico.Identity.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
             _configuration = configuration;
+            _caller = httpContextAccessor.HttpContext.User;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -108,10 +114,10 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /Manage/AddPhoneNumber
-        public IActionResult AddPhoneNumber()
-        {
-            return View();
-        }
+        // public IActionResult AddPhoneNumber()
+        // {
+        //     return View();
+        // }
 
         //
         // POST: /Manage/AddPhoneNumber
@@ -227,11 +233,11 @@ namespace Banico.Identity.Controllers
 
         //
         // GET: /Manage/ChangePassword
-        [HttpGet]
-        public IActionResult ChangePassword()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // public IActionResult ChangePassword()
+        // {
+        //     return View();
+        // }
 
         //
         // POST: /Manage/ChangePassword
@@ -251,21 +257,22 @@ namespace Banico.Identity.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return new OkObjectResult(ManageMessageId.ChangePasswordSuccess);
                 }
                 AddErrors(result);
-                return View(model);
+                return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            AddErrors(new IdentityResult());
+            return BadRequest(Errors.AddErrorToModelState("", "No user found.", ModelState));
         }
 
         //
         // GET: /Manage/SetPassword
-        [HttpGet]
-        public IActionResult SetPassword()
-        {
-            return View();
-        }
+        // [HttpGet]
+        // public IActionResult SetPassword()
+        // {
+        //     return View();
+        // }
 
         //
         // POST: /Manage/SetPassword
@@ -383,7 +390,10 @@ namespace Banico.Identity.Controllers
 
         private Task<AppUser> GetCurrentUserAsync()
         {
-            return _userManager.GetUserAsync(HttpContext.User);
+            var userIdClaim = _caller.Claims.Single(c => c.Type == "id");
+            var userId = userIdClaim.Value;
+
+            return _userManager.FindByIdAsync(userId);
         }
 
         #endregion

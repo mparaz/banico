@@ -72,7 +72,6 @@ export class RegisterComponent implements OnInit {
                 result  => {
                     this.isRequesting = false;
                     this.isSuccessful = true;
-                    //alert(this.cleanStringify(result));
                 },
                 err => {
                     let validationErrorDictionary = err;

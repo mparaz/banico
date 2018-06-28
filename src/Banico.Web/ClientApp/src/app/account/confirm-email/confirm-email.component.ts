@@ -41,7 +41,6 @@ export class ConfirmEmailComponent {
     .finally(() => this.isRequesting = false)
     .subscribe(
       result  => {
-        alert('DONE!');
       },
       errors =>  this.errors = errors);
   }

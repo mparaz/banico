@@ -102,7 +102,7 @@ namespace Banico.Identity.Controllers
         private Task<AppUser> GetCurrentUserAsync()
         {
             //var customer = await _appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
-            return _userManager.GetUserAsync(HttpContext.User);
+            return _userManager.GetUserAsync(_caller);
         }
 
         [AllowAnonymous]

@@ -36,7 +36,6 @@ export abstract class BaseService {
       headers = headers.set('Content-Type', 'application/json');
       let authToken = localStorage.getItem('auth_token');
       headers = headers.set('Authorization', 'Bearer ' + authToken);
-      alert(JSON.stringify(headers));
       return headers;
     }
 }

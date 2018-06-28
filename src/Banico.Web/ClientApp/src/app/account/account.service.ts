@@ -26,7 +26,6 @@ export class AccountService extends BaseService {
     }
 
     public loggedInAs(): Observable<Response> {
-        //alert(JSON.stringify(headers));
         return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }

@@ -18,12 +18,6 @@ export class ChangePasswordComponent {
     private accountService: AccountService,
     private router: Router
   ) { 
-    this.accountService.loggedInAs()
-    .subscribe(
-      result => {
-        alert(JSON.stringify(result));
-      }
-    );
   }
   
   public changePassword(
