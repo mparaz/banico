@@ -26,7 +26,7 @@ import { ConfigService } from './shared/utils/config.service';
   ],
   imports: [
     AccountModule,
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
     HttpClientModule,
     FormsModule,
     AppRoutingModule

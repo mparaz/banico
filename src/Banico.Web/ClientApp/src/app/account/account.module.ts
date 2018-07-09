@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientXsrfModule } from '@angular/common/http';
 import { FormsModule }  from '@angular/forms';
+
 import { SharedModule }   from '../shared/modules/shared.module';
- 
 import { AccountService }  from './account.service';
 import { UserService }  from '../shared/services/user.service';
 import { EmailValidator } from '../directives/email.validator.directive';
@@ -19,12 +20,18 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { SetPasswordComponent } from './set-password/set-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
+import { ManageLoginsComponent } from './manage-logins/manage-logins.component';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     AccountRoutingModule,
-    SharedModule
+    SharedModule,
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-Token'
+    })  
   ],
   declarations: [
     AccountComponent,
@@ -35,15 +42,17 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     ResendConfirmationComponent,
     ResetPasswordComponent,
     SetPasswordComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+
+    ManageLoginsComponent
   ],
   providers: [ 
     AccountService,
     UserService,
-    AuthGuard 
+    AuthGuard
   ],
-  bootstrap: [ 
-    AccountComponent 
+    bootstrap: [ 
+      AccountComponent 
   ]
 })
 export class AccountModule { }

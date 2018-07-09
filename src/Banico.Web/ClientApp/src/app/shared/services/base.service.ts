@@ -6,9 +6,9 @@ export abstract class BaseService {
     public jsonRequestOptions = { headers: this.jsonHeader };
     public jsonAuthRequestOptions = { headers: this.authHeader() };
 
-    constructor() { }
-
-    protected handleError(error: any) {
+  constructor() { }
+  
+  protected handleError(error: any) {
       var applicationError = error.headers.get('Application-Error');
 
       // either applicationError in header or model error in body
@@ -31,11 +31,19 @@ export abstract class BaseService {
       // return Observable.throw(modelStateErrors || 'Server error');
     }
 
-    private authHeader(): HttpHeaders {
+    private getCookie(name): string {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+      return null;
+    }
+
+  private authHeader(): HttpHeaders {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
       let authToken = localStorage.getItem('auth_token');
       headers = headers.set('Authorization', 'Bearer ' + authToken);
+      headers = headers.set('RequestVerificationToken', this.getCookie('XSRF-TOKEN'));
       return headers;
     }
 }

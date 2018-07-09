@@ -14,13 +14,21 @@ export class ChangePasswordComponent {
   isRequesting: boolean;
   errors: string;  
 
+  private getCookie(name): string {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    if (parts.length == 2) return parts.pop().split(";").shift();
+    return null;
+  }
+
   constructor(
     private accountService: AccountService,
     private router: Router
   ) { 
+    alert(this.getCookie('XSRF-TOKEN'));
   }
-  
-  public changePassword(
+
+public changePassword(
     form: NgForm) {
     this.isRequesting = true;
     var value = form.value;

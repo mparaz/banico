@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,8 @@ namespace Banico.Identity.Controllers
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly ClaimsPrincipal _caller;
+        private IAntiforgery antiforgery;
+        private HttpContext context;
 
         public ManageController(
           UserManager<AppUser> userManager,
@@ -42,7 +45,8 @@ namespace Banico.Identity.Controllers
           ISmsSender smsSender,
           ILoggerFactory loggerFactory,
           IConfiguration configuration,
-          IHttpContextAccessor httpContextAccessor)
+          IHttpContextAccessor httpContextAccessor,
+          IAntiforgery antiforgery)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -51,6 +55,8 @@ namespace Banico.Identity.Controllers
             _logger = loggerFactory.CreateLogger<ManageController>();
             _configuration = configuration;
             _caller = httpContextAccessor.HttpContext.User;
+            this.context = httpContextAccessor.HttpContext;
+            this.antiforgery = antiforgery;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -242,9 +248,10 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/ChangePassword
         [HttpPost]
-        // [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
+            await this.antiforgery.ValidateRequestAsync(this.context);
             if (!ModelState.IsValid)
             {
                 return View(model);

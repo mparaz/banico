@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -72,7 +73,8 @@ namespace Banico.Web
             }
       
             services.Configure<AuthMessageSenderOptions>(Configuration);
-            services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
+            //services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
+            services.AddAntiforgery();
 
             identityStartup.ConfigureServices(services);
             
@@ -89,12 +91,17 @@ namespace Banico.Web
             services.AddScoped<ISuperAdminService, SuperAdminService>();
             services.AddScoped<IItemSecurityService, ItemSecurityService>();
 
+            // services.AddMvc(opts =>
+            // {
+            //     opts.Filters.AddService(typeof(AngularAntiforgeryCookieResultFilter));
+            // })
             services.AddMvc()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                .AddJsonOptions(
-                    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                );
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>())
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+            .AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+            // services.AddTransient<AngularAntiforgeryCookieResultFilter>();
             
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -104,7 +111,7 @@ namespace Banico.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IAntiforgery antiforgery)
         {
             if (env.IsDevelopment())
             {
@@ -131,10 +138,29 @@ namespace Banico.Web
                     });
             }
 
+            app.UseAuthentication();
+            app.Use(next => context =>
+                {
+                    string path = context.Request.Path.Value;
+                    context.Response.Cookies.Append("CHECK-THIS-PATH", path, 
+                        new CookieOptions() { HttpOnly = false });
+
+                    if (string.Equals(path, "/", StringComparison.OrdinalIgnoreCase))
+                    {
+                        // The request token can be sent as a JavaScript-readable cookie, 
+                        // and Angular uses it by default.
+                        var tokens = antiforgery.GetAndStoreTokens(context);
+                        context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, 
+                            new CookieOptions() { HttpOnly = false });
+                    }
+
+                    return next(context);
+                }
+            );
+
             app.UseHttpsRedirection();
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseAuthentication();
             app.UseJwtTokenMiddleware();
             app.UseSpaStaticFiles();
             app.UseCookiePolicy();
@@ -146,7 +172,6 @@ namespace Banico.Web
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
@@ -154,11 +179,11 @@ namespace Banico.Web
 
                 spa.Options.SourcePath = "ClientApp";
 
-                // see https://docs.microsoft.com/en-us/aspnet/core/spa/angular?view=aspnetcore-2.1&tabs=visual-studio
-                
+                // see https://docs.microsoft.com/en-us/aspnet/core/spa/angular?view=aspnetcore-2.1&tabs=visual-studio                
+    
                 spa.UseSpaPrerendering(options =>
                 {
-                    options.BootModulePath = $"{spa.Options.SourcePath}/dist-server/main.bundle.js";
+                    options.BootModulePath = $"{spa.Options.SourcePath}/dist/server/main.js";
                     options.BootModuleBuilder = env.IsDevelopment()
                         ? new AngularCliBuilder(npmScript: "build:ssr")
                         : null;

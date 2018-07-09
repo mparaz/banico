@@ -4,12 +4,27 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --extract-css",
-    "build": "ng build --extract-css",
-    "build:ssr": "npm run build -- --app=ssr --output-hashing=media",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
+    "serve:ssr": "node dist/server",
+    "build:client-and-server-bundles": "ng build --prod && ng run Banico.Web:server",
+    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "ssr": "npm run build:universal && npm run generate:prerender && npm run server",
+    "ssr:debug": "ng build --aot=true --output-hashing=all --named-chunks=false --build-optimizer=true  && ng run Banico.Web:server:dev && webpack && node server.js",
+    "ssr:cw": "ng build --aot=true --output-hashing=all --named-chunks=false --build-optimizer=true --watch",
+    "ssr:sw": "ng run Banico.Web:server:dev --watch",
+    "ssr:webpack": "webpack --watch",
+    "ssr:server": "nodemon server.js",
+    "build:server": "ng run Banico.Web:server:production",
+    "build:prod": "ng build --prod",
+    "build:universal": "ng build --prod && ng run Banico.Web:server:production && webpack --config webpack.server.config.js --progress --colors",
+    "server": "node server.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:prerender": "npm run build:universal && npm run generate:prerender",
+    "generate:prerender": "node prerender.js"
   },
   "private": true,
   "dependencies": {
@@ -21,18 +36,23 @@
     "@angular/http": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
-    "@angular/platform-server": "^5.2.0",
+    "@angular/platform-server": "^5.2.11",
     "@angular/router": "^5.2.0",
     "@ng-bootstrap/ng-bootstrap": "^1.1.2",
-    "@nguniversal/module-map-ngfactory-loader": "^5.0.0-beta.5",
+    "@nguniversal/express-engine": "^6.0.0",
+    "@nguniversal/module-map-ngfactory-loader": "^5.0.0",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
+    "ts-loader": "^4.4.2",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
-    "@angular/cli": "~1.7.0",
+    "@angular-devkit/build-angular": "^0.6.8",
+    "@angular/cli": "^6.0.8",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
     "@types/jasmine": "~2.8.3",
@@ -49,6 +69,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
-    "typescript": "~2.5.3"
+    "typescript": "~2.5.3",
+    "uglifyjs-webpack-plugin": "^1.2.7"
   }
 }
