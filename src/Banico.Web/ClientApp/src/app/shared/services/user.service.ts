@@ -44,7 +44,7 @@ export class UserService extends BaseService {
     firstName: string, 
     lastName: string,
     location: string): 
-    Observable<UserRegistration> {
+    Observable<boolean> {
     let body = JSON.stringify({ email, password, firstName, lastName,location });
     let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     let options = { headers: headers };

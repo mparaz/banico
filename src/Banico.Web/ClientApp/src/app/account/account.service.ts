@@ -20,12 +20,12 @@ export class AccountService extends BaseService {
         }
     }
 
-    public isLoggedIn(): Observable<Response> {
+    public isLoggedIn(): Observable<Object> {
         return this.http.get(this.baseUrl + "api/Account/IsLoggedIn", this.jsonAuthRequestOptions )
         .catch(this.handleError);
     }
 
-    public loggedInAs(): Observable<Response> {
+    public loggedInAs(): Observable<Object> {
         return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }
@@ -34,7 +34,7 @@ export class AccountService extends BaseService {
         oldPassword: string,
         newPassword: string,
         confirmPassword: string
-    ): Observable<Response> {
+    ): Observable<boolean> {
         let body = JSON.stringify({ 
             oldPassword,
             newPassword,
@@ -48,7 +48,7 @@ export class AccountService extends BaseService {
     public login(
         email: string,
         password: string
-    ): Observable<Response> {
+    ): Observable<Object> {
         let body = JSON.stringify({ 
             email, 
             password 
@@ -62,7 +62,7 @@ export class AccountService extends BaseService {
         password: string,
         confirmPassword: string,
         invite: string
-    ): Observable<Response> {
+    ): Observable<boolean> {
         let body = JSON.stringify({ 
             email,
             password,
@@ -77,7 +77,7 @@ export class AccountService extends BaseService {
     public confirmEmail(
         userId: string,
         code: string
-    ): Observable<Response> {
+    ): Observable<boolean> {
         let body = JSON.stringify({ 
             userId,
             code
@@ -104,7 +104,7 @@ export class AccountService extends BaseService {
 
     public forgotPassword(
         email: string
-    ): Observable<Response> {
+    ): Observable<boolean> {
         let body = JSON.stringify({ 
             email 
         });
