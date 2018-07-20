@@ -1,5 +1,7 @@
 using System;
 using System.Net;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -74,7 +76,12 @@ namespace Banico.Web
       
             services.Configure<AuthMessageSenderOptions>(Configuration);
             //services.AddAntiforgery(opts => opts.HeaderName = "X-XSRF-Token");
-            services.AddAntiforgery();
+            services.AddAntiforgery(opts =>
+                {
+                    //opts.Cookie.Name = "XSRF-TOKEN";
+                    opts.HeaderName = "X-XSRF-TOKEN";
+                }
+            );
 
             identityStartup.ConfigureServices(services);
             
@@ -139,14 +146,15 @@ namespace Banico.Web
             }
 
             app.UseAuthentication();
+            
             app.Use(next => context =>
                 {
                     string path = context.Request.Path.Value;
-                    context.Response.Cookies.Append("CHECK-THIS-PATH", path, 
-                        new CookieOptions() { HttpOnly = false });
-
-                    if (string.Equals(path, "/", StringComparison.OrdinalIgnoreCase))
-                    {
+                    
+                    if (path.ToLower().Contains("/account")) {
+            //         if (
+            // string.Equals(path, "/", StringComparison.OrdinalIgnoreCase) ||
+            // string.Equals(path, "/index.html", StringComparison.OrdinalIgnoreCase)) {
                         // The request token can be sent as a JavaScript-readable cookie, 
                         // and Angular uses it by default.
                         var tokens = antiforgery.GetAndStoreTokens(context);
@@ -159,6 +167,7 @@ namespace Banico.Web
             );
 
             app.UseHttpsRedirection();
+            // app.UseMiddleware<AntiForgeryMiddleware>("XSRF-TOKEN");
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseJwtTokenMiddleware();
@@ -195,6 +204,44 @@ namespace Banico.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+        }
+    }
+
+    public static class ApplicationBuilderExtensions
+    {
+        public static IApplicationBuilder UseAntiforgeryTokenMiddleware(this IApplicationBuilder builder, string requestTokenCookieName)
+        {
+            return builder.UseMiddleware<AntiForgeryMiddleware>(requestTokenCookieName);
+        }
+    }
+
+    public class AntiForgeryMiddleware
+    {
+        private readonly RequestDelegate next;
+        private readonly string requestTokenCookieName;
+        private readonly string[] httpVerbs = new string[] { "GET", "HEAD", "OPTIONS", "TRACE" };
+
+        public AntiForgeryMiddleware(RequestDelegate next, string requestTokenCookieName)
+        {
+            this.next = next;
+            this.requestTokenCookieName = requestTokenCookieName;
+        }
+
+        public async Task Invoke(HttpContext context, IAntiforgery antiforgery)
+        {
+            if (httpVerbs.Contains(context.Request.Method, StringComparer.OrdinalIgnoreCase))
+            {
+                if (context.User.Identity.IsAuthenticated) {
+                    var tokens = antiforgery.GetAndStoreTokens(context);
+                
+                    context.Response.Cookies.Append(requestTokenCookieName, tokens.RequestToken, new CookieOptions()
+                    {
+                        HttpOnly = false
+                    });
+                }
+            }      
+
+            await next.Invoke(context);
         }
     }
 }

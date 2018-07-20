@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AccountService } from '../account.service';
+import { ManageService } from '../manage.service';
 import { SetPassword } from './set-password.interface';
 
 @Component({
@@ -14,13 +14,13 @@ export class SetPasswordComponent {
   errors: string;  
 
   constructor(
-    private accountService: AccountService,
+    private manageService: ManageService,
     private router: Router
   ) { }
   
   public setPassword(value: SetPassword) {
     this.isRequesting = true;
-    this.accountService.setPassword(
+    this.manageService.setPassword(
         value.newPassword,
         value.confirmPassword
     )

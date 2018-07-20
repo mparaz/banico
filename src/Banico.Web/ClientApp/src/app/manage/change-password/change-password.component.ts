@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from '../account.service';
+import { ManageService } from '../manage.service';
 import { ChangePassword } from './change-password.interface';
 
 @Component({
@@ -22,17 +22,16 @@ export class ChangePasswordComponent {
   }
 
   constructor(
-    private accountService: AccountService,
+    private manageService: ManageService,
     private router: Router
   ) { 
-    alert(this.getCookie('XSRF-TOKEN'));
   }
 
 public changePassword(
     form: NgForm) {
     this.isRequesting = true;
     var value = form.value;
-    this.accountService.changePassword(
+    this.manageService.changePassword(
       value.oldPassword,
       value.newPassword,
       value.confirmPassword

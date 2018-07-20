@@ -35,8 +35,8 @@ namespace Banico.Identity.Controllers
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
         private readonly ClaimsPrincipal _caller;
-        private IAntiforgery antiforgery;
-        private HttpContext context;
+        private IAntiforgery _antiforgery;
+        private IHttpContextAccessor _contextAccessor;
 
         public ManageController(
           UserManager<AppUser> userManager,
@@ -55,8 +55,8 @@ namespace Banico.Identity.Controllers
             _logger = loggerFactory.CreateLogger<ManageController>();
             _configuration = configuration;
             _caller = httpContextAccessor.HttpContext.User;
-            this.context = httpContextAccessor.HttpContext;
-            this.antiforgery = antiforgery;
+            _contextAccessor = httpContextAccessor;
+            _antiforgery = antiforgery;
         }
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -251,7 +251,7 @@ namespace Banico.Identity.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
-            await this.antiforgery.ValidateRequestAsync(this.context);
+            // await _antiforgery.ValidateRequestAsync(_contextAccessor.HttpContext);
             if (!ModelState.IsValid)
             {
                 return View(model);

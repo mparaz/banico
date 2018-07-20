@@ -34,7 +34,7 @@ export class LoginComponent {
       result  => {
         if (result) {
           var myResult: any = result;
-          localStorage.setItem('auth_token', myResult.auth_token);
+          window.localStorage.setItem('auth_token', myResult.auth_token);
           this.isSuccessful = true;
           //this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
         } else {

@@ -73,7 +73,7 @@ export class UserService extends BaseService {
       .map(res => {
         var result: any = res;
         if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('auth_token', result.auth_token);
+          window.localStorage.setItem('auth_token', result.auth_token);
         }
         this.loggedIn = true;
         return true;
@@ -83,7 +83,7 @@ export class UserService extends BaseService {
 
   public logout() {
     if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('auth_token');
+      window.localStorage.removeItem('auth_token');
     }
     this.loggedIn = false;
   }
@@ -105,7 +105,7 @@ export class UserService extends BaseService {
       .map(res => {
         var result: any = res;
         if (isPlatformBrowser(this.platformId)) {
-          localStorage.setItem('auth_token', result.auth_token);
+          window.localStorage.setItem('auth_token', result.auth_token);
         }
         this.loggedIn = true;
 

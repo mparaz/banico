@@ -15,8 +15,9 @@ export class AccountService extends BaseService {
         @Inject('BASE_URL') private baseUrl: string
     ) {
         super();
+
         if (isPlatformBrowser(this.platformId)) {
-            this.loggedIn = !!localStorage.getItem('auth_token');
+            this.loggedIn = !!window.localStorage.getItem('auth_token');
         }
     }
 
@@ -27,21 +28,6 @@ export class AccountService extends BaseService {
 
     public loggedInAs(): Observable<Object> {
         return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
-        .catch(this.handleError);
-    }
-
-    public changePassword(
-        oldPassword: string,
-        newPassword: string,
-        confirmPassword: string
-    ): Observable<boolean> {
-        let body = JSON.stringify({ 
-            oldPassword,
-            newPassword,
-            confirmPassword 
-        });
-        return this.http.post(this.baseUrl + "api/Manage/ChangePassword", body, this.jsonAuthRequestOptions)
-        .map(res => true)
         .catch(this.handleError);
     }
 
@@ -126,19 +112,6 @@ export class AccountService extends BaseService {
             resetPassword 
         });
         return this.http.post(this.baseUrl + "/api/Account/ResetPassword", body, this.jsonRequestOptions)
-        .map(res => true)
-        .catch(this.handleError);
-    }
-
-    public setPassword(
-        newPassword: string,
-        confirmPassword: string
-    ) {
-        let body = JSON.stringify({ 
-            newPassword,
-            confirmPassword 
-        });
-        return this.http.post(this.baseUrl + "/api/Account/SetPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

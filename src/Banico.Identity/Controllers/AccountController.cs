@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,8 @@ namespace Banico.Identity.Controllers
         private readonly IJwtFactory _jwtFactory;
         private readonly JwtIssuerOptions _jwtOptions;
         private readonly ClaimsPrincipal _caller;
+        private readonly IUserClaimsPrincipalFactory<AppUser> _userClaimsPrincipalFactory;
+        private readonly IAntiforgery _antiforgery;
 
         private bool _InviteOnly = false;
 
@@ -58,7 +61,9 @@ namespace Banico.Identity.Controllers
             IConfiguration configuration, 
             IJwtFactory jwtFactory, 
             IOptions<JwtIssuerOptions> jwtOptions,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            IUserClaimsPrincipalFactory<AppUser> userClaimsPrincipalFactory,
+            IAntiforgery antiforgery)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -71,6 +76,8 @@ namespace Banico.Identity.Controllers
             _jwtFactory = jwtFactory;
             _jwtOptions = jwtOptions.Value;
             _caller = httpContextAccessor.HttpContext.User;
+            _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
+            _antiforgery = antiforgery;
 
             if (_configuration["InviteOnly"] == "true")
             {
@@ -145,6 +152,9 @@ namespace Banico.Identity.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    HttpContext.User = await _userClaimsPrincipalFactory.CreateAsync(user);
+                    var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+
                     var identity = _jwtFactory.GenerateClaimsIdentity(model.Email, user.Id);
                     _logger.LogInformation(1, "User logged in.");
                     var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
@@ -223,7 +233,7 @@ namespace Banico.Identity.Controllers
             var response = await _emailSender.SendEmailAsync(user.Email, "Reset Your Password",
                 resetPasswordText);
         }
-
+    
         //
         // POST: /api/Account/Register
         [HttpPost]
@@ -714,3 +724,4 @@ namespace Banico.Identity.Controllers
         #endregion
     }
 }
+

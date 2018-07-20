@@ -32,18 +32,26 @@ export abstract class BaseService {
     }
 
     private getCookie(name): string {
-      var value = "; " + document.cookie;
-      var parts = value.split("; " + name + "=");
-      if (parts.length == 2) return parts.pop().split(";").shift();
-      return null;
+      var value = '; ' + document.cookie;
+      var parts = value.split('; ');
+      var result = "";
+      parts.forEach(element => {
+        var keyValue = element.split('=');
+        if (keyValue[0].includes(name)) {
+          result = keyValue[1];
+        }
+        alert(keyValue[0] + '  ===   ' + keyValue[1]);
+      });
+
+      return result;
     }
 
   private authHeader(): HttpHeaders {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-      let authToken = localStorage.getItem('auth_token');
+      let authToken = window.localStorage.getItem('auth_token');
       headers = headers.set('Authorization', 'Bearer ' + authToken);
-      headers = headers.set('RequestVerificationToken', this.getCookie('XSRF-TOKEN'));
+      headers = headers.set('X-XSRF-TOKEN', this.getCookie('XSRF-TOKEN'));
       return headers;
     }
 }
