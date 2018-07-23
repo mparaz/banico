@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
-import { ResendConfirmation } from './resend-confirmation.interface';
  
 @Component({
   selector: 'resend-confirmation',
@@ -9,26 +9,30 @@ import { ResendConfirmation } from './resend-confirmation.interface';
   styleUrls: []
 })
 export class ResendConfirmationComponent {
-  isRequesting: boolean;
-  isSuccessful: boolean;
+  isRequesting: boolean = false;
+  isSuccessful: boolean = false;
   errors: string;  
+
+  resendConfirmationForm = this.fb.group({
+    email: ['', Validators.required],
+  });
 
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) { }
   
-  public ResendConfirmationComponent(value: ResendConfirmation) {
+  public ResendConfirmationComponent() {
     this.isRequesting = true;
     this.accountService.resendConfirmation(
-      value.email
+      this.resendConfirmationForm.value['email']
     )
     .finally(() => this.isRequesting = false)
     .subscribe(
       result  => {if(result){
-          this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
+          this.isSuccessful = true;                         
       }},
       errors =>  this.errors = errors);
-
   }
 }

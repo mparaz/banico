@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
-import { ResetPassword } from './reset-password.interface';
  
 @Component({
   selector: 'reset-password',
@@ -51,7 +50,7 @@ export class ResetPasswordComponent {
     )
     .finally(() => this.isRequesting = false)
     .subscribe(
-      result  => {if(result){
+      result  => {if (result){
           this.router.navigate(
             ['/login'], {
               queryParams: {
@@ -62,6 +61,5 @@ export class ResetPasswordComponent {
           );                         
       }},
       errors =>  this.errors = errors);
-
   }
 }
