@@ -94,7 +94,7 @@ export class AccountService extends BaseService {
         let body = JSON.stringify({ 
             email 
         });
-        return this.http.post(this.baseUrl + "api/Account/ForgotPassword", body)
+        return this.http.post(this.baseUrl + "api/Account/ForgotPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

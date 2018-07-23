@@ -27,6 +27,14 @@
 </div>
 <hr />
 -->
+<div class="alert alert-danger" role="alert" *ngIf="errors['']">
+    <ul>
+        <li *ngFor="let error of errors['']">
+            {{ error }}
+        </li>
+    </ul>
+</div>
+
 <div class="row">
     <div class="col">
         <section>
@@ -53,6 +61,14 @@
                     </div>
                 </div>
                 
+                <div class="alert alert-danger" role="alert" *ngIf="errors['Email']">
+                    <ul>
+                        <li *ngFor="let error of errors['Email']">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="Password">Password</label>
                     <div class="col-md-10">
@@ -71,7 +87,14 @@
                     </div>
                 </div>
 
-                <!--
+                <div class="alert alert-danger" role="alert" *ngIf="errors['Password']">
+                    <ul>
+                        <li *ngFor="let error of errors['Password']">
+                            {{ error }}
+                        </li>
+                    </ul>
+                </div>
+                        <!--
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <div class="checkbox">

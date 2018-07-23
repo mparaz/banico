@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Login } from './login.interface';
 
@@ -13,11 +13,22 @@ export class LoginComponent {
   isRequesting: boolean = false;
   isSuccessful: boolean = false;
   errors: string;  
+  returnUrl: string = '/';
 
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
+  
+  ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        if (params.returnUrl) {
+          this.returnUrl = params.returnUrl;
+        }
+      });
+  }
   
   public login(
     form: NgForm
@@ -36,7 +47,7 @@ export class LoginComponent {
           var myResult: any = result;
           window.localStorage.setItem('auth_token', myResult.auth_token);
           this.isSuccessful = true;
-          //this.router.navigate(['/login'],{queryParams: {brandNew: true,email:value.email}});                         
+          this.router.navigate([this.returnUrl]);                         
         } else {
         }
       },

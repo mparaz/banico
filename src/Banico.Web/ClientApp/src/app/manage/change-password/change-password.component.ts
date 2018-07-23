@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ManageService } from '../manage.service';
-import { ChangePassword } from './change-password.interface';
 
 @Component({
   selector: 'change-password',
@@ -14,6 +13,12 @@ export class ChangePasswordComponent {
   isRequesting: boolean;
   errors: string;  
 
+  changePasswordForm = this.fb.group({
+    oldPassword: ['', Validators.required],
+    newPassword: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
+  });
+
   private getCookie(name): string {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
@@ -23,24 +28,23 @@ export class ChangePasswordComponent {
 
   constructor(
     private manageService: ManageService,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) { 
   }
 
-public changePassword(
-    form: NgForm) {
-    this.isRequesting = true;
-    var value = form.value;
-    this.manageService.changePassword(
-      value.oldPassword,
-      value.newPassword,
-      value.confirmPassword
-    )
-    .finally(() => this.isRequesting = false)
-    .subscribe(
-      result  => {
-        this.isSuccessful = true;
-      },
-      errors =>  this.errors = errors);
+public changePassword() {
+  this.isRequesting = true;
+  this.manageService.changePassword(
+    this.changePasswordForm.value['oldPassword'],
+    this.changePasswordForm.value['newPassword'],
+    this.changePasswordForm.value['confirmPassword']
+  )
+  .finally(() => this.isRequesting = false)
+  .subscribe(
+    result  => {
+      this.isSuccessful = true;
+    },
+    errors =>  this.errors = errors);
   }
 }

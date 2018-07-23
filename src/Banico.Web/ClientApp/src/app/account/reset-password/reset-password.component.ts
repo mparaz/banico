@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { ResetPassword } from './reset-password.interface';
  
@@ -9,22 +10,44 @@ import { ResetPassword } from './reset-password.interface';
   styleUrls: []
 })
 export class ResetPasswordComponent {
+  private sub: any;
   isRequesting: boolean;
   isSuccessful: boolean;
-  errors: string;  
+  errors: string;
 
+  resetPasswordForm = this.fb.group({
+    email: ['', Validators.required],
+    code: ['', Validators.required],
+    password: ['', Validators.required],
+    confirmPassword: ['', Validators.required]
+  });
+  
   constructor(
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
   
-  public resetPassword(value: ResetPassword) {
+  ngOnInit() {
+    this.sub = this.route.queryParams
+      .subscribe(params => {
+        var email = params.email;
+        var code = params.code;
+        if (email) {
+          this.resetPasswordForm.controls['email'].setValue(email);
+          this.resetPasswordForm.controls['code'].setValue(code);
+        }
+      });
+  }
+  
+  public resetPassword() {
     this.isRequesting = true;
     this.accountService.resetPassword(
-      value.email,
-      value.code,
-      value.password,
-      value.resetPassword
+      this.resetPasswordForm.value['email'],
+      this.resetPasswordForm.value['code'],
+      this.resetPasswordForm.value['password'],
+      this.resetPasswordForm.value['confirmPassword']
     )
     .finally(() => this.isRequesting = false)
     .subscribe(
@@ -33,7 +56,7 @@ export class ResetPasswordComponent {
             ['/login'], {
               queryParams: {
                 brandNew: true,
-                email: value.email
+                email: this.resetPasswordForm.value['email']
               }
             }
           );                         

@@ -18,7 +18,7 @@ export class ResendConfirmationComponent {
     private router: Router
   ) { }
   
-  public resendConfirmation(value: ResendConfirmation) {
+  public ResendConfirmationComponent(value: ResendConfirmation) {
     this.isRequesting = true;
     this.accountService.resendConfirmation(
       value.email

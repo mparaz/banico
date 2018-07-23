@@ -40,7 +40,6 @@ export abstract class BaseService {
         if (keyValue[0].includes(name)) {
           result = keyValue[1];
         }
-        alert(keyValue[0] + '  ===   ' + keyValue[1]);
       });
 
       return result;

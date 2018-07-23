@@ -101,7 +101,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemoveLogin(RemoveLoginViewModel account)
         {
             ManageMessageId? message = ManageMessageId.Error;
@@ -128,7 +128,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -149,7 +149,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/EnableTwoFactorAuthentication
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
@@ -165,7 +165,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/DisableTwoFactorAuthentication
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
             var user = await GetCurrentUserAsync();
@@ -196,7 +196,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/VerifyPhoneNumber
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
@@ -221,7 +221,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/RemovePhoneNumber
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> RemovePhoneNumber()
         {
             var user = await GetCurrentUserAsync();
@@ -254,8 +254,9 @@ namespace Banico.Identity.Controllers
             // await _antiforgery.ValidateRequestAsync(_contextAccessor.HttpContext);
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
             }
+
             var user = await GetCurrentUserAsync();
             if (user != null)
             {
@@ -284,7 +285,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/SetPassword
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -335,7 +336,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /Manage/LinkLogin
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> LinkLogin(string provider)
         {
             // Clear the existing external cookie to ensure a clean login process

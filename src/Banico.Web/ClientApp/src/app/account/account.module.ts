@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientXsrfModule } from '@angular/common/http';
 import { FormsModule }  from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { SharedModule }   from '../shared/modules/shared.module';
 import { AccountService }  from './account.service';
@@ -22,6 +23,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     AccountRoutingModule,
     SharedModule,
     HttpClientXsrfModule.withOptions({

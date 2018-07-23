@@ -143,7 +143,7 @@ namespace Banico.Identity.Controllers
                     {
                         ModelState.AddModelError(string.Empty, 
                                     "You must have a confirmed email to log in.");
-                        return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
+                        return BadRequest(Errors.AddErrorToModelState("Email", "You must have a confirmed email to log in.", ModelState));
                     }
                 }
 
@@ -167,12 +167,12 @@ namespace Banico.Identity.Controllers
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning(2, "User account locked out.");
-                    return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
+                    return BadRequest(Errors.AddErrorToModelState("Email", "User account is locked out.", ModelState));
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
+                    return BadRequest(Errors.AddErrorToModelState("", "Invalid login attempt.", ModelState));
                 }
             }
 
@@ -200,8 +200,14 @@ namespace Banico.Identity.Controllers
             // Send an email with this link
             var originalCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var code = WebUtility.UrlEncode(originalCode);
-            // var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            var callbackUrl = "https://localhost:5001/account/confirm-email?userId="+user.Id+"&code="+code;
+            var urlBuilder =
+                new System.UriBuilder(Request.GetRawUrl())
+                    {
+                        Path = Url.Content("~/account/confirm-email"),
+                        Query = "userId=" + user.Id + "&code=" + code
+                    };
+            var callbackUrl = urlBuilder.ToString();
+            callbackUrl = HtmlEncoder.Default.Encode(callbackUrl);
             
             string confirmText = @"Hi,<br /><br />" +
             "Thank you for registering an account on our site.<br /><br />" +
@@ -219,8 +225,13 @@ namespace Banico.Identity.Controllers
         private async Task SendForgotPasswordEmail(AppUser user)
         {
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var callbackUrl = Url.Action(nameof(ResetPassword), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-            callbackUrl = HtmlEncoder.Default.Encode(callbackUrl);
+            var urlBuilder =
+                new System.UriBuilder(Request.GetRawUrl())
+                    {
+                        Path = Url.Content("~/account/reset-password"),
+                        Query = "email=" + user.Email + "&code=" + code
+                    };
+            var callbackUrl = urlBuilder.ToString();
 
             string resetPasswordText = @"Hi,<br /><br />" +
                 "Someone recently requested a password change for your account.<br /><br />" +
@@ -282,7 +293,7 @@ namespace Banico.Identity.Controllers
         //
         // POST: /api/Account/Logout
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -295,7 +306,7 @@ namespace Banico.Identity.Controllers
         // POST: /api/Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
@@ -377,8 +388,8 @@ namespace Banico.Identity.Controllers
         // POST: /api/Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl = null)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation([FromBody]ExternalLoginConfirmationViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -399,7 +410,14 @@ namespace Banico.Identity.Controllers
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
                         // Send an email with this link
                         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        var urlBuilder =
+                            new System.UriBuilder(Request.GetRawUrl())
+                                {
+                                    Path = Url.Content("~/account/confirm-email"),
+                                    Query = "userId=" + user.Id + "&code=" + code
+                                };
+                        var callbackUrl = urlBuilder.ToString();
+
                         await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                         $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                         // await _signInManager.SignInAsync(user, isPersistent: false);
@@ -469,7 +487,7 @@ namespace Banico.Identity.Controllers
         [HttpPost]
         [AllowAnonymous]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -505,7 +523,7 @@ namespace Banico.Identity.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> ResendConfirmation(ResendConfirmationViewModel model)
+        public async Task<IActionResult> ResendConfirmation([FromBody]ResendConfirmationViewModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if ((user != null) && (!await(_userManager.IsEmailConfirmedAsync(user))))
@@ -536,8 +554,8 @@ namespace Banico.Identity.Controllers
         // POST: /api/Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -589,8 +607,8 @@ namespace Banico.Identity.Controllers
         // POST: /api/Account/SendCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SendCode(SendCodeViewModel model)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendCode([FromBody]SendCodeViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -642,8 +660,8 @@ namespace Banico.Identity.Controllers
         // POST: /api/Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
             {
