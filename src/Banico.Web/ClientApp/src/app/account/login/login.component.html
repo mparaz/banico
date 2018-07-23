@@ -38,7 +38,7 @@
 <div class="row">
     <div class="col">
         <section>
-            <form #f="ngForm" novalidate (ngSubmit)="login(f)">
+            <form [formGroup]="loginForm" novalidate (ngSubmit)="login()">
                 <p>Use a local account to log in.</p>
                 <div class="text-danger"></div>
 
@@ -52,7 +52,7 @@
                             type="email" 
                             validateEmail
                             ngModel  
-                            #email="ngModel"
+                            formControlName="email"
                         />
                         <!--
                         data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" value="" />
@@ -78,7 +78,7 @@
                             name="password"
                             type="password"
                             ngModel
-                            #password="ngModel"
+                            formControlName="password"
                         />
                         <!--
                             data-val="true" data-val-required="The Password field is required." id="Password" name="Password" />

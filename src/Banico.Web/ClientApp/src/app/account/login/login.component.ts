@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../account.service';
-import { Login } from './login.interface';
 
 @Component({
   selector: 'login',
@@ -15,10 +14,16 @@ export class LoginComponent {
   errors: string;  
   returnUrl: string = '/';
 
+  loginForm = this.fb.group({
+    email: ['', Validators.required],
+    password: ['', Validators.required]
+  });
+
   constructor(
     private accountService: AccountService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private fb: FormBuilder
   ) { }
   
   ngOnInit() {
@@ -30,15 +35,11 @@ export class LoginComponent {
       });
   }
   
-  public login(
-    form: NgForm
-  ) {
+  public login() {
     this.isRequesting = true;
-    var value = form.value;
-    var valid = form.valid;
     this.accountService.login(
-      value.email,
-      value.password
+      this.loginForm.value['email'],
+      this.loginForm.value['password']
     )
     .finally(() => this.isRequesting = false)
     .subscribe(

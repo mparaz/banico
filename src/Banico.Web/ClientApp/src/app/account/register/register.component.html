@@ -10,7 +10,7 @@
         </ul>
     </div>
 
-    <form #f="ngForm" novalidate (ngSubmit)="register(f)">
+    <form [formGroup]="registerForm" novalidate (ngSubmit)="register()">
         <div class="text-danger"></div>
 
         <div class="form-group">
@@ -22,8 +22,7 @@
                     name="email"
                     type="email" 
                     validateEmail
-                    ngModel  
-                    #email="ngModel"
+                    formControlName="email"
                     />
                     <!--
                     data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Email" name="Email" value="" 
@@ -48,8 +47,7 @@
                     id="password"
                     name="password"
                     type="password" 
-                    ngModel
-                    #password="ngModel"
+                    formControlName="password"
                     />
                 <!-- 
                     data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Password" name="Password" 
@@ -74,9 +72,8 @@
                     id="confirmPassword"
                     name="confirmPassword"
                     type="password" 
-                    ngModel
-                    #confirmPassword="ngModel"
-                    />
+                    formControlName="confirmPassword"
+                />
                 <!-- 
                     data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="ConfirmPassword" name="ConfirmPassword"
                 -->
@@ -100,8 +97,7 @@
                     id="code" 
                     name="code" 
                     type="text" 
-                    ngModel
-                    #code="ngModel"
+                    formControlName="code"
                     value="" />
                 <span class="text-danger field-validation-valid" data-valmsg-for="Code" data-valmsg-replace="true"></span>
             </div>

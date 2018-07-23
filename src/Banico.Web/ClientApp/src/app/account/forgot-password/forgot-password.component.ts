@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../account.service';
-import { ForgotPassword } from './forgot-password.interface';
 
 @Component({
   selector: 'forgot-password',
@@ -14,18 +13,20 @@ export class ForgotPasswordComponent {
   isRequesting: boolean;
   errors: string;  
 
+  forgotPasswordForm = this.fb.group({
+    email: ['', Validators.required],
+  });
+
   constructor(
     private accountService: AccountService,
-    private router: Router
-  ) { 
-  }
+    private router: Router,
+    private fb: FormBuilder
+  ) { }
   
-  public forgotPassword(
-    form: NgForm) {
+  public forgotPassword() {
     this.isRequesting = true;
-    var value = form.value;
     this.accountService.forgotPassword(
-      value.email
+      this.forgotPasswordForm.value['email']
     )
     .finally(() => this.isRequesting = false)
     .subscribe(

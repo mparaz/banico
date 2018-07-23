@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { Register } from './register.interface';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -16,9 +15,17 @@ export class RegisterComponent implements OnInit {
     errors: string[][] = [,];
     submitted: boolean = false;
 
-    constructor (
+    registerForm = this.fb.group({
+        email: ['', Validators.required],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required],
+        code: ['', Validators.required]
+    });
+
+      constructor (
         private accountService: AccountService,
-        private router: Router
+        private router: Router,
+        private fb: FormBuilder
     ) { 
     }
 
@@ -51,21 +58,17 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    public async register(
-      form: NgForm
-    ) {
+    public async register() {
         this.submitted = true;
         this.isRequesting = true;
         this.errors = [,];
-        var value = form.value;
-        var valid = form.valid;
         //if (valid) {
             this.isRequesting = true;
             this.accountService.register(
-                value.email,
-                value.password,
-                value.confirmPassword,
-                value.inviteCode
+                this.registerForm.value['email'],
+                this.registerForm.value['password'],
+                this.registerForm.value['confirmPassword'],
+                this.registerForm.value['code']
             )
             .finally(() => this.isRequesting = false)
             .subscribe(
@@ -78,10 +81,10 @@ export class RegisterComponent implements OnInit {
                     //JSON.parse(err);
                     for (var fieldName in validationErrorDictionary) {
                         if (validationErrorDictionary.hasOwnProperty(fieldName)) {
-                            if (form.controls[fieldName]) {
+                            //if (form.controls[fieldName]) {
                                 // integrate into angular's validation if we have field validation
-                                form.controls[fieldName].setErrors({ invalid: true });
-                            }
+                                //form.controls[fieldName].setErrors({ invalid: true });
+                            //}
                             // if we have cross field validation then show the validation error at the top of the screen
                             var error: string[] = [];
                             error.push(validationErrorDictionary[fieldName]);
