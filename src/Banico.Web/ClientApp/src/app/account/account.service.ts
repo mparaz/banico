@@ -83,7 +83,7 @@ export class AccountService extends BaseService {
         let body = JSON.stringify({ 
             email
         });
-        return this.http.post(this.baseUrl + "/api/Account/ResendConfirmation", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/ResendConfirmation", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -103,15 +103,15 @@ export class AccountService extends BaseService {
         email: string,
         code: string,
         password: string,
-        resetPassword: string
+        confirmPassword: string
     ) {
         let body = JSON.stringify({ 
             email,
             code,
             password,
-            resetPassword 
+            confirmPassword 
         });
-        return this.http.post(this.baseUrl + "/api/Account/ResetPassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/ResetPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

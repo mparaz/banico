@@ -559,23 +559,23 @@ namespace Banico.Identity.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return BadRequest(Errors.AddErrorToModelState("", "Invalid model state", ModelState));
             }
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-                return View();
+                return BadRequest(Errors.AddErrorToModelState("", "User not found", ModelState));
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
                 //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-                return View();
+                return new OkObjectResult("");
             }
             AddErrors(result);
-            return View();
+            return BadRequest(Errors.AddErrorToModelState("", "Unknown error", ModelState));
         }
 
         //
