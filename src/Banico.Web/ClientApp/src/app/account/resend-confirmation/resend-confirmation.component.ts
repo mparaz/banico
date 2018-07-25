@@ -23,7 +23,7 @@ export class ResendConfirmationComponent {
     private fb: FormBuilder
   ) { }
   
-  public ResendConfirmationComponent() {
+  public resendConfirmation() {
     this.isRequesting = true;
     this.accountService.resendConfirmation(
       this.resendConfirmationForm.value['email']

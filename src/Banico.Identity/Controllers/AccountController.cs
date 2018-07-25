@@ -529,9 +529,11 @@ namespace Banico.Identity.Controllers
             if ((user != null) && (!await(_userManager.IsEmailConfirmedAsync(user))))
             {
                 await this.SendConfirmationEmail(user);
+                return new OkObjectResult("");
             }
+
             //return RedirectToAction(nameof(ConfirmationSent));
-            return View();
+            return BadRequest(Errors.AddErrorToModelState("", "Unknown error", ModelState));
         }
 
         // [HttpGet]
