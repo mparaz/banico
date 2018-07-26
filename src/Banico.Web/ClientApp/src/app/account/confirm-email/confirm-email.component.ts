@@ -10,6 +10,7 @@ import { AccountService } from '../account.service';
 export class ConfirmEmailComponent {
   private sub: any;
   isRequesting: boolean;
+  isSuccessful: boolean = false;
   errors: string;  
 
   constructor(
@@ -41,7 +42,12 @@ export class ConfirmEmailComponent {
     .finally(() => this.isRequesting = false)
     .subscribe(
       result  => {
+        if (result){
+          this.isSuccessful = true;                         
+        }
       },
-      errors =>  this.errors = errors);
+      errors =>  {
+        this.errors = errors;
+      });
   }
 }

@@ -68,11 +68,7 @@ export class AccountService extends BaseService {
             userId,
             code
         });
-        return this.http.get(this.baseUrl + "api/Account/ConfirmEmail?userId=" +
-            userId +
-            "&code=" +
-            code, 
-        this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/ConfirmEmail", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

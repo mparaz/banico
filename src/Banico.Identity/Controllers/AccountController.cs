@@ -439,34 +439,27 @@ namespace Banico.Identity.Controllers
         }
 
         // GET: /api/Account/ConfirmEmail
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> ConfirmEmail([FromBody]ConfirmEmailViewModel model)
         {
-            if (userId == null || code == null)
+            if (model.UserId == null || model.Code == null)
             {
                 return BadRequest(Errors.AddErrorToModelState("NoUserIdOrCode", "NoUserIdOrCode", ModelState));
             }
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.FindByIdAsync(model.UserId);
             if (user == null)
             {
                 return BadRequest(Errors.AddErrorToModelState("UserNotFound", "UserNotFound", ModelState));
             }
-            var decodedCode = code.Replace(" ", "+");
+            var decodedCode = model.Code.Replace(" ", "+");
             var result = await _userManager.ConfirmEmailAsync(user, decodedCode);
             try {
                 if (result.Succeeded) {
-                    return new OkObjectResult("Ok");
+                    return new OkObjectResult("");
                 } else {
-                    string error = "";
-                    foreach (IdentityError identityError in result.Errors) {
-                        error += identityError.Code;
-                        error += " / " + identityError.Description;
-                        error += "; "; 
-                    }
-                    return Content(error);
+                    return BadRequest(result.Errors);
                 }
-                //return View(result.Succeeded ? "ConfirmEmail" : "Error");
             }
             catch (Exception ex) {
                 return Content(ex.Message);

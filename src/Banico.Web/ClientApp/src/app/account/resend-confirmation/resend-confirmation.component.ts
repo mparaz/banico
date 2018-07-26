@@ -30,9 +30,11 @@ export class ResendConfirmationComponent {
     )
     .finally(() => this.isRequesting = false)
     .subscribe(
-      result  => {if(result){
+      result  => {
+        if (result) {
           this.isSuccessful = true;                         
-      }},
+        }
+      },
       errors =>  this.errors = errors);
   }
 }
