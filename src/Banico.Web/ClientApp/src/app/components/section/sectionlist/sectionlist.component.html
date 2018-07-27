@@ -1,0 +1,11 @@
+<ul>
+    <li *ngFor="let section of sections">
+        <a href="/{{item.type}}/{{section.id}}">{{section.title}}</a>
+    </li>
+</ul>
+
+<span *ngIf="isAdmin">
+    <a routerLink="/sectiontypeadmin">Add Section Type</a>
+    <a routerLink="/section/new/{{id}}">Add Section</a>
+    <a routerLink="/page/new/{{id}}">Add Page</a>
+</span>

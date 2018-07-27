@@ -1,0 +1,22 @@
+<h1>Section Type</h1>
+
+<p>Section Types</p>
+<ul>
+    <li *ngFor="let sectionTypeItem of sectionTypes">
+        <a routerLink="/section/admin/type/{{sectionTypeItem.name}}">{{sectionTypeItem.name}}</a>
+    </li>
+</ul>
+
+<div class="container">
+    <div class="form-group row">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="sectionType.name" name="name" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="name">Modules (leave blank for primary section type)</label>
+        <input type="text" [(ngModel)]="sectionType.modules" name="modules" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="addSectionType()" value="add">Add SectionType</button>
+    </div>
+</div>
