@@ -66,7 +66,7 @@ namespace Banico.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sections",
+                name: "SectionItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -85,11 +85,11 @@ namespace Banico.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sections", x => x.Id);
+                    table.PrimaryKey("PK_SectionItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SectionTypes",
+                name: "Sections",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -103,7 +103,7 @@ namespace Banico.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SectionTypes", x => x.Id);
+                    table.PrimaryKey("PK_Sections", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,10 +130,10 @@ namespace Banico.Data.Migrations
                 name: "Invites");
 
             migrationBuilder.DropTable(
-                name: "Sections");
+                name: "SectionItems");
 
             migrationBuilder.DropTable(
-                name: "SectionTypes");
+                name: "Sections");
 
             migrationBuilder.DropTable(
                 name: "User");

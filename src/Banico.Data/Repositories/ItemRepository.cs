@@ -66,7 +66,7 @@ namespace Banico.Data.Repositories
             return await items.ToListAsync();       
         }
 
-        public async Task<List<ContentItem>> GetAllByTypeAndSections(string type, string[] sections)
+        public async Task<List<ContentItem>> GetAllByTypeAndSections(string type, string[] sectionItems)
         {
             var items = from item in this.DbContext.ContentItems
                 select item;
@@ -76,12 +76,12 @@ namespace Banico.Data.Repositories
                 items = items.Where(item => item.Type == type);
             }
 
-            for (int i = 0; i < sections.Length; i++)
+            for (int i = 0; i < sectionItems.Length; i++)
             {
-                if (!string.IsNullOrEmpty(sections[i]))
+                if (!string.IsNullOrEmpty(sectionItems[i]))
                 {
-                    var section = sections[i];
-                    items = items.Where(item => item.Sections.Contains(section));
+                    var sectionItem = sectionItems[i];
+                    items = items.Where(item => item.SectionItems.Contains(sectionItem));
                 }
             }
 
@@ -249,7 +249,7 @@ namespace Banico.Data.Repositories
             var updateItem = await this.Get(item.Id);
             updateItem.Name = item.Name;
             updateItem.Content = item.Content;
-            updateItem.Sections = item.Sections;
+            updateItem.SectionItems = item.SectionItems;
             updateItem.Attribute01 = item.Attribute01;
             updateItem.Attribute02 = item.Attribute02;
             updateItem.Attribute03 = item.Attribute03;

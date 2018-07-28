@@ -13,10 +13,10 @@ namespace Banico.Core.Entities
         public string Type { get; private set; }
 
         public int ParentId { get; set; }
-        public string Sections { get; set; }
+        public string SectionItems { get; set; }
 
         [NotMapped]
-        public List<Section> SectionList { get; set; }
+        public List<SectionItem> SectionItemList { get; set; }
 
         public string Content { get; set; }
 
@@ -112,7 +112,7 @@ namespace Banico.Core.Entities
             this.Tenant = item.Tenant;
             this.Id = item.Id;
             this.ParentId = item.ParentId;
-            this.Sections = item.Sections;
+            this.SectionItems = item.SectionItems;
             this.Type = item.Type;
 
             this.CreatedDate = item.CreatedDate;

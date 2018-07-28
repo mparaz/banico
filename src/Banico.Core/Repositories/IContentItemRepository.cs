@@ -13,7 +13,7 @@ namespace Banico.Core.Repositories
         Task<ContentItem> GetByTypeAndAlias(string type, string alias);
         Task<List<ContentItem>> GetAllByParentId(string id);
         Task<List<ContentItem>> GetAllByCreatedBy(string type, string createdBy);
-        Task<List<ContentItem>> GetAllByTypeAndSections(string type, string[] sections);
+        Task<List<ContentItem>> GetAllByTypeAndSectionItems(string type, string[] sectionItems);
         Task<List<ContentItem>> GetAllWithTextSearch(string type, string titleSearch,
             string contentSearch,
             string attribute01Search,

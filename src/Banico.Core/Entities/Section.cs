@@ -5,13 +5,6 @@ namespace Banico.Core.Entities
 {
     public class Section : Item
     {
-        public int ParentId { get; set; }
-
-        public string Type { get; set; }
-        public string Path { get; set; }
-        public string Breadcrumb { get; set; }
-
-        public string Alias { get; set; }
-        public string Description { get; set; }
+        public string Modules { get; set; }
     }
 }

@@ -88,8 +88,8 @@ namespace Banico.Web
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddScoped<IInviteRepository, InviteRepository>();
-            services.AddScoped<ISectionTypeRepository, SectionTypeRepository>();
             services.AddScoped<ISectionRepository, SectionRepository>();
+            services.AddScoped<ISectionItemRepository, SectionItemRepository>();
             services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -173,7 +173,8 @@ namespace Banico.Web
             app.UseJwtTokenMiddleware();
             app.UseSpaStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseGraphiQl();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

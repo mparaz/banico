@@ -71,8 +71,8 @@ namespace Banico.Data
 
         //List of DB Models - Add your DB models here
         public DbSet<User> User { get; set; }
-        public DbSet<SectionType> SectionTypes { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<SectionItem> SectionItems { get; set; }
         public DbSet<ContentItem> ContentItems { get; set; }
         public DbSet<Invite> Invites { get; set; }
     }

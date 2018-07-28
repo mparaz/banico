@@ -105,7 +105,7 @@ namespace Banico.Data.Migrations
                     b.ToTable("Invites");
                 });
 
-            modelBuilder.Entity("Banico.Core.Entities.Section", b =>
+            modelBuilder.Entity("Banico.Core.Entities.SectionItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -134,10 +134,10 @@ namespace Banico.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Sections");
+                    b.ToTable("SectionItems");
                 });
 
-            modelBuilder.Entity("Banico.Core.Entities.SectionType", b =>
+            modelBuilder.Entity("Banico.Core.Entities.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
@@ -156,7 +156,7 @@ namespace Banico.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SectionTypes");
+                    b.ToTable("Sections");
                 });
 
             modelBuilder.Entity("Banico.Core.Entities.User", b =>
