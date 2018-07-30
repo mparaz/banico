@@ -18,6 +18,15 @@ namespace Banico.Data.Repositories
             this.DbContext = dbContext;
         }
 
+        public async Task<Section> Get(int id)
+        {
+            var st = from section in this.DbContext.Sections
+                where section.Id == id
+                select section;
+ 
+            return await st.FirstOrDefaultAsync();
+        }
+
         public async Task<List<Section>> GetAll(string module)
         {
             var st = from section in this.DbContext.Sections

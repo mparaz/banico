@@ -36,6 +36,7 @@
     <ProjectReference Include="..\..\vendor\HtmlSanitizer\src\HtmlSanitizer\HtmlSanitizer.csproj" />
     <ProjectReference Include="..\Banico.Core\Banico.Core.csproj" Version="1.0.0" />
     <ProjectReference Include="..\Banico.Data\Banico.Data.csproj" Version="1.0.0" />
+    <ProjectReference Include="..\Banico.Api\Banico.Api.csproj" Version="1.0.0" />
     <ProjectReference Include="..\Banico.Identity\Banico.Identity.csproj" Version="1.0.0" />
     <ProjectReference Include="..\Banico.Services\Banico.Services.csproj" Version="1.0.0" />
   </ItemGroup>

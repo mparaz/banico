@@ -1,0 +1,4 @@
+/Users/jasonbanico/Dropbox/Workspace/Banico/src/Banico.Api/obj/Debug/netstandard2.0/Banico.Api.csprojAssemblyReference.cache
+/Users/jasonbanico/Dropbox/Workspace/Banico/src/Banico.Api/obj/Debug/netstandard2.0/Banico.Api.csproj.CoreCompileInputs.cache
+/Users/jasonbanico/Dropbox/Workspace/Banico/src/Banico.Api/obj/Debug/netstandard2.0/Banico.Api.AssemblyInfoInputs.cache
+/Users/jasonbanico/Dropbox/Workspace/Banico/src/Banico.Api/obj/Debug/netstandard2.0/Banico.Api.AssemblyInfo.cs
