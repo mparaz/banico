@@ -15,9 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Banico.Core.Entities;
-using Banico.Core.Repositories;
 using Banico.Data;
-using Banico.Data.Repositories;
+using Banico.Api;
 using Banico.Identity;
 using Banico.Identity.Extensions;
 using Banico.Services;
@@ -30,6 +29,7 @@ namespace Banico.Web
         private bool developmentEnvironment = false;
 
         private IdentityStartup identityStartup;
+        private ApiStartup apiStartup;
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -41,6 +41,7 @@ namespace Banico.Web
             }
 
             identityStartup = new IdentityStartup(configuration, this.developmentEnvironment);
+            apiStartup = new ApiStartup();
        }
 
         public IConfiguration Configuration { get; }
@@ -84,14 +85,9 @@ namespace Banico.Web
             );
 
             identityStartup.ConfigureServices(services);
+            apiStartup.ConfigureServices(services);
             
             services.AddSingleton<IConfiguration>(Configuration);
-
-            services.AddScoped<IInviteRepository, InviteRepository>();
-            services.AddScoped<ISectionRepository, SectionRepository>();
-            services.AddScoped<ISectionItemRepository, SectionItemRepository>();
-            services.AddScoped<IItemRepository, ItemRepository>();
-
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IInviteService, InviteService>();
