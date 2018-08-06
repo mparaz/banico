@@ -22,7 +22,11 @@ namespace Banico.Data.Repositories
             this.DbContext = dbContext;
         }
 
-        public void ParsePath(string inputPath, out string[] types, out string[] paths, out string[] aliases)
+        public void ParsePath(
+            string inputPath, 
+            out string[] types, 
+            out string[] paths, 
+            out string[] aliases)
         {
             List<string> typeList = new List<string>();
             List<string> pathList = new List<string>();
@@ -60,73 +64,27 @@ namespace Banico.Data.Repositories
             aliases = aliasList.ToArray();
         }
 
-        public async Task<SectionItem> Get(int id)
+        public async Task<List<SectionItem>> Get(
+            int id,
+            string section,
+            string path,
+            string alias,
+            string name,
+            int parentId,
+            bool isRoot)
         {
             var sectionItems = from s in this.DbContext.SectionItems
-                where s.Id == id
-                select s;
-
-            return await sectionItems.FirstOrDefaultAsync();
-        }
-
-        public async Task<SectionItem> GetByTypePathAndAlias(string section, string path, string alias) 
-        {
-            var sectionItems = from s in this.DbContext.SectionItems
-                where (s.Section == section) && (s.Path == path) && (s.Alias == alias)
-                select s;
-
-            return await sectionItems.FirstOrDefaultAsync();
-        }
-
-        public async Task<List<SectionItem>> GetAllByTypeAndPath(string section, string path) 
-        {
-            var sectionItems = from s in this.DbContext.SectionItems
-                where (s.Section == section) && (s.Path == path)
+                where 
+                    (s.Id == id || id == 0) &&
+                    (s.Section == section || string.IsNullOrEmpty(section)) && 
+                    (s.Path == path || string.IsNullOrEmpty(path)) && 
+                    (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
+                    (s.Name == name || string.IsNullOrEmpty(name)) && 
+                    (s.ParentId == parentId || parentId == 0) &&
+                    (s.ParentId == 0 || !isRoot)
                 select s;
 
             return await sectionItems.ToListAsync();
-        }
-
-        public async Task<SectionItem> GetByNameAndParentId(string name, string id)
-        {
-            int idInt = 0;
-            int.TryParse(id, out idInt);
-
-            var sectionItems = from s in this.DbContext.SectionItems
-                where s.Name == name && s.ParentId == idInt
-                select s;     
-
-            return await sectionItems.FirstOrDefaultAsync();       
-        }
-
-        public async Task<List<SectionItem>> GetRootByType(string section)
-        {
-            var sectionItems = from s in this.DbContext.SectionItems
-                where (s.Section == section) && (s.ParentId == 0) 
-                select s;
-
-            return await sectionItems.ToListAsync();
-        }
-
-        public async Task<List<SectionItem>> GetByParentId(string id)
-        {
-            int idInt = 0;
-            int.TryParse(id, out idInt);
-
-            var sectionItems = from s in this.DbContext.SectionItems
-                where s.ParentId == idInt
-                select s;     
-
-            return await sectionItems.ToListAsync();       
-        }
-
-        public async Task<List<SectionItem>> GetByType(string section)
-        {
-            var sections = from sectionItem in this.DbContext.SectionItems
-                where sectionItem.Section == section
-                select sectionItem;
-
-            return await sections.ToListAsync<SectionItem>();
         }
 
         public async Task<SectionItem> Add(SectionItem sectionItem)
@@ -147,7 +105,10 @@ namespace Banico.Data.Repositories
         // Returns no. of objects saved
         public async Task<int> Update(SectionItem sectionItem)
         {
-            var storedSectionItem = await this.Get(sectionItem.Id);
+            var storedSectionItem = (await this.Get(sectionItem.Id,
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, 0, false))
+                .FirstOrDefault();
 
             storedSectionItem.LastUpdate = DateTimeOffset.Now;
 
@@ -160,7 +121,11 @@ namespace Banico.Data.Repositories
 
         public async Task<int> Delete(int id)
         {
-            var sectionItem = await this.Get(id);
+            var sectionItem = (await this.Get(id,
+                string.Empty, string.Empty, string.Empty,
+                string.Empty, 0, false))
+                .FirstOrDefault();
+
             this.DbContext.Remove(sectionItem);
             return await this.DbContext.SaveChangesAsync();
         }

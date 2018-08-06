@@ -23,17 +23,18 @@ namespace Banico.Data.Repositories
             string module,
             string name)
         {
-            var st = from section in this.DbContext.Sections
+            var sections = from section in this.DbContext.Sections
                 where 
-                    (section.Id == id || id == 0) &&
+                    (section.Id == id || 
+                        id == 0) &&
                     (section.Modules.Contains(module) || 
-                    string.IsNullOrEmpty(section.Modules) ||
-                    string.IsNullOrEmpty(module)) &&
+                        string.IsNullOrEmpty(section.Modules) ||
+                        string.IsNullOrEmpty(module)) &&
                     (section.Name == name ||
                         string.IsNullOrEmpty(name))
                 select section;
  
-            return await st.ToListAsync<Section>();
+            return await sections.ToListAsync<Section>();
         }
 
         public async Task<Section> Add(Section section)
