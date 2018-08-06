@@ -3,7 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 //import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
-import { RouterModule } from '@angular/router';
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { AppRoutingModule } from './approuting.module';
 
@@ -27,6 +29,8 @@ import { ConfigService } from './shared/utils/config.service';
     BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
     HttpClientModule,
     FormsModule,
+    ApolloModule,
+    HttpLinkModule,
     AppRoutingModule
   ],
   providers: [
@@ -38,4 +42,14 @@ import { ConfigService } from './shared/utils/config.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(
+    apollo: Apollo,
+    httpLink: HttpLink
+  ) { 
+    apollo.create({
+      link: httpLink.create({ uri: '[URL]' }),
+      cache: new InMemoryCache()
+    });
+  }
+}

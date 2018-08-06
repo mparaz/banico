@@ -1,0 +1,40 @@
+<h1>Section Admin</h1>
+<span *ngIf="!showDropdown">
+    <p>Upload a Section CSV file.</p>
+    <div class="container">
+        <div class="form-group row">
+            <input type="file" (change)="setFile($event)" />
+        </div>
+        <div class="form-group row">
+            <button type="submit" class="btn btn-primary" (click)="uploadFile()" value="upload">Upload File</button>
+        </div>
+    </div>
+</span>
+<span *ngIf="showDropdown">
+    <p>Details</p>
+    <div class="container">
+        <div class="form-group row">
+            <label for="alias">Alias</label>
+            <input type="text" [(ngModel)]="section.alias" name="alias" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="description">Description</label>
+            <input type="text" [(ngModel)]="section.description" name="description" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <button type="submit" class="btn btn-primary form-control" (click)="updateSection()" value="update">Update Section</button>
+        </div>
+    </div>
+</span>
+<hr />
+<p>Add a new Section.</p>
+<div class="container">
+    <div class="form-group row">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="newSection.name" name="name" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="addSection()" value="add">Add Section</button>
+    </div>
+</div>
+<pre>{{helper}}</pre>

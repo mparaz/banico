@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Item } from '../../../entities/item';
-import { Section } from '../../../entities/section';
+import { SectionItem } from '../../../entities/sectionitem';
 import { SectionService } from '../services/section.service';
 
 @Component({
@@ -11,10 +11,10 @@ import { SectionService } from '../services/section.service';
 })
 export class SectionListComponent implements OnInit, OnDestroy {
     public isAdmin: boolean;
-    private type: string;
+    //private section: string;
     private path: string;
     public items: Item[];
-    public sections: Section[];
+    public sectionItems: SectionItem[];
     private sub: any;
 
     constructor(

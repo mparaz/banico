@@ -1,10 +1,10 @@
-import { SectionType } from './sectiontype';
 import { Section } from './section';
+import { SectionItem } from './sectionitem';
 
 export class NavBarItem {
-    sectionType: SectionType;
     section: Section;
-    sections: Section[];
+    sectionItem: SectionItem;
+    sectionItems: SectionItem[];
     homePath: string;
     paths: string[];
     breadcrumbNodes: string[];

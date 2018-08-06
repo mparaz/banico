@@ -8,10 +8,10 @@ namespace Banico.Api.Models
     {
         public BanicoMutation(ISectionRepository sectionRepository)
         {
-            Name = "CreateSectionMutation";
+            Name = "AddSectionMutation";
 
             Field<SectionType>(
-                "createSection",
+                "addSection",
                 arguments: new QueryArguments(
                     // <SectionInputType>
                     new QueryArgument<NonNullGraphType<SectionType>> { Name = "section" }

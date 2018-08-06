@@ -1,11 +1,10 @@
 export class Section {
-  id: string = "";
-  type: string = "";
-  parentId: string = "0";
-  path: string = "";
-  breadcrumb: string = "";
-  name: string = "";
-  alias: string = "";
-  description: string = "";
-  fullpath: string = "";
+  id: string;
+  name: string;
+  modules: string;
+
+  public initialize() {
+    this.name = '';
+    this.modules = '';
+  }
 }

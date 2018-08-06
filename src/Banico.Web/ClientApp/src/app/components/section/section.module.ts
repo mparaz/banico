@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { SectionRoutingModule } from './section.routing';
 import { SectionListComponent } from './sectionlist/sectionlist.component';
-import { SectionTypeAdminComponent } from './sectiontypeadmin/sectiontypeadmin.component';
 import { SectionAdminComponent } from './sectionadmin/sectionadmin.component';
+import { SectionItemAdminComponent } from './sectionitemadmin/sectionitemadmin.component';
 
 @NgModule({
   imports: [ 
@@ -15,8 +15,8 @@ import { SectionAdminComponent } from './sectionadmin/sectionadmin.component';
   ],
   declarations: [ 
     SectionListComponent,
-    SectionTypeAdminComponent,
-    SectionAdminComponent 
+    SectionAdminComponent,
+    SectionItemAdminComponent 
    ]
 })
 export class SectionModule { }

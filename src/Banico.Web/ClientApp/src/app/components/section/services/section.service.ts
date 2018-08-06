@@ -1,10 +1,17 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { SectionType } from '../../../entities/sectiontype';
+import { Apollo } from 'apollo-angular';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+
+import { AllSectionsQuery } from './section.queries';
+import { SectionsQueryResult } from './section.queryresults';
+import { SectionItemsQueryResult } from './section.queryresults';
+
 import { Section } from '../../../entities/section';
+import { SectionItem } from '../../../entities/sectionitem';
 import { Item } from '../../../entities/item';
 //import { status, json } from '../../../shared/fetch';
-import { Observable } from 'rxjs/Observable';
 import { ORIGIN_URL } from '../../../shared/constants/baseurl.constants';
 
 @Injectable()
@@ -16,12 +23,13 @@ export class SectionService {
 
     constructor(
         private http: Http,
+        private apollo: Apollo,
         @Inject(ORIGIN_URL) private baseUrl: string
     ) {
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;
-        this.sectionTypeApiBaseUrl = `${this.baseUrl}/api/SectionType`;
-        this.itemApiBaseUrl = `${this.baseUrl}/api/Item`;
+        // this.accountUrl = `${this.baseUrl}/api/Account`;
+        // this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;
+        // this.sectionTypeApiBaseUrl = `${this.baseUrl}/api/SectionType`;
+        // this.itemApiBaseUrl = `${this.baseUrl}/api/Item`;
     }
 
     private AddResult(res: any) {
@@ -42,11 +50,18 @@ export class SectionService {
         return body || {};
     }
 
-    public GetSectionTypes(module: string): Observable<SectionType[]> {
+    public GetSectionsByModule(module: string): Observable<Section[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'module=' + module;
 
+        var result = this.apollo.watchQuery<SectionsQueryResult>({
+            query: AllSectionsQuery
+          })
+            .valueChanges
+            .pipe(
+              map(result => result.data.sections)
+            );
         return this.http
             .post(this.sectionTypeApiBaseUrl + '/GetAll', data, {
                 headers: headers
@@ -55,7 +70,7 @@ export class SectionService {
             //.catch(this.handleError);
     }
 
-    public AddSectionType(sectionType: SectionType): Observable<SectionType> {
+    public AddSection(sectionType: Section): Observable<Section> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'name=' + sectionType.name + 
@@ -72,7 +87,7 @@ export class SectionService {
             //});
     }
 
-    public GetSectionByPath(path: string): Observable<Section> {
+    public GetSectionItemByPath(path: string): Observable<SectionItem> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'path=' + path;
@@ -85,7 +100,7 @@ export class SectionService {
             //.catch(this.handleError);
     }
 
-    public GetSectionByNameAndParentId(name: string, parentId: string): Observable<Section> {
+    public GetSectionItemByNameAndParentId(name: string, parentId: string): Observable<SectionItem> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'name=' + encodeURIComponent(name) + 
@@ -99,7 +114,7 @@ export class SectionService {
             //.catch(this.handleError);
     }
 
-    public GetRootSectionsBySectionType(sectionType: string): Observable<Section[]> {
+    public GetRootSectionItemsBySection(sectionType: string): Observable<SectionItem[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'sectionType=' + sectionType;
@@ -112,7 +127,7 @@ export class SectionService {
             //.catch(this.handleError);
     }
 
-    public GetSectionsByPath(path: string): Observable<Section[]> {
+    public GetSectionItemsByPath(path: string): Observable<SectionItem[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'path=' + path;
@@ -153,15 +168,15 @@ export class SectionService {
             //});
     }
 
-    public AddSection(section: Section): Observable<Section> {
+    public AddSectionItem(sectionItem: SectionItem): Observable<SectionItem> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'type=' + section.type + 
-            '&parentId=' + section.parentId + 
-            '&path=' + section.path + 
-            '&breadcrumb=' + encodeURIComponent(section.breadcrumb) +
-            '&name=' + encodeURIComponent(section.name) + 
-            '&alias=' + section.alias;
+        let data = 'type=' + sectionItem.section + 
+            '&parentId=' + sectionItem.parentId + 
+            '&path=' + sectionItem.path + 
+            '&breadcrumb=' + encodeURIComponent(sectionItem.breadcrumb) +
+            '&name=' + encodeURIComponent(sectionItem.name) + 
+            '&alias=' + sectionItem.alias;
         return this.http
             .post(this.sectionApiBaseUrl + '/Add', data, {
                 headers: headers
@@ -174,13 +189,13 @@ export class SectionService {
             //});
     }
 
-    public UpdateSection(section: Section): Observable<Response> {
+    public UpdateSectionItem(sectionItem: SectionItem): Observable<Response> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'id=' + section.id + 
-            '&name=' + encodeURIComponent(section.name) + 
-            '&alias=' + section.alias + 
-            '&description=' + encodeURIComponent(section.description);
+        let data = 'id=' + sectionItem.id + 
+            '&name=' + encodeURIComponent(sectionItem.name) + 
+            '&alias=' + sectionItem.alias + 
+            '&description=' + encodeURIComponent(sectionItem.description);
         return this.http
             .post(this.sectionApiBaseUrl + '/Update', data, {
                 headers: headers

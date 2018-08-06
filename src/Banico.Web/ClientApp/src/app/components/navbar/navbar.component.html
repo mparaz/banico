@@ -4,10 +4,10 @@
             <a href="{{navBarService.pathRoot}}"><i class="fa fa-lg fa-home" aria-hidden="true"></i></a>
         </li>
         <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
-            <a href="{{navBarService.pathRoot}}/type/{{navBarItem.sectionType.name}}">{{navBarItem.sectionType.name}}</a>
+            <a href="{{navBarService.pathRoot}}/type/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
         </li>
         <li class="breadcrumb-item" *ngIf="!navBarService.isAdmin">
-            {{navBarItem.sectionType.name}}
+            {{navBarItem.section.name}}
             <a href="{{navBarService.pathRoot}}/{{navBarItem.homePath}}"><i class="fa fa-lg fa-home" aria-hidden="true"></i></a>
         </li>
         <li class="breadcrumb-item" *ngFor="let breadcrumbNode of navBarItem.breadcrumbNodes; let i = index">
@@ -18,12 +18,12 @@
         </li>
 
         <span *ngIf="navBarItem.showDropdown">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{navBarItem.sectionType.name}}" aria-expanded="true" aria-controls="collapse1">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{navBarItem.section.name}}" aria-expanded="true" aria-controls="collapse1">
                 <i class="fa fa-plus" style="padding-left:5px;" aria-hidden="true"></i>
             </a>
         </span>
     </ol>
-    <div id="collapse_{{navBarItem.sectionType.name}}" class="collapse" role="tabpanel" aria-labelledby="heading1">
+    <div id="collapse_{{navBarItem.section.name}}" class="collapse" role="tabpanel" aria-labelledby="heading1">
         <div class="flex-row row container">
             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let sectionItem of navBarItem.sections">
                 <a class="small" href="{{navBarService.pathRoot}}/{{sectionItem.fullpath}}">{{sectionItem.name}}</a>
