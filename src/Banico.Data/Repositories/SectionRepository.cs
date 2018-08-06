@@ -18,33 +18,22 @@ namespace Banico.Data.Repositories
             this.DbContext = dbContext;
         }
 
-        public async Task<Section> Get(int id)
+        public async Task<List<Section>> Get(
+            int id,
+            string module,
+            string name)
         {
             var st = from section in this.DbContext.Sections
-                where section.Id == id
-                select section;
- 
-            return await st.FirstOrDefaultAsync();
-        }
-
-        public async Task<List<Section>> GetAll(string module)
-        {
-            var st = from section in this.DbContext.Sections
-                where (section.Modules.Contains(module) || 
+                where 
+                    (section.Id == id || id == 0) &&
+                    (section.Modules.Contains(module) || 
                     string.IsNullOrEmpty(section.Modules) ||
-                    string.IsNullOrEmpty(module))
+                    string.IsNullOrEmpty(module)) &&
+                    (section.Name == name ||
+                        string.IsNullOrEmpty(name))
                 select section;
  
             return await st.ToListAsync<Section>();
-        }
-
-        public async Task<Section> GetByName(string name)
-        {
-            var st = from section in this.DbContext.Sections
-                where section.Name == name
-                select section;
- 
-            return await st.FirstOrDefaultAsync();
         }
 
         public async Task<Section> Add(Section section)
@@ -63,7 +52,7 @@ namespace Banico.Data.Repositories
 
         public async Task<int> Delete(string name)
         {
-            var st = await this.GetByName(name);
+            var st = await this.Get(0, string.Empty, name);
             this.DbContext.Remove(st);
             return await this.DbContext.SaveChangesAsync();
         }

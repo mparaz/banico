@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="graphiql" Version="1.1.0" />
-    <PackageReference Include="GraphQL" Version="2.0.0-alpha-870" />
+    <PackageReference Include="GraphQL" Version="2.0.0-alpha-912" />
     <PackageReference Include="GraphQL.Authorization" Version="1.0.16-alpha-16" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

@@ -44,7 +44,7 @@
           "lib/netstandard2.0/GraphiQL.dll": {}
         }
       },
-      "GraphQL/2.0.0-alpha-870": {
+      "GraphQL/2.0.0-alpha-912": {
         "type": "package",
         "dependencies": {
           "GraphQL-Parser": "3.0.0",
@@ -70,6 +70,20 @@
         },
         "runtime": {
           "lib/netstandard1.1/GraphQL-Parser.dll": {}
+        }
+      },
+      "GraphQL.Authorization/1.0.16-alpha-16": {
+        "type": "package",
+        "dependencies": {
+          "GraphQL": "2.0.0-alpha-912",
+          "NETStandard.Library": "1.6.1",
+          "System.Security.Claims": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/GraphQL.Authorization.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/GraphQL.Authorization.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.4": {
@@ -4773,12 +4787,12 @@
         "lib/netstandard2.0/GraphiQL.dll"
       ]
     },
-    "GraphQL/2.0.0-alpha-870": {
-      "sha512": "4In3YTnjyghwxIXkdD4oBYHsMFPv0Hv4kLgkwo6GwJX4gCbGcAG9jge/6sgM0h91U4rbh8LqCKVHnfWisOkB4w==",
+    "GraphQL/2.0.0-alpha-912": {
+      "sha512": "5uHL30kWIZ33zMudNxmZRWAR/U/1vhxYPqCXaQt4/Bzty1ia4a5WMGXIu5hB5mzNrDhL1YgD+nu2isEVF5ln2g==",
       "type": "package",
-      "path": "graphql/2.0.0-alpha-870",
+      "path": "graphql/2.0.0-alpha-912",
       "files": [
-        "graphql.2.0.0-alpha-870.nupkg.sha512",
+        "graphql.2.0.0-alpha-912.nupkg.sha512",
         "graphql.nuspec",
         "lib/net45/GraphQL.dll",
         "lib/netstandard1.3/GraphQL.dll",
@@ -4794,6 +4808,17 @@
         "graphql-parser.nuspec",
         "lib/net45/GraphQL-Parser.dll",
         "lib/netstandard1.1/GraphQL-Parser.dll"
+      ]
+    },
+    "GraphQL.Authorization/1.0.16-alpha-16": {
+      "sha512": "+RDdsmC9RyKBLor1kxgcWtKfljvHJyubKy62SeRQP8yq1yhWIGrFwJXbuEfoOJyq6GV3RQ1K6jOR9JpG3scT3g==",
+      "type": "package",
+      "path": "graphql.authorization/1.0.16-alpha-16",
+      "files": [
+        "graphql.authorization.1.0.16-alpha-16.nupkg.sha512",
+        "graphql.authorization.nuspec",
+        "lib/net46/GraphQL.Authorization.dll",
+        "lib/netstandard1.3/GraphQL.Authorization.dll"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.4": {
@@ -12477,7 +12502,8 @@
     ".NETCoreApp,Version=v2.1": [
       "Banico.Core >= 1.0.0",
       "Banico.Data >= 1.0.0",
-      "GraphQL >= 2.0.0-alpha-870",
+      "GraphQL >= 2.0.0-alpha-912",
+      "GraphQL.Authorization >= 1.0.16-alpha-16",
       "Microsoft.AspNetCore.App",
       "Microsoft.NETCore.App >= 2.1.0",
       "graphiql >= 1.1.0"
@@ -12532,7 +12558,11 @@
         "dependencies": {
           "GraphQL": {
             "target": "Package",
-            "version": "[2.0.0-alpha-870, )"
+            "version": "[2.0.0-alpha-912, )"
+          },
+          "GraphQL.Authorization": {
+            "target": "Package",
+            "version": "[1.0.16-alpha-16, )"
           },
           "Microsoft.AspNetCore.App": {
             "target": "Package",
