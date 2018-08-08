@@ -37,7 +37,7 @@ export class NavBarService {
             sections.push(section);
             this.initializeSections(sections);
         } else {
-            this.sectionService.GetSectionsByModule(module)
+            this.sectionService.GetSections(0, module, '')
                 .subscribe(sections => this.initializeSections(sections));
         }
     }
@@ -59,15 +59,16 @@ export class NavBarService {
     public setPath() {
         if (this.index < this.navBarItems.length) {
             this.navBarItems[this.index].homePath = this.fullPath("");
-            var typeName: string = this.navBarItems[this.index].section.name;
-            var sectionPath: string = this.pathSegmentByType(typeName);
+            var sectionName: string = this.navBarItems[this.index].section.name;
+            var sectionPath: string = this.pathSegmentByType(sectionName);
 
             if (!sectionPath) {
-                this.sectionService.GetRootSectionItemsBySection(typeName)
+                // root level section items
+                this.sectionService.GetSectionItems(0, sectionName, '', '', '', 0, false)
                     .subscribe(sections => this.setSectionItems(sections));
             } else {
-                this.sectionService.GetSectionItemByPath(sectionPath)
-                        .subscribe(section => this.setSectionItem(section));
+                this.sectionService.GetSectionItems(0, '', sectionPath, '', '', 0, false)
+                        .subscribe(section => this.setSectionItem(section[0]));
             }
         }
     }
@@ -97,11 +98,13 @@ export class NavBarService {
         sectionPath = sectionPath + sectionItem.alias;
         this.setPaths(sectionPath);
         if (!sectionPath) {
-            this.sectionService.GetRootSectionItemsBySection(sectionItem.section)
+            this.sectionService.GetSectionItems(0, sectionItem.section, '', '', '', 0, false)
                 .subscribe(sections => this.setSectionItems(sections));
         }
         if (sectionPath) {
-            this.sectionService.GetSectionItemsByPath(sectionItem.section + this.TYPE_DELIM + sectionPath)
+            this.sectionService.GetSectionItems(0, '', 
+                sectionItem.section + this.TYPE_DELIM + sectionPath,
+                '', '', 0, false)
                 .subscribe(sections => this.setSectionItems(sections));
         }
     }

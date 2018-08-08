@@ -1,7 +1,17 @@
 import gql from 'graphql-tag';
 
-const addSection = gql`
-    mutation addSection($section) {
-        id
+export const AddSectionMutation = gql`
+    mutation ($section: SectionInput!) {
+        addSection($section) {
+            id
+        }
+    }
+`;
+
+export const AddSectionItemMutation = gql`
+    mutation ($sectionitem: SectionItemInput!) {
+        addSectionItem($sectionItem){
+            id
+        }
     }
 `;

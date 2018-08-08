@@ -9,8 +9,8 @@ import { SectionService } from '../services/section.service';
     providers: [SectionService]
 })
 export class SectionAdminComponent implements OnInit {
-    public sectionTypes: Section[];
-    public sectionType: Section;
+    public sections: Section[];
+    public section: Section;
 
     constructor(
         @Inject(SectionService) public sectionService: SectionService
@@ -18,29 +18,29 @@ export class SectionAdminComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.sectionTypes = new Array();
-        this.sectionType = new Section();
-        this.sectionType.initialize();
-        this.sectionService.GetSectionsByModule('')
-            .subscribe(sectionTypes => this.setSectionTypes(sectionTypes));
+        this.sections = new Array();
+        this.section = new Section();
+        this.section.initialize();
+        this.sectionService.GetSections(0, '', '')
+            .subscribe(sections => this.setSections(sections));
     }
 
-    private setSectionTypes(sectionTypes: Section[])
+    private setSections(sections: Section[])
     {
-        this.sectionTypes = sectionTypes;
+        this.sections = sections;
     }
 
-    public addSectionType() {
-        this.sectionService.AddSectionType(this.sectionType)
-            .subscribe(sectionType => this.addSectionTypeSuccess(sectionType));
+    public addSection() {
+        this.sectionService.AddSection(this.section)
+            .subscribe(section => this.addSectionSuccess(section));
     }
 
-    private addSectionTypeSuccess(sectionType: Section) {
-        if (sectionType.id != '0') {
+    private addSectionSuccess(section: Section) {
+        if (section.id != '0') {
             alert('Saved.');
-            this.sectionType = sectionType;
-            this.sectionTypes.push(this.sectionType);
-            this.sectionType = new Section();
+            this.section = section;
+            this.sections.push(this.section);
+            this.section = new Section();
         }
         else {
             alert('Save failed.');

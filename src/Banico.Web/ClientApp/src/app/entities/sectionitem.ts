@@ -1,7 +1,7 @@
 export class SectionItem {
-  id: string = "";
+  id: number = 0;
   section: string = "";
-  parentId: string = "0";
+  parentId: number = 0;
   path: string = "";
   breadcrumb: string = "";
   name: string = "";

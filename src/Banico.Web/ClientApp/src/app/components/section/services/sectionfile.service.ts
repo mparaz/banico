@@ -24,34 +24,61 @@ export class SectionFileService {
 
     public UploadFile(sectionType: string, inputString: string) {
         var lines = inputString.split('\n');
-        this.ProcessPair(new SectionItem(), sectionType, '0', '', '', lines[0].split(','), lines);
+        this.ProcessPair(new SectionItem(), sectionType, 0, '', '', lines[0].split(','), lines);
     }
 
-    public ProcessPair(section: SectionItem, sectionType: string, parentId: string, breadcrumb: string, path: string, remainingFields: string[], lines: string[]) {
+    public ProcessPair(
+        sectionItem: SectionItem, 
+        section: string, 
+        parentId: number, 
+        breadcrumb: string, 
+        path: string, 
+        remainingFields: string[], 
+        lines: string[]) {
         if (remainingFields.length > 0) {
             var name: string = remainingFields[0];
             if (name) {
                 var alias: string = remainingFields[1].replace(/(\r\n|\n|\r)/gm,"");;
                 remainingFields.splice(0, 2);
 
-                this.sectionService.GetSectionItemByNameAndParentId(name, parentId)
-                    .subscribe(section => this.ProcessSectionItem(section, sectionType, name, alias, parentId, breadcrumb, path, remainingFields, lines));
+                this.sectionService.GetSectionItems(
+                    0, '', '', '', name, parentId, false
+                )
+                    .subscribe(sectionItem => this.ProcessSectionItem(
+                        sectionItem[0], 
+                        section, 
+                        name, 
+                        alias, 
+                        parentId, 
+                        breadcrumb, 
+                        path, 
+                        remainingFields, 
+                        lines));
             } else {
                 if (lines.length > 0) {
                     lines.splice(0, 1);
-                    this.ProcessPair(new SectionItem(), sectionType, '0', '', '', lines[0].split(','), lines);
+                    this.ProcessPair(new SectionItem(), section, 0, '', '', lines[0].split(','), lines);
                 }
             }
         }
         else {
             if (lines.length > 0) {
                 lines.splice(0, 1);
-                this.ProcessPair(new SectionItem(), sectionType, '0', '', '', lines[0].split(','), lines);
+                this.ProcessPair(new SectionItem(), section, 0, '', '', lines[0].split(','), lines);
             }
         }
     }
 
-    public ProcessSectionItem(section: SectionItem, sectionType: string, name: string, alias: string, parentId: string, breadcrumb: string, path: string, remainingFields: string[], lines: string[]) {
+    public ProcessSectionItem(
+        section: SectionItem, 
+        sectionType: string, 
+        name: string, 
+        alias: string, 
+        parentId: number, 
+        breadcrumb: string, 
+        path: string, 
+        remainingFields: string[], 
+        lines: string[]) {
         if (isNaN(Number(section.id)) || (Number(section.id) == 0)) {
             if (name != '') {
                 section.name = name;

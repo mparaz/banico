@@ -4,7 +4,10 @@ import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
-import { AllSectionsQuery } from './section.queries';
+import { SectionsQuery } from './section.queries';
+import { SectionItemsQuery } from './section.queries';
+import { AddSectionMutation } from './section.mutations';
+import { AddSectionItemMutation } from './section.mutations';
 import { SectionsQueryResult } from './section.queryresults';
 import { SectionItemsQueryResult } from './section.queryresults';
 
@@ -50,36 +53,31 @@ export class SectionService {
         return body || {};
     }
 
-    public GetSectionsByModule(module: string): Observable<Section[]> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'module=' + module;
-
+    public GetSections(
+        id: number,
+        module: string,
+        name: string
+    ): Observable<Section[]> {
         var result = this.apollo.watchQuery<SectionsQueryResult>({
-            query: AllSectionsQuery
-          })
+            query: SectionsQuery
+        })
             .valueChanges
             .pipe(
               map(result => result.data.sections)
             );
-        return this.http
-            .post(this.sectionTypeApiBaseUrl + '/GetAll', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+        return result;
     }
 
-    public AddSection(sectionType: Section): Observable<Section> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'name=' + sectionType.name + 
-            '&modules=' + sectionType.modules;
-        return this.http
-            .post(this.sectionTypeApiBaseUrl + '/Add', data, {
-                headers: headers
-            })
-            .map(this.AddResult);
+    public AddSection(section: Section): Observable<any> {
+        var result = this.apollo.mutate({
+            mutation: AddSectionMutation,
+            variables: {
+                name: section.name,
+                modules: section.modules
+            }
+        }).map(this.AddResult);
+
+        return result;
             //.subscribe({
                 //next: x => console.log('Observer got a next value: ' + x),
                 //error: err => alert(JSON.stringify(err)),
@@ -87,59 +85,25 @@ export class SectionService {
             //});
     }
 
-    public GetSectionItemByPath(path: string): Observable<SectionItem> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'path=' + path;
-
-        return this.http
-            .post(this.sectionApiBaseUrl + '/GetByPath', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+    public GetSectionItems(
+        id: number,
+        section: string,
+        path: string,
+        alias: string,
+        name: string,
+        parentId: number,
+        isRoot: boolean
+    ): Observable<SectionItem[]> {
+        var result = this.apollo.watchQuery<SectionItemsQueryResult>({
+            query: SectionItemsQuery
+        })
+            .valueChanges
+            .pipe(
+              map(result => result.data.sectionItems)
+            );
+        return result;
     }
-
-    public GetSectionItemByNameAndParentId(name: string, parentId: string): Observable<SectionItem> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'name=' + encodeURIComponent(name) + 
-            '&parentId=' + parentId;
-
-        return this.http
-            .post(this.sectionApiBaseUrl + '/GetByNameAndParentId', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
-    }
-
-    public GetRootSectionItemsBySection(sectionType: string): Observable<SectionItem[]> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'sectionType=' + sectionType;
-
-        return this.http
-            .post(this.sectionApiBaseUrl + '/GetRootByType', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
-    }
-
-    public GetSectionItemsByPath(path: string): Observable<SectionItem[]> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'path=' + path;
-
-        return this.http
-            .post(this.sectionApiBaseUrl + '/GetAllByPath', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
-    }
-
+    
     public GetItemsByPath(path: string): Observable<Item[]> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
@@ -153,7 +117,7 @@ export class SectionService {
             //.catch(this.handleError);
     }
     
-        public IsLoggedIn(): Observable<string> {
+    public IsLoggedIn(): Observable<string> {
         let headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this.http
@@ -168,20 +132,20 @@ export class SectionService {
             //});
     }
 
-    public AddSectionItem(sectionItem: SectionItem): Observable<SectionItem> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'type=' + sectionItem.section + 
-            '&parentId=' + sectionItem.parentId + 
-            '&path=' + sectionItem.path + 
-            '&breadcrumb=' + encodeURIComponent(sectionItem.breadcrumb) +
-            '&name=' + encodeURIComponent(sectionItem.name) + 
-            '&alias=' + sectionItem.alias;
-        return this.http
-            .post(this.sectionApiBaseUrl + '/Add', data, {
-                headers: headers
-            })
-            .map(this.AddResult);
+    public AddSectionItem(sectionItem: SectionItem): Observable<any> {
+        var result = this.apollo.mutate({
+            mutation: AddSectionItemMutation,
+            variables: {
+                section: sectionItem.section,
+                parentId: sectionItem.parentId,
+                path: sectionItem.path,
+                breadcrumb: encodeURIComponent(sectionItem.breadcrumb),
+                name: encodeURIComponent(sectionItem.name),
+                alias: sectionItem.alias
+            }
+        }).map(this.AddResult);
+
+        return result;
             //.subscribe({
                 //next: x => console.log('Observer got a next value: ' + x),
                 //error: err => alert(JSON.stringify(err)),

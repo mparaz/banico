@@ -9,7 +9,7 @@ namespace Banico.Api.Models
             ISectionRepository sectionRepository,
             ISectionItemRepository sectionItemRepository)
         {
-            Field<SectionType>(
+            Field<ListGraphType<SectionType>>(
                 "sections",
                 arguments: new QueryArguments(
                     new QueryArgument<IntGraphType> { 
@@ -28,7 +28,7 @@ namespace Banico.Api.Models
                     context.GetArgument<string>("name")
                     ));
 
-            Field<SectionType>(
+            Field<ListGraphType<SectionItemType>>(
                 "sectionitems",
                 arguments: new QueryArguments(
                     new QueryArgument<IntGraphType> { 

@@ -48,8 +48,14 @@ export class SectionItemAdminComponent implements OnInit {
             if (params['path']) {
                 path = params['path'];
                 section = path.split(this.TYPE_DELIM)[0];
-                this.sectionService.GetSectionItemByPath(path)
-                    .subscribe(section => this.setSectionItem(section, path));
+                this.sectionService.GetSectionItems(
+                    0, '', path, '', '', 0, false
+                )
+                    .subscribe(sections => {
+                        if (sections.length > 0) {
+                            this.setSectionItem(sections[0], path)
+                        }
+                    });
             }
 
             this.navBarService.initialize(true, '', path, section, '/section/admin');
@@ -103,21 +109,21 @@ export class SectionItemAdminComponent implements OnInit {
         alias = alias.replace(/\W/g, "");
         this.newSectionItem.alias = alias;
         this.sectionService.AddSectionItem(this.newSectionItem)
-            .subscribe(section => this.addSectionSuccess(section));
+            .subscribe(sectionItem => this.addSectionItemSuccess(sectionItem));
     }
 
-    private addSectionSuccess(sectionItem: SectionItem) {
-        if (sectionItem.id != '0') {
+    private addSectionItemSuccess(sectionItem: SectionItem) {
+        if (sectionItem.id > 0) {
             alert('Saved.');
             this.navBarService.addSectionItem(0, sectionItem);
-            this.resetNewSection();
+            this.resetNewSectionItem();
         }
         else {
             alert('Save failed.');
         }
     }
 
-    private resetNewSection() {
+    private resetNewSectionItem() {
         this.newSectionItem = new SectionItem();
         this.newSectionItem.section = this.sectionItem.section;
         this.newSectionItem.path = this.sectionItem.path;
