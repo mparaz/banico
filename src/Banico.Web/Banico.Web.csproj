@@ -26,7 +26,7 @@
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.0" />
+    <!--<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.0" />-->
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" PrivateAssets="All" />
   </ItemGroup>
 
