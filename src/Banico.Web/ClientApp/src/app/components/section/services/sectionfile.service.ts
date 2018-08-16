@@ -3,7 +3,6 @@ import { Http, Headers, Response } from '@angular/http';
 import { SectionItem } from '../../../entities/sectionitem';
 //import { status, json } from '../../../shared/fetch';
 //import { Observable } from 'rxjs/Observable';
-import { ORIGIN_URL } from '../../../shared/constants/baseurl.constants';
 import { SectionService } from './section.service';
 
 @Injectable()
@@ -17,7 +16,7 @@ export class SectionFileService {
     constructor(
         @Inject(SectionService) private sectionService: SectionService,
         private http: Http,
-        @Inject(ORIGIN_URL) private baseUrl: string
+        @Inject('BASE_URL') private baseUrl: string
     ) {
         this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;
     }

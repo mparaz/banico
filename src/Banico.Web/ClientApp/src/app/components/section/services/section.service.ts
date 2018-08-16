@@ -15,7 +15,6 @@ import { Section } from '../../../entities/section';
 import { SectionItem } from '../../../entities/sectionitem';
 import { Item } from '../../../entities/item';
 //import { status, json } from '../../../shared/fetch';
-import { ORIGIN_URL } from '../../../shared/constants/baseurl.constants';
 
 @Injectable()
 export class SectionService {
@@ -27,7 +26,7 @@ export class SectionService {
     constructor(
         private http: Http,
         private apollo: Apollo,
-        @Inject(ORIGIN_URL) private baseUrl: string
+        @Inject('BASE_URL') private baseUrl: string
     ) {
         // this.accountUrl = `${this.baseUrl}/api/Account`;
         // this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;
