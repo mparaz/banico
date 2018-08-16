@@ -15,6 +15,9 @@ import { CounterComponent } from './counter/counter.component';
 
 import { AccountModule }  from './account/account.module';
 import { ManageModule } from './manage/manage.module';
+
+import { SectionModule } from './components/section/section.module';
+
 import { ConfigService } from './shared/utils/config.service';
 
 @NgModule({
@@ -26,6 +29,7 @@ import { ConfigService } from './shared/utils/config.service';
   imports: [
     AccountModule,
     ManageModule,
+    SectionModule,
     BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
     HttpClientModule,
     FormsModule,

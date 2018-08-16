@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const AddSectionMutation = gql`
     mutation ($section: SectionInput!) {
-        addSection($section) {
+        addSection(section: $section) {
             id
         }
     }
@@ -10,7 +10,7 @@ export const AddSectionMutation = gql`
 
 export const AddSectionItemMutation = gql`
     mutation ($sectionitem: SectionItemInput!) {
-        addSectionItem($sectionItem){
+        addSectionItem(sectionItem: $sectionItem){
             id
         }
     }

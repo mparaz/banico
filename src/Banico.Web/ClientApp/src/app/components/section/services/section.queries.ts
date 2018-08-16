@@ -11,7 +11,11 @@ export const SectionsQuery = gql`
             module: $module,
             name: $name
         ) {
-
+            id,
+            createdBy,
+            createdDate,
+            lastUpdate,
+            name
         }
     }
 `;
@@ -35,7 +39,17 @@ export const SectionItemsQuery = gql`
             parentId: $parentId,
             isRoot: $isRoot
         ) {
-
+            id,
+            createdBy,
+            createdDate,
+            lastUpdate,
+            name,
+            parentId,
+            section,
+            path,
+            breadcrumb,
+            alias,
+            description
         }
     }
 `;
