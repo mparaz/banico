@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { SectionItem } from '../../../entities/sectionitem';
 //import { status, json } from '../../../shared/fetch';
 //import { Observable } from 'rxjs/Observable';
@@ -15,7 +15,7 @@ export class SectionFileService {
 
     constructor(
         @Inject(SectionService) private sectionService: SectionService,
-        private http: Http,
+        private http: HttpClient,
         @Inject('BASE_URL') private baseUrl: string
     ) {
         this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;

@@ -7,7 +7,7 @@ using Banico.Api.Models;
 
 namespace Banico.Api.Controllers
 {
-    [Route("[controller]")] 
+    [Route("/api/[controller]")] 
     public class GraphQLController : Controller
     {
         private readonly IDocumentExecuter _documentExecuter;

@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Inject, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 //import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
@@ -50,9 +50,10 @@ export class AppModule {
   constructor(
     apollo: Apollo,
     httpLink: HttpLink
+    ,@Inject('BASE_URL') private baseUrl: string
   ) { 
     apollo.create({
-      link: httpLink.create({ uri: '[URL]' }),
+      link: httpLink.create({ uri: baseUrl + 'api/GraphQL' }),
       cache: new InMemoryCache()
     });
   }

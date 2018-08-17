@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
@@ -24,7 +24,7 @@ export class SectionService {
     itemApiBaseUrl: string;
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         private apollo: Apollo,
         @Inject('BASE_URL') private baseUrl: string
     ) {
@@ -103,8 +103,9 @@ export class SectionService {
         return result;
     }
     
-    public GetItemsByPath(path: string): Observable<Item[]> {
-        let headers = new Headers();
+    // Observable<Item[]>
+    public GetItemsByPath(path: string): Observable<{}> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'path=' + path;
 
@@ -116,8 +117,9 @@ export class SectionService {
             //.catch(this.handleError);
     }
     
-    public IsLoggedIn(): Observable<string> {
-        let headers = new Headers();
+    // Observable<string>
+    public IsLoggedIn(): Observable<{}> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this.http
             .post(this.accountUrl + '/IsLoggedIn', '', {
@@ -152,8 +154,9 @@ export class SectionService {
             //});
     }
 
-    public UpdateSectionItem(sectionItem: SectionItem): Observable<Response> {
-        let headers = new Headers();
+    // Observable<Response>
+    public UpdateSectionItem(sectionItem: SectionItem): Observable<{}> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'id=' + sectionItem.id + 
             '&name=' + encodeURIComponent(sectionItem.name) + 
@@ -175,6 +178,6 @@ export class SectionService {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
         console.error(error);
-        return Observable.throw(error.json().error || 'Server error');
+        return Observable.throw(error.json() || 'Server error');
     }
 }
