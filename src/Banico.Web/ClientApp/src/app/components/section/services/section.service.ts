@@ -58,7 +58,12 @@ export class SectionService {
         name: string
     ): Observable<Section[]> {
         var result = this.apollo.watchQuery<SectionsQueryResult>({
-            query: SectionsQuery
+            query: SectionsQuery,
+            variables: {
+                id: id,
+                module: module,
+                name: name
+            }
         })
             .valueChanges
             .pipe(
@@ -94,7 +99,16 @@ export class SectionService {
         isRoot: boolean
     ): Observable<SectionItem[]> {
         var result = this.apollo.watchQuery<SectionItemsQueryResult>({
-            query: SectionItemsQuery
+            query: SectionItemsQuery,
+            variables: {
+                id: id,
+                section: section,
+                path: path,
+                alias: alias,
+                name: name,
+                parentId: parentId,
+                isRoot: isRoot
+            }
         })
             .valueChanges
             .pipe(
@@ -104,28 +118,28 @@ export class SectionService {
     }
     
     // Observable<Item[]>
-    public GetItemsByPath(path: string): Observable<{}> {
+    public GetItemsByPath(path: string): Observable<Item[]> {
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'path=' + path;
 
         return this.http
-            .post(this.itemApiBaseUrl + '/GetByPath', data, {
+            .post<Item[]>(this.itemApiBaseUrl + '/GetByPath', data, {
                 headers: headers
-            })
-            .map(this.ExtractData);
+            });
+            //.map(this.ExtractData);
             //.catch(this.handleError);
     }
     
     // Observable<string>
-    public IsLoggedIn(): Observable<{}> {
+    public IsLoggedIn(): Observable<string> {
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         return this.http
-            .post(this.accountUrl + '/IsLoggedIn', '', {
+            .post<string>(this.accountUrl + '/IsLoggedIn', '', {
                 headers: headers
-            })
-            .map(this.ExtractData);
+            });
+            //.map(this.ExtractData);
             //.subscribe({
                 //next: x => console.log('Observer got a next value: ' + x),
                 //error: err => alert(JSON.stringify(err)),
