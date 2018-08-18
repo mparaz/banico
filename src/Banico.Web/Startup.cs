@@ -45,6 +45,7 @@ namespace Banico.Web
             identityStartup = new IdentityStartup(configuration, this.developmentEnvironment);
             dataStartup = new DataStartup();
             apiStartup = new ApiStartup();
+            servicesStartup = new ServicesStartup();
        }
 
         public IConfiguration Configuration { get; }

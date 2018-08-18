@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const SectionsQuery = gql`
     query sectionsQuery(
-        $id: ID!,
+        $id: Int!,
         $module: String!,
         $name: String!
     ) {
@@ -22,7 +22,7 @@ export const SectionsQuery = gql`
 
 export const SectionItemsQuery = gql`
     query sectionItemsQuery(
-        $id: ID!,
+        $id: Int!,
         $section: String!,
         $path: String!,
         $alias: String!,
