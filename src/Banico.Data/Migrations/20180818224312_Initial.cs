@@ -1,10 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Banico.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +13,16 @@ namespace Banico.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    CreatedBy = table.Column<string>(nullable: true),
+                    CreatedDate = table.Column<DateTimeOffset>(nullable: false),
+                    LastUpdate = table.Column<DateTimeOffset>(nullable: false),
+                    Tenant = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Alias = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    ParentId = table.Column<int>(nullable: false),
+                    SectionItems = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
                     Attribute01 = table.Column<string>(nullable: true),
                     Attribute02 = table.Column<string>(nullable: true),
                     Attribute03 = table.Column<string>(nullable: true),
@@ -34,16 +42,7 @@ namespace Banico.Data.Migrations
                     Attribute17 = table.Column<string>(nullable: true),
                     Attribute18 = table.Column<string>(nullable: true),
                     Attribute19 = table.Column<string>(nullable: true),
-                    Attribute20 = table.Column<string>(nullable: true),
-                    Content = table.Column<string>(nullable: true),
-                    CreatedBy = table.Column<string>(nullable: true),
-                    CreatedDate = table.Column<DateTimeOffset>(nullable: false),
-                    LastUpdate = table.Column<DateTimeOffset>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false),
-                    Sections = table.Column<string>(nullable: true),
-                    Tenant = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true)
+                    Attribute20 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,9 +55,9 @@ namespace Banico.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Code = table.Column<string>(nullable: true),
+                    Inviter = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Inviter = table.Column<string>(nullable: true)
+                    Code = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,17 +70,17 @@ namespace Banico.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Alias = table.Column<string>(nullable: true),
-                    Breadcrumb = table.Column<string>(nullable: true),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),
+                    Tenant = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
+                    Section = table.Column<string>(nullable: true),
                     Path = table.Column<string>(nullable: true),
-                    Tenant = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true)
+                    Breadcrumb = table.Column<string>(nullable: true),
+                    Alias = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -97,9 +96,9 @@ namespace Banico.Data.Migrations
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),
-                    Modules = table.Column<string>(nullable: true),
+                    Tenant = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    Tenant = table.Column<string>(nullable: true)
+                    Modules = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -112,8 +111,8 @@ namespace Banico.Data.Migrations
                 {
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    EntryTime = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    EntryTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
