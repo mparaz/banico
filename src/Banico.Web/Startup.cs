@@ -29,7 +29,9 @@ namespace Banico.Web
         private bool developmentEnvironment = false;
 
         private IdentityStartup identityStartup;
+        private DataStartup dataStartup;
         private ApiStartup apiStartup;
+        private ServicesStartup servicesStartup;
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -41,6 +43,7 @@ namespace Banico.Web
             }
 
             identityStartup = new IdentityStartup(configuration, this.developmentEnvironment);
+            dataStartup = new DataStartup();
             apiStartup = new ApiStartup();
        }
 
@@ -84,15 +87,12 @@ namespace Banico.Web
                 }
             );
 
-            identityStartup.ConfigureServices(services);
-            apiStartup.ConfigureServices(services);
-            
             services.AddSingleton<IConfiguration>(Configuration);
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IInviteService, InviteService>();
-            services.AddScoped<ISuperAdminService, SuperAdminService>();
-            services.AddScoped<IItemSecurityService, ItemSecurityService>();
+
+            identityStartup.ConfigureServices(services);
+            dataStartup.ConfigureServices(services);
+            apiStartup.ConfigureServices(services);
+            servicesStartup.ConfigureServices(services);
 
             // services.AddMvc(opts =>
             // {

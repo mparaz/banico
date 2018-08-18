@@ -14,10 +14,12 @@ namespace Banico.Api
       //services.AddSingleton<IDocumentWriter, DocumentWriter>();
       services.AddSingleton<IDocumentExecuter, DocumentExecuter>();
       
-      services.AddScoped<IInviteRepository, InviteRepository>();
-      services.AddScoped<ISectionRepository, SectionRepository>();
-      services.AddScoped<ISectionItemRepository, SectionItemRepository>();
-      services.AddScoped<IContentItemRepository, ContentItemRepository>();
+      services.AddSingleton<BanicoQuery>();
+      services.AddSingleton<BanicoMutation>();
+      services.AddSingleton<SectionType>();
+      services.AddSingleton<SectionInputType>();
+      services.AddSingleton<SectionItemType>();
+      services.AddSingleton<SectionItemInputType>();
 
       var sp = services.BuildServiceProvider();
       services.AddSingleton<ISchema>(new BanicoSchema(new FuncDependencyResolver(type => sp.GetService(type))));
