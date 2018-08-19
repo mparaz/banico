@@ -7,6 +7,9 @@ import { SectionListComponent } from './sectionlist/sectionlist.component';
 import { SectionAdminComponent } from './sectionadmin/sectionadmin.component';
 import { SectionItemAdminComponent } from './sectionitemadmin/sectionitemadmin.component';
 
+import { SectionService } from './services/section.service';
+import { SectionFileService } from './services/sectionfile.service';
+
 @NgModule({
   imports: [ 
     BrowserModule,
@@ -17,6 +20,10 @@ import { SectionItemAdminComponent } from './sectionitemadmin/sectionitemadmin.c
     SectionListComponent,
     SectionAdminComponent,
     SectionItemAdminComponent 
-   ]
+   ],
+   providers: [
+     SectionService,
+     SectionFileService
+   ]   
 })
 export class SectionModule { }

@@ -4,7 +4,7 @@
             <a href="{{navBarService.pathRoot}}"><i class="fa fa-lg fa-home" aria-hidden="true"></i></a>
         </li>
         <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
-            <a href="{{navBarService.pathRoot}}/type/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
+            <a href="{{navBarService.pathRoot}}/section/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
         </li>
         <li class="breadcrumb-item" *ngIf="!navBarService.isAdmin">
             {{navBarItem.section.name}}

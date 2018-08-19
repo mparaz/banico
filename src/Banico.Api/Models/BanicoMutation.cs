@@ -6,9 +6,12 @@ namespace Banico.Api.Models
 {
     public class BanicoMutation : ObjectGraphType
     {
-        public BanicoMutation(ISectionRepository sectionRepository)
+        public BanicoMutation(
+            ISectionRepository sectionRepository,
+            ISectionItemRepository sectionItemRepository
+        )
         {
-            Name = "AddSectionMutation";
+            Name = "BanicoMutation";
 
             Field<SectionType>(
                 "addSection",
@@ -20,6 +23,18 @@ namespace Banico.Api.Models
                 {
                     var section = context.GetArgument<Section>("section");
                     return sectionRepository.Add(section);
+                });
+
+            Field<SectionItemType>(
+                "addSectionItem",
+                arguments: new QueryArguments(
+                    // <SectionInputType>
+                    new QueryArgument<NonNullGraphType<SectionItemInputType>> { Name = "sectionItem" }
+                ),
+                resolve: context =>
+                {
+                    var sectionItem = context.GetArgument<SectionItem>("sectionItem");
+                    return sectionItemRepository.Add(sectionItem);
                 });
         }
     }

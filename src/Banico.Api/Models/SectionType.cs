@@ -8,16 +8,16 @@ namespace Banico.Api.Models
     {
         public SectionType(ISectionRepository sectionRepository)
         {
-            Field(x => x.Id);
+            Field(x => x.Id, nullable:true);
 
-            Field(x => x.CreatedBy);
-            Field(x => x.CreatedDate);
-            Field(x => x.LastUpdate);
+            Field(x => x.CreatedBy, nullable:true);
+            Field(x => x.CreatedDate, nullable:true);
+            Field(x => x.LastUpdate, nullable:true);
 
-            Field(x => x.Tenant);
-            Field(x => x.Name);
+            Field(x => x.Tenant, nullable:true);
+            Field(x => x.Name, nullable:true);
             
-            Field(x => x.Modules);
+            Field(x => x.Modules, nullable:true);
 
             //Field<StringGraphType>("modules", resolve: context => context.Source.Modules);
         }

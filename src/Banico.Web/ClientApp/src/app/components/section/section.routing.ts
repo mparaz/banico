@@ -6,9 +6,9 @@ import { SectionAdminComponent } from './sectionadmin/sectionadmin.component';
 import { SectionItemAdminComponent } from './sectionitemadmin/sectionitemadmin.component';
 
 const SECTION_ROUTES: Routes = [
-    { path: 'section/admin/section/:section', component: SectionItemAdminComponent },
-    { path: 'section/admin/:path', component: SectionItemAdminComponent },
-    { path: 'section/admin', component: SectionAdminComponent }//,
+    { path: 'sections/admin/section/:section', component: SectionItemAdminComponent },
+    { path: 'sections/admin/:path', component: SectionItemAdminComponent },
+    { path: 'sections/admin', component: SectionAdminComponent }//,
     //{ path: 'section', component: SectionListComponent, children: [ { path: '**' } ] }
 ];
 

@@ -17,8 +17,14 @@ export const AddSectionMutation = gql`
 `;
 
 export const AddSectionItemMutation = gql`
-    mutation ($sectionitem: SectionItemInputType!) {
-        addSectionItem(sectionItem: $sectionItem){
+    mutation (
+        $name: String!
+    ) {
+        addSectionItem(
+            sectionItem: {
+                name: $name
+            }
+        ){
             id
         }
     }

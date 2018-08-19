@@ -7,7 +7,7 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { AppRoutingModule } from './approuting.module';
+import { AppRoutingModule } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -16,6 +16,7 @@ import { CounterComponent } from './counter/counter.component';
 import { AccountModule }  from './account/account.module';
 import { ManageModule } from './manage/manage.module';
 
+import { NavBarModule } from './components/navbar/navbar.module';
 import { SectionModule } from './components/section/section.module';
 
 import { ConfigService } from './shared/utils/config.service';
@@ -29,6 +30,7 @@ import { ConfigService } from './shared/utils/config.service';
   imports: [
     AccountModule,
     ManageModule,
+    NavBarModule,
     SectionModule,
     BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
     HttpClientModule,

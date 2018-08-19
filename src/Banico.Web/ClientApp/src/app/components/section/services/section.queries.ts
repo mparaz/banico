@@ -27,7 +27,7 @@ export const SectionItemsQuery = gql`
         $path: String!,
         $alias: String!,
         $name: String!,
-        $parentId: ID!,
+        $parentId: Int!,
         $isRoot: Boolean!
     ) {
         sectionitems(
