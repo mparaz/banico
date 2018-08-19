@@ -1,15 +1,23 @@
 import gql from 'graphql-tag';
 
 export const AddSectionMutation = gql`
-    mutation ($section: SectionInput!) {
-        addSection(section: $section) {
+    mutation (
+        $name: String!,
+        $modules: String!
+    ) {
+        addSection(
+            section: {
+                name: $name,
+                modules: $modules
+            }
+        ) {
             id
         }
     }
 `;
 
 export const AddSectionItemMutation = gql`
-    mutation ($sectionitem: SectionItemInput!) {
+    mutation ($sectionitem: SectionItemInputType!) {
         addSectionItem(sectionItem: $sectionItem){
             id
         }

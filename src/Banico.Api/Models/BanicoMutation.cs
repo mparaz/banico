@@ -14,7 +14,7 @@ namespace Banico.Api.Models
                 "addSection",
                 arguments: new QueryArguments(
                     // <SectionInputType>
-                    new QueryArgument<NonNullGraphType<SectionType>> { Name = "section" }
+                    new QueryArgument<NonNullGraphType<SectionInputType>> { Name = "section" }
                 ),
                 resolve: context =>
                 {
