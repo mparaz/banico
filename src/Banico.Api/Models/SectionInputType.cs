@@ -8,7 +8,7 @@ namespace Banico.Api.Models
         {
             Name = "SectionInput";
 
-            Field<StringGraphType>("id");
+            Field<IntGraphType>("id");
 
             Field<StringGraphType>("createdBy");
             Field<DateGraphType>("createdDate");
