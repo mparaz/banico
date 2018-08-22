@@ -103,11 +103,35 @@ export class SectionItemAdminComponent implements OnInit {
         // this.navBarService.setSection(0, section, path);
     }
 
-    public addSectionItem() {
-        var alias: string = this.newSectionItem.name.toLowerCase();
+    public formatSectionItem(inputSectionItem: SectionItem): SectionItem {
+        var newSectionItem: SectionItem = new SectionItem();
+
+        newSectionItem.name = inputSectionItem.name;
+        var alias: string = newSectionItem.name.toLowerCase();
         alias = alias.replace(/ /g, "-");
         alias = alias.replace(/\W/g, "");
-        this.newSectionItem.alias = alias;
+        newSectionItem.alias = alias;
+
+        newSectionItem.path = inputSectionItem.path;
+        if (newSectionItem.path) {
+            newSectionItem.path = newSectionItem.path + this.PATH_DELIM;
+        }
+        newSectionItem.path = newSectionItem.path + newSectionItem.alias;
+
+        newSectionItem.parentId = inputSectionItem.id;
+        newSectionItem.section = inputSectionItem.section;
+        newSectionItem.breadcrumb = inputSectionItem.breadcrumb
+        if (inputSectionItem.breadcrumb > '') {
+            newSectionItem.breadcrumb = newSectionItem.breadcrumb + this.PATH_DELIM;
+        }
+        newSectionItem.breadcrumb = newSectionItem.breadcrumb + inputSectionItem.name;
+
+        return newSectionItem;
+    }
+
+    public addSectionItem() {
+        this.newSectionItem = this.formatSectionItem(this.newSectionItem);
+
         this.sectionService.AddSectionItem(this.newSectionItem)
             .subscribe(sectionItem => this.addSectionItemSuccess(sectionItem));
     }
