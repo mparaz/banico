@@ -11,7 +11,6 @@ import { AppRoutingModule } from './app.routing';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { CounterComponent } from './counter/counter.component';
 
 import { AccountModule }  from './account/account.module';
 import { ManageModule } from './manage/manage.module';
@@ -24,8 +23,7 @@ import { ConfigService } from './shared/utils/config.service';
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    CounterComponent,
+    NavMenuComponent
   ],
   imports: [
     AccountModule,

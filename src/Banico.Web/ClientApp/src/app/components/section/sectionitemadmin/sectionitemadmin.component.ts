@@ -58,7 +58,7 @@ export class SectionItemAdminComponent implements OnInit {
                     });
             }
 
-            this.navBarService.initialize(true, '', path, section, '/section/admin');
+            this.navBarService.initialize(true, '', path, section, '/sections/admin');
         });
     }
 

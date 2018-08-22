@@ -1,14 +1,14 @@
 <span *ngFor="let navBarItem of navBarService.navBarItems">
     <ol class="breadcrumb">
         <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
-            <a href="{{navBarService.pathRoot}}"><i class="fa fa-lg fa-home" aria-hidden="true"></i></a>
+            <a href="{{navBarService.pathRoot}}"><i class="fas fa-home" aria-hidden="true"></i></a>
         </li>
         <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
             <a href="{{navBarService.pathRoot}}/section/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
         </li>
         <li class="breadcrumb-item" *ngIf="!navBarService.isAdmin">
             {{navBarItem.section.name}}
-            <a href="{{navBarService.pathRoot}}/{{navBarItem.homePath}}"><i class="fa fa-lg fa-home" aria-hidden="true"></i></a>
+            <a href="{{navBarService.pathRoot}}/{{navBarItem.homePath}}"><i class="fas fa-home" aria-hidden="true"></i></a>
         </li>
         <li class="breadcrumb-item" *ngFor="let breadcrumbNode of navBarItem.breadcrumbNodes; let i = index">
             <a href="{{navBarService.pathRoot}}/{{navBarItem.paths[i]}}">{{breadcrumbNode}}</a>
@@ -19,7 +19,7 @@
 
         <span *ngIf="navBarItem.showDropdown">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{navBarItem.section.name}}" aria-expanded="true" aria-controls="collapse1">
-                <i class="fa fa-plus" style="padding-left:5px;" aria-hidden="true"></i>
+                <i class="fas fa-plus" style="padding-left:5px;" aria-hidden="true"></i>
             </a>
         </span>
     </ol>
