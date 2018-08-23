@@ -100,7 +100,7 @@ export class SectionService {
     public GetSectionItems(
         id: number,
         section: string,
-        path: string,
+        pathUrl: string,
         alias: string,
         name: string,
         parentId: number,
@@ -111,7 +111,7 @@ export class SectionService {
             variables: {
                 id: id,
                 section: section,
-                path: path,
+                pathUrl: pathUrl,
                 alias: alias,
                 name: name,
                 parentId: parentId,
@@ -129,13 +129,13 @@ export class SectionService {
     }
     
     // Observable<Item[]>
-    public GetItemsByPath(path: string): Observable<Item[]> {
+    public GetItemsByPathUrl(pathUrl: string): Observable<Item[]> {
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'path=' + path;
+        let data = 'pathUrl=' + pathUrl;
 
         return this.http
-            .post<Item[]>(this.itemApiBaseUrl + '/GetByPath', data, {
+            .post<Item[]>(this.itemApiBaseUrl + '/GetByPathUrl', data, {
                 headers: headers
             });
             //.map(this.ExtractData);
@@ -164,8 +164,8 @@ export class SectionService {
             variables: {
                 section: sectionItem.section,
                 parentId: sectionItem.parentId,
-                path: sectionItem.path,
-                breadcrumb: encodeURIComponent(sectionItem.breadcrumb),
+                pathUrl: sectionItem.pathUrl,
+                pathName: encodeURIComponent(sectionItem.pathName),
                 name: encodeURIComponent(sectionItem.name),
                 alias: sectionItem.alias
             }

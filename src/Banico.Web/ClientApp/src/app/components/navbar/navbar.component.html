@@ -10,8 +10,8 @@
             {{navBarItem.section.name}}
             <a href="{{navBarService.pathRoot}}/{{navBarItem.homePath}}"><i class="fas fa-home" aria-hidden="true"></i></a>
         </li>
-        <li class="breadcrumb-item" *ngFor="let breadcrumbNode of navBarItem.breadcrumbNodes; let i = index">
-            <a href="{{navBarService.pathRoot}}/{{navBarItem.paths[i]}}">{{breadcrumbNode}}</a>
+        <li class="breadcrumb-item" *ngFor="let pathNameNode of navBarItem.pathNameNodes; let i = index">
+            <a href="{{navBarService.pathRoot}}/{{navBarItem.paths[i]}}">{{pathNameNode}}</a>
         </li>
         <li class="breadcrumb-item" *ngIf="navBarItem.sectionItem.name > ''" > 
             {{navBarItem.sectionItem.name}} 

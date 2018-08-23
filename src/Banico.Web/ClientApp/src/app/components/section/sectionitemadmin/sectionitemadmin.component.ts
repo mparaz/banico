@@ -37,28 +37,28 @@ export class SectionItemAdminComponent implements OnInit {
 
         this.newSectionItem = new SectionItem();
         this.newSectionItem.parentId = this.parentSectionItem.parentId;
-        this.newSectionItem.path = this.parentSectionItem.path;
-        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb;
+        this.newSectionItem.pathUrl = this.parentSectionItem.pathUrl;
+        this.newSectionItem.pathName = this.parentSectionItem.pathName;
 
-        var path: string = "";
+        var pathUrl: string = "";
         var section: string = "";
         this.sub = this.route.params.subscribe(params => {
             section = params['section'];
             this.setSection(section);
             if (params['path']) {
-                path = params['path'];
-                section = path.split(this.TYPE_DELIM)[0];
+                pathUrl = params['path'];
+                section = pathUrl.split(this.TYPE_DELIM)[0];
                 this.sectionService.GetSectionItems(
-                    0, '', path, '', '', 0, false
+                    0, '', pathUrl, '', '', 0, false
                 )
                     .subscribe(sections => {
                         if (sections.length > 0) {
-                            this.setParentSectionItem(sections[0], path);
+                            this.setParentSectionItem(sections[0], pathUrl);
                         }
                     });
             }
 
-            this.navBarService.initialize(true, '', path, section, '/sections/admin');
+            this.navBarService.initialize(true, '', pathUrl, section, '/sections/admin');
         });
     }
 
@@ -86,19 +86,19 @@ export class SectionItemAdminComponent implements OnInit {
     private setParentSectionItem(sectionItem: SectionItem, path: string) {
         this.parentSectionItem = sectionItem;
 
-        this.newSectionItem.path = this.parentSectionItem.path;
-        if (this.newSectionItem.path) {
-            this.newSectionItem.path = this.newSectionItem.path + this.PATH_DELIM;
+        this.newSectionItem.pathUrl = this.parentSectionItem.pathUrl;
+        if (this.newSectionItem.pathUrl) {
+            this.newSectionItem.pathUrl = this.newSectionItem.pathUrl + this.PATH_DELIM;
         }
-        this.newSectionItem.path = this.newSectionItem.path + this.parentSectionItem.alias;
+        this.newSectionItem.pathUrl = this.newSectionItem.pathUrl + this.parentSectionItem.alias;
 
         this.newSectionItem.parentId = this.parentSectionItem.id;
         this.newSectionItem.section = this.parentSectionItem.section;
-        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb
-        if (this.parentSectionItem.breadcrumb > '') {
-            this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.PATH_DELIM;
+        this.newSectionItem.pathName = this.parentSectionItem.pathName
+        if (this.parentSectionItem.pathName > '') {
+            this.newSectionItem.pathName = this.newSectionItem.pathName + this.PATH_DELIM;
         }
-        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.parentSectionItem.name;
+        this.newSectionItem.pathName = this.newSectionItem.pathName + this.parentSectionItem.name;
 
         // this.navBarService.setSection(0, section, path);
     }
@@ -127,16 +127,16 @@ export class SectionItemAdminComponent implements OnInit {
     private resetNewSectionItem() {
         this.newSectionItem = new SectionItem();
         this.newSectionItem.section = this.parentSectionItem.section;
-        this.newSectionItem.path = this.parentSectionItem.path;
-        if (this.newSectionItem.path) {
-            this.newSectionItem.path = this.newSectionItem.path + this.PATH_DELIM;
+        this.newSectionItem.pathUrl = this.parentSectionItem.pathUrl;
+        if (this.newSectionItem.pathUrl) {
+            this.newSectionItem.pathUrl = this.newSectionItem.pathUrl + this.PATH_DELIM;
         }
-        this.newSectionItem.path = this.newSectionItem.path + this.parentSectionItem.alias;
-        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb;
-        if (this.newSectionItem.breadcrumb) {
-            this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.PATH_DELIM;
+        this.newSectionItem.pathUrl = this.newSectionItem.pathUrl + this.parentSectionItem.alias;
+        this.newSectionItem.pathName = this.parentSectionItem.pathName;
+        if (this.newSectionItem.pathName) {
+            this.newSectionItem.pathName = this.newSectionItem.pathName + this.PATH_DELIM;
         }
-        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.parentSectionItem.name;
+        this.newSectionItem.pathName = this.newSectionItem.pathName + this.parentSectionItem.name;
         this.newSectionItem.parentId = this.parentSectionItem.id;
     }
     

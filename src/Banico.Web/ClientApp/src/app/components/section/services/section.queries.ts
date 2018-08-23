@@ -24,7 +24,7 @@ export const SectionItemsQuery = gql`
     query sectionItemsQuery(
         $id: Int!,
         $section: String!,
-        $path: String!,
+        $pathUrl: String!,
         $alias: String!,
         $name: String!,
         $parentId: Int!,
@@ -33,7 +33,7 @@ export const SectionItemsQuery = gql`
         sectionItems(
             id: $id,
             section: $section,
-            path: $path,
+            pathUrl: $pathUrl,
             alias: $alias,
             name: $name,
             parentId: $parentId,
@@ -46,8 +46,8 @@ export const SectionItemsQuery = gql`
             name,
             parentId,
             section,
-            path,
-            breadcrumb,
+            pathUrl,
+            pathName,
             alias,
             description
         }

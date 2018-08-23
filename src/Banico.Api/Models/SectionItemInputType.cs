@@ -19,8 +19,8 @@ namespace Banico.Api.Models
             
             Field<IntGraphType>("parentId");
             Field<StringGraphType>("section");
-            Field<StringGraphType>("path");
-            Field<StringGraphType>("breadcrumb");
+            Field<StringGraphType>("pathUrl");
+            Field<StringGraphType>("pathName");
             Field<StringGraphType>("alias");
             Field<StringGraphType>("description");
         }

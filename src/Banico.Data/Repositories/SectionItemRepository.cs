@@ -23,18 +23,18 @@ namespace Banico.Data.Repositories
         }
 
         public void ParsePath(
-            string inputPath, 
+            string inputPathUrl, 
             out string[] types, 
-            out string[] paths, 
+            out string[] pathUrls, 
             out string[] aliases)
         {
             List<string> typeList = new List<string>();
             List<string> pathList = new List<string>();
             List<string> aliasList = new List<string>();
 
-            if (!string.IsNullOrEmpty(inputPath))
+            if (!string.IsNullOrEmpty(inputPathUrl))
             {
-                string[] sectionItems = inputPath.Split(SECTION_DELIM);
+                string[] sectionItems = inputPathUrl.Split(SECTION_DELIM);
 
                 foreach (string sectionItem in sectionItems)
                 {
@@ -46,28 +46,28 @@ namespace Banico.Data.Repositories
 
                     aliasList.Add(pathItems[pathItems.Length - 1]);
 
-                    string currentPath = string.Empty;
+                    string currentPathUrl = string.Empty;
                     for (int i = 0; i < pathItems.Length - 1; i++)
                     {
-                        if (!string.IsNullOrEmpty(currentPath))
+                        if (!string.IsNullOrEmpty(currentPathUrl))
                         {
-                            currentPath = currentPath + PATH_DELIM;
+                            currentPathUrl = currentPathUrl + PATH_DELIM;
                         }
-                        currentPath = currentPath + pathItems[i];
+                        currentPathUrl = currentPathUrl + pathItems[i];
                     }
-                    pathList.Add(currentPath);
+                    pathList.Add(currentPathUrl);
                 }
             }
 
             types = typeList.ToArray();
-            paths = pathList.ToArray();
+            pathUrls = pathList.ToArray();
             aliases = aliasList.ToArray();
         }
 
         public async Task<List<SectionItem>> Get(
             int id,
             string section,
-            string path,
+            string pathUrl,
             string alias,
             string name,
             int parentId,
@@ -77,7 +77,7 @@ namespace Banico.Data.Repositories
                 where 
                     (s.Id == id || id == 0) &&
                     (s.Section == section || string.IsNullOrEmpty(section)) && 
-                    (s.Path == path || string.IsNullOrEmpty(path)) && 
+                    (s.PathUrl == pathUrl || string.IsNullOrEmpty(pathUrl)) && 
                     (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
                     (s.Name == name || string.IsNullOrEmpty(name)) && 
                     (s.ParentId == parentId || parentId == 0) &&

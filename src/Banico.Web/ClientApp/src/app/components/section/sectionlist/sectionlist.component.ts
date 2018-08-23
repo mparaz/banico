@@ -12,7 +12,7 @@ import { SectionService } from '../services/section.service';
 export class SectionListComponent implements OnInit, OnDestroy {
     public isAdmin: boolean;
     //private section: string;
-    private path: string;
+    private pathUrl: string;
     public items: Item[];
     public sectionItems: SectionItem[];
     private sub: any;
@@ -28,10 +28,10 @@ export class SectionListComponent implements OnInit, OnDestroy {
         this.sectionService.IsLoggedIn()
             .subscribe(result => alert(JSON.stringify(result)));
         this.sub = this.route.params.subscribe(params => {
-            this.path = params['path'];
-            if (this.path != null)
+            this.pathUrl = params['path'];
+            if (this.pathUrl != null)
             {
-                this.sectionService.GetItemsByPath(this.path)
+                this.sectionService.GetItemsByPathUrl(this.pathUrl)
                     .subscribe(items => this.items = items);
             }
         });

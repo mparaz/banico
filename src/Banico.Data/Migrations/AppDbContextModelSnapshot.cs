@@ -131,8 +131,6 @@ namespace Banico.Data.Migrations
 
                     b.Property<string>("Alias");
 
-                    b.Property<string>("Breadcrumb");
-
                     b.Property<string>("CreatedBy");
 
                     b.Property<DateTimeOffset>("CreatedDate");
@@ -145,7 +143,9 @@ namespace Banico.Data.Migrations
 
                     b.Property<int>("ParentId");
 
-                    b.Property<string>("Path");
+                    b.Property<string>("PathName");
+
+                    b.Property<string>("PathUrl");
 
                     b.Property<string>("Section");
 

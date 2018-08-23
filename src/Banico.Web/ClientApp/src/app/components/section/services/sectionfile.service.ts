@@ -30,7 +30,7 @@ export class SectionFileService {
         sectionItem: SectionItem, 
         section: string, 
         parentId: number, 
-        breadcrumb: string, 
+        pathName: string, 
         path: string, 
         remainingFields: string[], 
         lines: string[]) {
@@ -49,7 +49,7 @@ export class SectionFileService {
                         name, 
                         alias, 
                         parentId, 
-                        breadcrumb, 
+                        pathName, 
                         path, 
                         remainingFields, 
                         lines));
@@ -74,7 +74,7 @@ export class SectionFileService {
         name: string, 
         alias: string, 
         parentId: number, 
-        breadcrumb: string, 
+        pathName: string, 
         path: string, 
         remainingFields: string[], 
         lines: string[]) {
@@ -83,31 +83,31 @@ export class SectionFileService {
                 section.name = name;
                 section.alias = alias;
                 section.section = sectionType;
-                section.breadcrumb = breadcrumb;
-                section.path = path;
+                section.pathName = pathName;
+                section.pathUrl = path;
                 section.parentId = parentId;
 
-                if (breadcrumb) {
-                    breadcrumb = section.breadcrumb + this.PATH_DELIM;
+                if (pathName) {
+                    pathName = section.pathName + this.PATH_DELIM;
                 }
 
                 if (path) {
-                    path = section.path + this.PATH_DELIM;
+                    path = section.pathUrl + this.PATH_DELIM;
                 }
 
                 this.sectionService.AddSectionItem(section)
                     .subscribe(newSection => this.ProcessPair(newSection,
                         sectionType, 
                         newSection.id, 
-                        breadcrumb + section.name, 
+                        pathName + section.name, 
                         path + newSection.alias, 
                         remainingFields,
                         lines));
             }
         } 
         else {
-            if (breadcrumb) {
-                breadcrumb = breadcrumb + this.PATH_DELIM;
+            if (pathName) {
+                pathName = pathName + this.PATH_DELIM;
             }
 
             if (path) {
@@ -117,7 +117,7 @@ export class SectionFileService {
             this.ProcessPair(section,
                 sectionType, 
                 section.id, 
-                breadcrumb + section.name, 
+                pathName + section.name, 
                 path + section.alias, 
                 remainingFields,
                 lines);

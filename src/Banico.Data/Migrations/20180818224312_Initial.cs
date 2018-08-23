@@ -77,8 +77,8 @@ namespace Banico.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
                     Section = table.Column<string>(nullable: true),
-                    Path = table.Column<string>(nullable: true),
-                    Breadcrumb = table.Column<string>(nullable: true),
+                    PathUrl = table.Column<string>(nullable: true),
+                    PathName = table.Column<string>(nullable: true),
                     Alias = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true)
                 },

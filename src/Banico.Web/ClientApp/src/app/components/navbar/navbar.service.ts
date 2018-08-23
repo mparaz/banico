@@ -8,8 +8,8 @@ import { SectionService } from '../section/services/section.service';
 export class NavBarService {
     public isAdmin: boolean;
     public navBarItems: NavBarItem[];
-    public pathRoot: string;
-    private inputPath: string;
+    public pathUrlRoot: string;
+    private inputPathUrl: string;
     private index: number;
 
     public readonly PATH_DELIM: string = '_';
@@ -21,11 +21,11 @@ export class NavBarService {
     ) {
     }
 
-    public initialize(isAdmin: boolean, module: string, inputPath: string, adminSection: string, pathRoot: string) {
+    public initialize(isAdmin: boolean, module: string, inputPathUrl: string, adminSection: string, pathRoot: string) {
         alert('initialize');
         this.isAdmin = isAdmin;
-        this.inputPath = inputPath;
-        this.pathRoot = pathRoot;
+        this.inputPathUrl = inputPathUrl;
+        this.pathUrlRoot = pathRoot;
         this.navBarItems = new Array<NavBarItem>();
 
         if (isAdmin) {
@@ -56,22 +56,22 @@ export class NavBarService {
         }
 
         this.index = 0;
-        this.setPath();
+        this.setPathUrl();
     }
 
-    public setPath() {
-        alert('setPath');
+    public setPathUrl() {
+        alert('setPathUrl');
         if (this.index < this.navBarItems.length) {
-            this.navBarItems[this.index].homePath = this.fullPath("");
+            this.navBarItems[this.index].homePathUrl = this.fullPathUrl("");
             var sectionName: string = this.navBarItems[this.index].section.name;
-            var sectionPath: string = this.pathSegmentByType(sectionName);
+            var sectionPathUrl: string = this.pathUrlSegmentByType(sectionName);
 
-            if (!sectionPath) {
+            if (!sectionPathUrl) {
                 // root level section items
                 this.sectionService.GetSectionItems(0, sectionName, '', '', '', 0, false)
                     .subscribe(sectionItems => this.setSectionItems(sectionItems));
             } else {
-                this.sectionService.GetSectionItems(0, '', sectionPath, '', '', 0, false)
+                this.sectionService.GetSectionItems(0, '', sectionPathUrl, '', '', 0, false)
                         .subscribe(sectionItems => this.setSectionItem(sectionItems[0]));
             }
         }
@@ -96,20 +96,20 @@ export class NavBarService {
         alert('setSectionItem');
         this.navBarItems[this.index].sectionItem = sectionItem;
         this.setSection(sectionItem.section);
-        this.setBreadcrumbNodes();
-        var sectionPath: string = sectionItem.path;
-        if (sectionPath) {
-            sectionPath = sectionPath + this.PATH_DELIM;
+        this.setPathNameNodes();
+        var sectionPathUrl: string = sectionItem.pathUrl;
+        if (sectionPathUrl) {
+            sectionPathUrl = sectionPathUrl + this.PATH_DELIM;
         }
-        sectionPath = sectionPath + sectionItem.alias;
-        this.setPaths(sectionPath);
-        if (!sectionPath) {
+        sectionPathUrl = sectionPathUrl + sectionItem.alias;
+        this.setPathUrls(sectionPathUrl);
+        if (!sectionPathUrl) {
             this.sectionService.GetSectionItems(0, sectionItem.section, '', '', '', 0, false)
                 .subscribe(sectionItems => this.setSectionItems(sectionItems));
         }
-        if (sectionPath) {
+        if (sectionPathUrl) {
             this.sectionService.GetSectionItems(0, '', 
-                sectionItem.section + this.TYPE_DELIM + sectionPath,
+                sectionItem.section + this.TYPE_DELIM + sectionPathUrl,
                 '', '', 0, false)
                 .subscribe(sectionItems => this.setSectionItems(sectionItems));
         }
@@ -124,28 +124,28 @@ export class NavBarService {
         }
     }
 
-    private setBreadcrumbNodes() {
-        alert('setBreadcrumbNodes');
-        if ((this.navBarItems[this.index].sectionItem.breadcrumb == null) || 
-            (this.navBarItems[this.index].sectionItem.breadcrumb == "")) {
-            this.navBarItems[this.index].breadcrumbNodes = [];
+    private setPathNameNodes() {
+        alert('setPathNameNodes');
+        if ((this.navBarItems[this.index].sectionItem.pathName == null) || 
+            (this.navBarItems[this.index].sectionItem.pathName == "")) {
+            this.navBarItems[this.index].pathNameNodes = [];
         }
         else {
-           this.navBarItems[this.index].breadcrumbNodes = this.navBarItems[this.index].sectionItem.breadcrumb.split(this.PATH_DELIM);
+           this.navBarItems[this.index].pathNameNodes = this.navBarItems[this.index].sectionItem.pathName.split(this.PATH_DELIM);
         }
 
         var i: number;
-        for (i = 0; i < (this.navBarItems[this.index].breadcrumbNodes.length); i++) {
-            if (this.navBarItems[this.index].breadcrumbNodes[i].length == 0) {
-                this.navBarItems[this.index].breadcrumbNodes.splice(i, 1);
+        for (i = 0; i < (this.navBarItems[this.index].pathNameNodes.length); i++) {
+            if (this.navBarItems[this.index].pathNameNodes[i].length == 0) {
+                this.navBarItems[this.index].pathNameNodes.splice(i, 1);
             }
         }
     }
 
-    private setPaths(sectionPath: string) {
+    private setPathUrls(sectionPathUrl: string) {
         alert('setPaths');
         var pathNodes: string[];
-        pathNodes = this.navBarItems[this.index].sectionItem.path.split(this.PATH_DELIM);
+        pathNodes = this.navBarItems[this.index].sectionItem.pathUrl.split(this.PATH_DELIM);
         var sectionName: string;
         if (this.navBarItems[this.index].section != null) {
             sectionName = this.navBarItems[this.index].section.name;
@@ -160,16 +160,16 @@ export class NavBarService {
             }
         }
 
-        this.navBarItems[this.index].paths = [];
-        var currentPath: string = "";
+        this.navBarItems[this.index].pathUrls = [];
+        var currentPathUrl: string = "";
         for (i = 0; i < pathNodes.length; i++) {
             if (i > 0) {
-                currentPath = currentPath + this.PATH_DELIM;
+                currentPathUrl = currentPathUrl + this.PATH_DELIM;
             }
-            currentPath = currentPath + pathNodes[i];
-            var newCurrentPath: string = this.fullPath(currentPath);
+            currentPathUrl = currentPathUrl + pathNodes[i];
+            var newCurrentPathUrl: string = this.fullPathUrl(currentPathUrl);
 
-            this.navBarItems[this.index].paths.push(newCurrentPath);
+            this.navBarItems[this.index].pathUrls.push(newCurrentPathUrl);
         }
     }
 
@@ -200,53 +200,53 @@ export class NavBarService {
     private doNext() {
         alert('doNext');
         this.index = this.index + 1;
-        this.setPath();
+        this.setPathUrl();
     }
 
-    private pathWithAlias(path: string, alias: string): string {
+    private pathWithAlias(pathUrl: string, alias: string): string {
         alert('pathWithAlias');
-        var pathWithAlias: string = path;
-        if (pathWithAlias) {
-            pathWithAlias = pathWithAlias + this.PATH_DELIM;
+        var pathUrlWithAlias: string = pathUrl;
+        if (pathUrlWithAlias) {
+            pathUrlWithAlias = pathUrlWithAlias + this.PATH_DELIM;
         }
-        pathWithAlias = pathWithAlias + alias;
-        return this.fullPath(pathWithAlias);
+        pathUrlWithAlias = pathUrlWithAlias + alias;
+        return this.fullPathUrl(pathUrlWithAlias);
     }    
 
-    private fullPath(localPath: string): string {
-        alert('fullPath');
-        var fullPath: string = "";
+    private fullPathUrl(localPathUrl: string): string {
+        alert('fullPathUrl');
+        var fullPathUrl: string = "";
         for (var i: number = 0; i < this.navBarItems.length; i++) {
-            var pathToAdd: string = "";
+            var pathUrlToAdd: string = "";
 
             if ((i != this.index) && (this.index < this.navBarItems.length)) {
-                pathToAdd = this.pathSegmentByType(this.navBarItems[i].section.name);
+                pathUrlToAdd = this.pathUrlSegmentByType(this.navBarItems[i].section.name);
             } else {
-                if (localPath) {
-                    pathToAdd = this.navBarItems[i].section.name + this.TYPE_DELIM + localPath;
+                if (localPathUrl) {
+                    pathUrlToAdd = this.navBarItems[i].section.name + this.TYPE_DELIM + localPathUrl;
                 }
             }
 
-            if (pathToAdd) {
-                if (fullPath) {
-                    fullPath = fullPath + this.SECTION_DELIM;
+            if (pathUrlToAdd) {
+                if (fullPathUrl) {
+                    fullPathUrl = fullPathUrl + this.SECTION_DELIM;
                 }
-                fullPath = fullPath + pathToAdd;
+                fullPathUrl = fullPathUrl + pathUrlToAdd;
             }
         }
 
-        return fullPath;
+        return fullPathUrl;
     }
 
-    private pathSegmentByType(inputType: string): string {
-        alert('pathSegmentByType');
-        if (this.inputPath) {
-            var paths: string[] = this.inputPath.split(this.SECTION_DELIM);
-            for (var i: number = 0; i < paths.length; i++) {
-                var path = paths[i];
-                var type = path.split(this.TYPE_DELIM)[0];
+    private pathUrlSegmentByType(inputType: string): string {
+        alert('pathUrlSegmentByType');
+        if (this.inputPathUrl) {
+            var pathUrls: string[] = this.inputPathUrl.split(this.SECTION_DELIM);
+            for (var i: number = 0; i < pathUrls.length; i++) {
+                var pathUrl = pathUrls[i];
+                var type = pathUrl.split(this.TYPE_DELIM)[0];
                 if (type == inputType) {
-                    return path;
+                    return pathUrl;
                 }
             }
         }

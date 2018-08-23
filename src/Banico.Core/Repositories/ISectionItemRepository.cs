@@ -12,12 +12,12 @@ namespace Banico.Core.Repositories
         void ParsePath(
             string inputPath, 
             out string[] sections, 
-            out string[] paths, 
+            out string[] pathUrls, 
             out string[] aliases);
         Task<List<SectionItem>> Get(
             int id,
             string section,
-            string path,
+            string pathUrl,
             string alias,
             string name,
             int parentId,

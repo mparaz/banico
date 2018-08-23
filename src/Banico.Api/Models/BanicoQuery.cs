@@ -38,7 +38,7 @@ namespace Banico.Api.Models
                         Name = "section" 
                     },
                     new QueryArgument<StringGraphType> { 
-                        Name = "path" 
+                        Name = "pathUrl" 
                     },
                     new QueryArgument<StringGraphType> { 
                         Name = "alias" 
@@ -56,7 +56,7 @@ namespace Banico.Api.Models
                 resolve: context =>  sectionItemRepository.Get(
                     context.GetArgument<int>("id"),
                     context.GetArgument<string>("section"),
-                    context.GetArgument<string>("path"),
+                    context.GetArgument<string>("pathUrl"),
                     context.GetArgument<string>("alias"),
                     context.GetArgument<string>("name"),
                     context.GetArgument<int>("parentId"),

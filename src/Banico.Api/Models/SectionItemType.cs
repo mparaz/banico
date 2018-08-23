@@ -19,8 +19,8 @@ namespace Banico.Api.Models
 
             Field(x => x.ParentId, nullable:true);
             Field(x => x.Section, nullable:true);
-            Field(x => x.Path, nullable:true);
-            Field(x => x.Breadcrumb, nullable:true);
+            Field(x => x.PathUrl, nullable:true);
+            Field(x => x.PathName, nullable:true);
             Field(x => x.Alias, nullable:true);
             Field(x => x.Description, nullable:true);
             //Field<StringGraphType>("modules", resolve: context => context.Source.Modules);

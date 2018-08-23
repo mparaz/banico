@@ -20,8 +20,8 @@ export const AddSectionItemMutation = gql`
     mutation (
         $section: String!,
         $parentId: Int!,
-        $path: String!,
-        $breadcrumb: String!,
+        $pathUrl: String!,
+        $pathName: String!,
         $name: String!
         $alias: String!
     ) {
@@ -29,8 +29,8 @@ export const AddSectionItemMutation = gql`
             sectionItem: {
                 section: $section,
                 parentId: $parentId,
-                path: $path,
-                breadcrumb: $breadcrumb,
+                pathUrl: $pathUrl,
+                pathName: $pathName,
                 name: $name,
                 alias: $alias
             }
