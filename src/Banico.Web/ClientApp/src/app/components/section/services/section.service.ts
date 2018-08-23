@@ -35,13 +35,21 @@ export class SectionService {
     }
 
     private AddResult(res: any) {
-        // console.log('HELLO LOOK HERE! HTTP RESPONSE...');
-        // console.log(res.json());
-        if (res.id == 0){
+        var id = 0;
+        var output;
+        if (res.data.addSection) {
+            id = res.data.addSection.id;
+            output = res.data.addSection;
+        }
+        if (res.data.addSectionItem) {
+            id = res.data.addSectionItem.id;
+            output = res.data.addSectionItem;
+        }
+
+        if (id == 0){
             throw new Error('Unable to create object.');
         }
-        let body = res.json();
-        return body || {};
+        return output || {};
     }
 
     private ExtractData(res: Response) {
@@ -112,7 +120,10 @@ export class SectionService {
         })
             .valueChanges
             .pipe(
-              map(result => result.data.sectionItems)
+              map(result => {
+                  alert('RESULT = ' + JSON.stringify(result)); 
+                  return result.data.sectionItems;
+              })
             );
         return result;
     }

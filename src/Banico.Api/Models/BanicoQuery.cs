@@ -29,7 +29,7 @@ namespace Banico.Api.Models
                     ));
 
             Field<ListGraphType<SectionItemType>>(
-                "sectionitems",
+                "sectionItems",
                 arguments: new QueryArguments(
                     new QueryArgument<IntGraphType> { 
                         Name = "id" 

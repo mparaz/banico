@@ -30,7 +30,7 @@ export const SectionItemsQuery = gql`
         $parentId: Int!,
         $isRoot: Boolean!
     ) {
-        sectionitems(
+        sectionItems(
             id: $id,
             section: $section,
             path: $path,

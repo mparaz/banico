@@ -22,6 +22,7 @@ export class NavBarService {
     }
 
     public initialize(isAdmin: boolean, module: string, inputPath: string, adminSection: string, pathRoot: string) {
+        alert('initialize');
         this.isAdmin = isAdmin;
         this.inputPath = inputPath;
         this.pathRoot = pathRoot;
@@ -43,11 +44,13 @@ export class NavBarService {
     }
 
     private initializeSections(sections: Section[]) {
+        alert('initializeSections');
         for (var i: number = 0; i < sections.length; i++) {
             var navBarItem = new NavBarItem();
             navBarItem.showDropdown = false;
             navBarItem.section = sections[i];
             navBarItem.sectionItem = new SectionItem();
+            navBarItem.sectionItems = new Array<SectionItem>();
 
             this.navBarItems.push(navBarItem);
         }
@@ -57,6 +60,7 @@ export class NavBarService {
     }
 
     public setPath() {
+        alert('setPath');
         if (this.index < this.navBarItems.length) {
             this.navBarItems[this.index].homePath = this.fullPath("");
             var sectionName: string = this.navBarItems[this.index].section.name;
@@ -65,15 +69,16 @@ export class NavBarService {
             if (!sectionPath) {
                 // root level section items
                 this.sectionService.GetSectionItems(0, sectionName, '', '', '', 0, false)
-                    .subscribe(sections => this.setSectionItems(sections));
+                    .subscribe(sectionItems => this.setSectionItems(sectionItems));
             } else {
                 this.sectionService.GetSectionItems(0, '', sectionPath, '', '', 0, false)
-                        .subscribe(section => this.setSectionItem(section[0]));
+                        .subscribe(sectionItems => this.setSectionItem(sectionItems[0]));
             }
         }
     }
 
     private getIndex(typeName: string) {
+        alert('getIndex');
         var index: number = -1;
         for (var i: number = 0; i < this.navBarItems.length; i++) {
             if ((this.navBarItems[i].section.name == typeName) ||
@@ -88,6 +93,7 @@ export class NavBarService {
     }
 
     public setSectionItem(sectionItem: SectionItem) {
+        alert('setSectionItem');
         this.navBarItems[this.index].sectionItem = sectionItem;
         this.setSection(sectionItem.section);
         this.setBreadcrumbNodes();
@@ -99,17 +105,18 @@ export class NavBarService {
         this.setPaths(sectionPath);
         if (!sectionPath) {
             this.sectionService.GetSectionItems(0, sectionItem.section, '', '', '', 0, false)
-                .subscribe(sections => this.setSectionItems(sections));
+                .subscribe(sectionItems => this.setSectionItems(sectionItems));
         }
         if (sectionPath) {
             this.sectionService.GetSectionItems(0, '', 
                 sectionItem.section + this.TYPE_DELIM + sectionPath,
                 '', '', 0, false)
-                .subscribe(sections => this.setSectionItems(sections));
+                .subscribe(sectionItems => this.setSectionItems(sectionItems));
         }
     }
 
     public setSection(sectionName: string) {
+        alert('setSection');
         if (sectionName) {
             var section = new Section();
             section.name = sectionName;
@@ -118,6 +125,7 @@ export class NavBarService {
     }
 
     private setBreadcrumbNodes() {
+        alert('setBreadcrumbNodes');
         if ((this.navBarItems[this.index].sectionItem.breadcrumb == null) || 
             (this.navBarItems[this.index].sectionItem.breadcrumb == "")) {
             this.navBarItems[this.index].breadcrumbNodes = [];
@@ -135,6 +143,7 @@ export class NavBarService {
     }
 
     private setPaths(sectionPath: string) {
+        alert('setPaths');
         var pathNodes: string[];
         pathNodes = this.navBarItems[this.index].sectionItem.path.split(this.PATH_DELIM);
         var sectionName: string;
@@ -165,10 +174,11 @@ export class NavBarService {
     }
 
     public setSectionItems(sectionItems: SectionItem[]) {
+        alert('setSectionItems');
         if (sectionItems) {
             var i: number;
             for (i = 0; i < sectionItems.length; i++) {
-                sectionItems[i].fullpath = this.pathWithAlias(sectionItems[i].path, sectionItems[i].alias);
+                //sectionItems[i].fullpath = this.pathWithAlias(sectionItems[i].path, sectionItems[i].alias);
 
                 if (sectionItems[i].section != this.navBarItems[this.index].section.name) {
                     sectionItems.splice(i, 1);
@@ -188,11 +198,13 @@ export class NavBarService {
     }
 
     private doNext() {
+        alert('doNext');
         this.index = this.index + 1;
         this.setPath();
     }
 
     private pathWithAlias(path: string, alias: string): string {
+        alert('pathWithAlias');
         var pathWithAlias: string = path;
         if (pathWithAlias) {
             pathWithAlias = pathWithAlias + this.PATH_DELIM;
@@ -202,6 +214,7 @@ export class NavBarService {
     }    
 
     private fullPath(localPath: string): string {
+        alert('fullPath');
         var fullPath: string = "";
         for (var i: number = 0; i < this.navBarItems.length; i++) {
             var pathToAdd: string = "";
@@ -226,6 +239,7 @@ export class NavBarService {
     }
 
     private pathSegmentByType(inputType: string): string {
+        alert('pathSegmentByType');
         if (this.inputPath) {
             var paths: string[] = this.inputPath.split(this.SECTION_DELIM);
             for (var i: number = 0; i < paths.length; i++) {
@@ -241,8 +255,10 @@ export class NavBarService {
     }
 
     public addSectionItem(index: number, sectionItem: SectionItem) {
-        sectionItem.fullpath = this.pathWithAlias(sectionItem.path, sectionItem.alias);
+        alert('addSectionItem');
+        //sectionItem.fullpath = this.pathWithAlias(sectionItem.path, sectionItem.alias);
         this.navBarItems[index].sectionItems.push(sectionItem);
+        alert('+1!');
         this.navBarItems[index].showDropdown = true;
     }
 

@@ -14,7 +14,7 @@ export class SectionItemAdminComponent implements OnInit {
     public helper: string;
     public showDropdown: boolean;
 
-    public sectionItem: SectionItem;
+    public parentSectionItem: SectionItem;
     public newSectionItem: SectionItem;
 
     private sub: any;
@@ -33,12 +33,12 @@ export class SectionItemAdminComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.sectionItem = new SectionItem();
+        this.parentSectionItem = new SectionItem();
 
         this.newSectionItem = new SectionItem();
-        this.newSectionItem.parentId = this.sectionItem.parentId;
-        this.newSectionItem.path = this.sectionItem.path;
-        this.newSectionItem.breadcrumb = this.sectionItem.breadcrumb;
+        this.newSectionItem.parentId = this.parentSectionItem.parentId;
+        this.newSectionItem.path = this.parentSectionItem.path;
+        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb;
 
         var path: string = "";
         var section: string = "";
@@ -53,7 +53,7 @@ export class SectionItemAdminComponent implements OnInit {
                 )
                     .subscribe(sections => {
                         if (sections.length > 0) {
-                            this.setSectionItem(sections[0], path)
+                            this.setParentSectionItem(sections[0], path);
                         }
                     });
             }
@@ -74,63 +74,40 @@ export class SectionItemAdminComponent implements OnInit {
     }
 
     private onLoadCallback(result: any) {
-        this.sectionFileService.UploadFile(this.sectionItem.section, result);
+        this.sectionFileService.UploadFile(this.parentSectionItem.section, result);
     }
 
     private setSection(section: string) {
-        this.sectionItem.section = section;
+        this.parentSectionItem.section = section;
         //this.navBarService.setSectionType(0, sectionType);
         this.newSectionItem.section = section;
     }
 
-    private setSectionItem(sectionItem: SectionItem, path: string) {
-        this.sectionItem = sectionItem;
+    private setParentSectionItem(sectionItem: SectionItem, path: string) {
+        this.parentSectionItem = sectionItem;
 
-        this.newSectionItem.path = this.sectionItem.path;
+        this.newSectionItem.path = this.parentSectionItem.path;
         if (this.newSectionItem.path) {
             this.newSectionItem.path = this.newSectionItem.path + this.PATH_DELIM;
         }
-        this.newSectionItem.path = this.newSectionItem.path + this.sectionItem.alias;
+        this.newSectionItem.path = this.newSectionItem.path + this.parentSectionItem.alias;
 
-        this.newSectionItem.parentId = this.sectionItem.id;
-        this.newSectionItem.section = this.sectionItem.section;
-        this.newSectionItem.breadcrumb = this.sectionItem.breadcrumb
-        if (this.sectionItem.breadcrumb > '') {
+        this.newSectionItem.parentId = this.parentSectionItem.id;
+        this.newSectionItem.section = this.parentSectionItem.section;
+        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb
+        if (this.parentSectionItem.breadcrumb > '') {
             this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.PATH_DELIM;
         }
-        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.sectionItem.name;
+        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.parentSectionItem.name;
 
         // this.navBarService.setSection(0, section, path);
     }
 
-    public formatSectionItem(inputSectionItem: SectionItem): SectionItem {
-        var newSectionItem: SectionItem = new SectionItem();
-
-        newSectionItem.name = inputSectionItem.name;
-        var alias: string = newSectionItem.name.toLowerCase();
+    public addSectionItem() {
+        var alias: string = this.newSectionItem.name.toLowerCase();
         alias = alias.replace(/ /g, "-");
         alias = alias.replace(/\W/g, "");
-        newSectionItem.alias = alias;
-
-        newSectionItem.path = inputSectionItem.path;
-        if (newSectionItem.path) {
-            newSectionItem.path = newSectionItem.path + this.PATH_DELIM;
-        }
-        newSectionItem.path = newSectionItem.path + newSectionItem.alias;
-
-        newSectionItem.parentId = inputSectionItem.id;
-        newSectionItem.section = inputSectionItem.section;
-        newSectionItem.breadcrumb = inputSectionItem.breadcrumb
-        if (inputSectionItem.breadcrumb > '') {
-            newSectionItem.breadcrumb = newSectionItem.breadcrumb + this.PATH_DELIM;
-        }
-        newSectionItem.breadcrumb = newSectionItem.breadcrumb + inputSectionItem.name;
-
-        return newSectionItem;
-    }
-
-    public addSectionItem() {
-        this.newSectionItem = this.formatSectionItem(this.newSectionItem);
+        this.newSectionItem.alias = alias;
 
         this.sectionService.AddSectionItem(this.newSectionItem)
             .subscribe(sectionItem => this.addSectionItemSuccess(sectionItem));
@@ -149,22 +126,22 @@ export class SectionItemAdminComponent implements OnInit {
 
     private resetNewSectionItem() {
         this.newSectionItem = new SectionItem();
-        this.newSectionItem.section = this.sectionItem.section;
-        this.newSectionItem.path = this.sectionItem.path;
+        this.newSectionItem.section = this.parentSectionItem.section;
+        this.newSectionItem.path = this.parentSectionItem.path;
         if (this.newSectionItem.path) {
             this.newSectionItem.path = this.newSectionItem.path + this.PATH_DELIM;
         }
-        this.newSectionItem.path = this.newSectionItem.path + this.sectionItem.alias;
-        this.newSectionItem.breadcrumb = this.sectionItem.breadcrumb;
+        this.newSectionItem.path = this.newSectionItem.path + this.parentSectionItem.alias;
+        this.newSectionItem.breadcrumb = this.parentSectionItem.breadcrumb;
         if (this.newSectionItem.breadcrumb) {
             this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.PATH_DELIM;
         }
-        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.sectionItem.name;
-        this.newSectionItem.parentId = this.sectionItem.id;
+        this.newSectionItem.breadcrumb = this.newSectionItem.breadcrumb + this.parentSectionItem.name;
+        this.newSectionItem.parentId = this.parentSectionItem.id;
     }
     
     private updateSectionItem() {
-        this.sectionService.UpdateSectionItem(this.sectionItem)
+        this.sectionService.UpdateSectionItem(this.parentSectionItem)
             .subscribe(data => this.SaveResponse(data));
     }
 

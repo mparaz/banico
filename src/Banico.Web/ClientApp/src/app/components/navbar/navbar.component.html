@@ -18,7 +18,7 @@
         </li>
 
         <span *ngIf="navBarItem.showDropdown">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{navBarItem.section.name}}" aria-expanded="true" aria-controls="collapse1">
+            <a data-toggle="collapse" data-parent="#accordion" href="{{href}}#collapse_{{navBarItem.section.name}}" aria-expanded="true" aria-controls="collapse1">
                 <i class="fas fa-plus" style="padding-left:5px;" aria-hidden="true"></i>
             </a>
         </span>
