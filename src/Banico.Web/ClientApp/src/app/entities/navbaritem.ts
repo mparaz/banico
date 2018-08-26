@@ -9,4 +9,5 @@ export class NavBarItem {
     pathUrls: string[];
     pathNameNodes: string[];
     showDropdown: boolean;
+    childrenVisible: boolean;
 }

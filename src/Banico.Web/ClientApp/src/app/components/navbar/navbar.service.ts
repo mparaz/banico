@@ -48,6 +48,7 @@ export class NavBarService {
         for (var i: number = 0; i < sections.length; i++) {
             var navBarItem = new NavBarItem();
             navBarItem.showDropdown = false;
+            navBarItem.childrenVisible = false;
             navBarItem.section = sections[i];
             navBarItem.sectionItem = new SectionItem();
             navBarItem.sectionItems = new Array<SectionItem>();
@@ -262,4 +263,8 @@ export class NavBarService {
         this.navBarItems[index].showDropdown = true;
     }
 
+    public setVisible($event: any, navBarItem: NavBarItem) {
+        //$event.preventDefault();
+        navBarItem.childrenVisible = !navBarItem.childrenVisible;
+    }
 }
