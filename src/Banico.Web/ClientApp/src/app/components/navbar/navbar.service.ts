@@ -204,13 +204,13 @@ export class NavBarService {
         this.setPathUrl();
     }
 
-    private pathWithAlias(pathUrl: string, alias: string): string {
+    private pathWithAlias(sectionItem: SectionItem): string {
         alert('pathWithAlias');
-        var pathUrlWithAlias: string = pathUrl;
+        var pathUrlWithAlias: string = sectionItem.pathUrl;
         if (pathUrlWithAlias) {
             pathUrlWithAlias = pathUrlWithAlias + this.PATH_DELIM;
         }
-        pathUrlWithAlias = pathUrlWithAlias + alias;
+        pathUrlWithAlias = pathUrlWithAlias + sectionItem.alias;
         return this.fullPathUrl(pathUrlWithAlias);
     }    
 
