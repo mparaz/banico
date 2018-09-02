@@ -23,6 +23,10 @@ export class SectionService {
     sectionTypeApiBaseUrl: string;
     itemApiBaseUrl: string;
 
+    public readonly PATH_DELIM: string = '_';
+    public readonly TYPE_DELIM: string = '~';
+    public readonly SECTION_DELIM: string = '*';
+
     constructor(
         private http: HttpClient,
         private apollo: Apollo,
@@ -97,6 +101,52 @@ export class SectionService {
             //});
     }
 
+    public GetSectionItemByPath(
+        pathUrl: string
+    ): Observable<SectionItem[]> {
+        var section = this.getSection(pathUrl);
+        var parentPathUrl = this.getParentPathUrl(pathUrl);
+        var alias = this.getAlias(pathUrl);
+
+        return this.GetSectionItems(0, section, parentPathUrl, alias, '', 0, false)
+    }
+
+    private getSection(pathUrl: string): string {
+        return pathUrl.split(this.TYPE_DELIM)[0];
+    }
+
+    private getParentPathUrl(pathUrl: string): string {
+        var pathUrlWithoutSection = pathUrl.split(this.TYPE_DELIM)[1];
+        var output: string = '';
+        if (pathUrlWithoutSection) {
+            var pathNodes = pathUrlWithoutSection.split(this.PATH_DELIM);
+        
+            var i: number;
+            for (i = 0; i < (pathNodes.length - 1); i++) {
+                if (output) {
+                    output = output + this.PATH_DELIM;
+                }
+                output = output + pathNodes[i];
+            }
+        }
+
+        return output;
+    }
+
+    private getAlias(pathUrl: string): string {
+        if (pathUrl) {
+            var pathUrlWithoutSection = pathUrl.split(this.TYPE_DELIM)[1];
+            if (pathUrlWithoutSection && (pathUrlWithoutSection.length > 0)) {
+                var pathNodes = pathUrlWithoutSection.split(this.PATH_DELIM);
+                return pathNodes[pathNodes.length - 1];
+            }
+
+            return '';
+        }
+
+        return '';
+    }
+
     public GetSectionItems(
         id: number,
         section: string,
@@ -121,7 +171,6 @@ export class SectionService {
             .valueChanges
             .pipe(
               map(result => {
-                  alert('RESULT = ' + JSON.stringify(result)); 
                   return result.data.sectionItems;
               })
             );

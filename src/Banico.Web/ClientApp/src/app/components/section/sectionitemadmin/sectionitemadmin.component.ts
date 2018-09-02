@@ -48,17 +48,15 @@ export class SectionItemAdminComponent implements OnInit {
             if (params['path']) {
                 pathUrl = params['path'];
                 section = pathUrl.split(this.TYPE_DELIM)[0];
-                this.sectionService.GetSectionItems(
-                    0, '', pathUrl, '', '', 0, false
-                )
-                    .subscribe(sections => {
-                        if (sections.length > 0) {
-                            this.setParentSectionItem(sections[0], pathUrl);
+                this.sectionService.GetSectionItemByPath(pathUrl)
+                    .subscribe(sectionItems => {
+                        if (sectionItems.length > 0) {
+                            this.setParentSectionItem(sectionItems[0], pathUrl);
                         }
                     });
             }
 
-            this.navBarService.initialize(true, '', pathUrl, section, '/sections/admin');
+            this.navBarService.initialize('', pathUrl, section, '/sections/admin');
         });
     }
 
@@ -83,8 +81,8 @@ export class SectionItemAdminComponent implements OnInit {
         this.newSectionItem.section = section;
     }
 
-    private setParentSectionItem(sectionItem: SectionItem, path: string) {
-        this.parentSectionItem = sectionItem;
+    private setParentSectionItem(parentSectionItem: SectionItem, path: string) {
+        this.parentSectionItem = parentSectionItem;
 
         this.newSectionItem.pathUrl = this.parentSectionItem.pathUrl;
         if (this.newSectionItem.pathUrl) {
@@ -100,7 +98,7 @@ export class SectionItemAdminComponent implements OnInit {
         }
         this.newSectionItem.pathName = this.newSectionItem.pathName + this.parentSectionItem.name;
 
-        // this.navBarService.setSection(0, section, path);
+        this.navBarService.setNavBarItem(null, parentSectionItem);
     }
 
     public addSectionItem() {

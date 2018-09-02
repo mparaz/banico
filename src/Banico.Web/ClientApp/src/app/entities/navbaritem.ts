@@ -4,10 +4,10 @@ import { SectionItem } from './sectionitem';
 export class NavBarItem {
     section: Section;
     sectionItem: SectionItem;
-    sectionItems: SectionItem[];
+    childSectionItems: SectionItem[];
     homePathUrl: string;
     pathUrls: string[];
-    pathNameNodes: string[];
+    pathNames: string[];
     showDropdown: boolean;
     childrenVisible: boolean;
 }
