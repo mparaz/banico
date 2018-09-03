@@ -70,17 +70,17 @@ export class NavBarService {
         if (sectionPathUrl) {
             var sectionItems = await this.sectionService.GetSectionItemByPath(sectionName + this.TYPE_DELIM + 
                 sectionPathUrl).first().toPromise();
-            this.setNavBarItem(navBarItem, sectionItems[0]);
+            await this.setNavBarItem(navBarItem, sectionItems[0]);
         }
 
         if (!sectionPathUrl) {
             sectionItems = await this.sectionService.GetSectionItems(0, sectionName, 
-                '', '', '', 0, false).first().toPromise();
+                '', '', '', 0, true).first().toPromise();
             navBarItem.childSectionItems = this.cleanChildSectionItems(navBarItem, sectionItems);
         }
 
         // set dropdown
-        navBarItem.showDropdown = (sectionItems.length > 0);
+        navBarItem.showDropdown = (navBarItem.childSectionItems.length > 0);
     }
 
     public async setNavBarItem(navBarItem: NavBarItem, sectionItem: SectionItem) {
