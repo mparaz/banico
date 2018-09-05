@@ -15,7 +15,7 @@
                         <a href="{{navBarService.pathUrlRoot}}/{{navBarItem.pathUrls[i]}}">{{pathName}}</a>
                     </li>
                     <li class="breadcrumb-item" *ngIf="navBarItem.sectionItem.name" > 
-                        {{navBarItem.sectionItem.name}} 
+                        {{navBarItem.sectionItem.name | decodeUri}} 
                     </li>
             
                     <span *ngIf="navBarItem.showDropdown">
@@ -27,7 +27,7 @@
                 </ol>
                 <div class="flex-row row container" [style.display]="navBarItem.childrenVisible ? '' : 'none'">
                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let childSectionItem of navBarItem.childSectionItems">
-                        <a class="small" href="{{navBarService.pathUrlRoot}}/{{navBarService.pathWithAlias(childSectionItem)}}">{{childSectionItem.name}}</a>
+                        <a class="small" href="{{navBarService.pathUrlRoot}}/{{navBarService.pathWithAlias(childSectionItem)}}">{{childSectionItem.name | decodeUri}}</a>
                     </div>
                     <br />
                 </div>
