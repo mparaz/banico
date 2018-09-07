@@ -9,34 +9,36 @@ namespace Banico.Core.Repositories
 {
     public interface IContentItemRepository
     {
-        Task<ContentItem> Get(int id);
-        Task<ContentItem> GetByTypeAndAlias(string type, string alias);
-        Task<List<ContentItem>> GetAllByParentId(string id);
-        Task<List<ContentItem>> GetAllByCreatedBy(string type, string createdBy);
-        Task<List<ContentItem>> GetAllByTypeAndSectionItems(string type, string[] sectionItems);
-        Task<List<ContentItem>> GetAllWithTextSearch(string type, string titleSearch,
-            string contentSearch,
-            string attribute01Search,
-            string attribute02Search,
-            string attribute03Search,
-            string attribute04Search,
-            string attribute05Search,
-            string attribute06Search,
-            string attribute07Search,
-            string attribute08Search,
-            string attribute09Search,
-            string attribute10Search,
-            string attribute11Search,
-            string attribute12Search,
-            string attribute13Search,
-            string attribute14Search,
-            string attribute15Search,
-            string attribute16Search,
-            string attribute17Search,
-            string attribute18Search,
-            string attribute19Search,
-            string attribute20Search
-            );
+        Task<List<ContentItem>> Get(
+            int id,
+            string name,
+            string alias,
+            string module,
+            int parentId,
+            string createdBy,
+            string sectionItems,
+            string content,
+            string attribute01,
+            string attribute02,
+            string attribute03,
+            string attribute04,
+            string attribute05,
+            string attribute06,
+            string attribute07,
+            string attribute08,
+            string attribute09,
+            string attribute10,
+            string attribute11,
+            string attribute12,
+            string attribute13,
+            string attribute14,
+            string attribute15,
+            string attribute16,
+            string attribute17,
+            string attribute18,
+            string attribute19,
+            string attribute20
+        );
         Task<ContentItem> Add(ContentItem item);
         Task<int> Update(ContentItem item);
         Task<int> Delete(int id);

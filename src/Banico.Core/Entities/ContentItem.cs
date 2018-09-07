@@ -10,7 +10,7 @@ namespace Banico.Core.Entities
     public class ContentItem : Item
     {
         public string Alias { get; set; }
-        public string Type { get; private set; }
+        public string Module { get; private set; }
 
         public int ParentId { get; set; }
         public string SectionItems { get; set; }
@@ -94,26 +94,26 @@ namespace Banico.Core.Entities
 
         }
         
-        public ContentItem(string type)
+        public ContentItem(string module)
         {
-            this.Type = type;
+            this.Module = module;
         }
 
         public ContentItem Clone()
         {
-            ContentItem newItem = new ContentItem(this.Type);
+            ContentItem newItem = new ContentItem(this.Module);
             newItem.Clone(this);
             return newItem;
         }
 
         public void Clone(ContentItem item)
         {
-            this.Type = item.Type;
+            this.Module = item.Module;
             this.Tenant = item.Tenant;
             this.Id = item.Id;
             this.ParentId = item.ParentId;
             this.SectionItems = item.SectionItems;
-            this.Type = item.Type;
+            this.Module = item.Module;
 
             this.CreatedDate = item.CreatedDate;
             this.LastUpdate = item.LastUpdate;

@@ -1,0 +1,19 @@
+<h1>Page</h1>
+<form class="container">
+    <div class="form-group row">
+        <label for="title">Title</label>
+        <input type="text" [(ngModel)]="page.title" name="title" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="title">Alias</label>
+        <input type="text" [(ngModel)]="page.alias" name="alias" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="title">Content</label>
+        <textarea rows="12" [(ngModel)]="page.content" name="content" class="form-control">
+        </textarea>
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="save()">Save Page</button>
+    </div>
+</form>

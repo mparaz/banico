@@ -1,0 +1,13 @@
+<span *ngIf="isAdmin">
+    <div class="card">
+        <div class="card-block">
+            <a href="/page/edit/{{page.alias}}"><i class="fa fa-edit" aria-hidden="true" style="padding-right: 5px;"></i>Edit</a> | 
+            <span class="link text-primary" (click)="delete()"><i class="fa fa-trash-o" aria-hidden="true" style="padding-right: 5px;"></i>Delete</span>
+        </div>
+    </div>
+    <br />
+</span>
+
+<h1>{{page.title}}</h1>
+<div [innerHtml]="page.htmlContent"></div>
+<p class="text-muted">Last Update: {{ page.lastUpdate | date }}</p>

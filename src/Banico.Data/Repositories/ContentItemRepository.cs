@@ -11,6 +11,10 @@ namespace Banico.Data.Repositories
 {
     public class ContentItemRepository : IContentItemRepository
     {
+        private const char PATH_DELIM = '_';
+        private const char TYPE_DELIM = '~';
+        private const char SECTION_DELIM = '*';
+
         public AppDbContext DbContext { get; set; }
 
         public ContentItemRepository(AppDbContext dbContext)
@@ -18,214 +22,168 @@ namespace Banico.Data.Repositories
             this.DbContext = dbContext;
         }
 
-        public async Task<ContentItem> Get(int id)
-        {
-            var items = from i in this.DbContext.ContentItems
-                where i.Id == id
-                select i;
+        public async Task<List<ContentItem>> Get(
+            int id,
+            string name,
+            string alias,
+            string module,
+            int parentId,
+            string createdBy,
+            string sectionItems,
+            string content,
+            string attribute01,
+            string attribute02,
+            string attribute03,
+            string attribute04,
+            string attribute05,
+            string attribute06,
+            string attribute07,
+            string attribute08,
+            string attribute09,
+            string attribute10,
+            string attribute11,
+            string attribute12,
+            string attribute13,
+            string attribute14,
+            string attribute15,
+            string attribute16,
+            string attribute17,
+            string attribute18,
+            string attribute19,
+            string attribute20
+        ) {
+            var contentItems = from c in this.DbContext.ContentItems
+                where 
+                    (c.Id == id || id == 0) &&
+                    (c.Module == module || string.IsNullOrEmpty(module)) && 
+                    (c.Alias == alias || string.IsNullOrEmpty(alias)) && 
+                    (c.ParentId == parentId || parentId == 0) &&
+                    (c.Name == name || string.IsNullOrEmpty(name)) && 
+                    (c.ParentId == parentId || parentId == 0) &&
+                    (c.CreatedBy == createdBy || string.IsNullOrEmpty(createdBy))
+                select c;
 
-            var item = await items.FirstAsync();
-
-            return item;
-        }
-
-        public async Task<ContentItem> GetByTypeAndAlias(string type, string alias)
-        {
-            var items = from i in this.DbContext.ContentItems
-                where (i.Type == type && i.Alias == alias)
-                select i;
-
-            var item = await items.FirstAsync();
-
-            return item;
-        }
-
-        public async Task<List<ContentItem>> GetAllByParentId(string id)
-        {
-            int idInt = 0;
-            int.TryParse(id, out idInt);
-
-            var items = from i in this.DbContext.ContentItems
-                where i.ParentId == idInt
-                select i;     
-
-            return await items.ToListAsync();       
-        }
-
-        public async Task<List<ContentItem>> GetAllByCreatedBy(string type, string createdBy)
-        {
-            var items = from i in this.DbContext.ContentItems
-                where i.CreatedBy == createdBy
-                select i;
-
-            if (!string.IsNullOrEmpty(type))
+            var sectionItemsArray = sectionItems.Split(SECTION_DELIM);
+            for (int i = 0; i < sectionItemsArray.Length; i++)
             {
-                items = items.Where(item => item.Type == type);
-            }
-
-            return await items.ToListAsync();       
-        }
-
-        public async Task<List<ContentItem>> GetAllByTypeAndSectionItems(string type, string[] sectionItems)
-        {
-            var items = from item in this.DbContext.ContentItems
-                select item;
-            
-            if (!string.IsNullOrEmpty(type))
-            {
-                items = items.Where(item => item.Type == type);
-            }
-
-            for (int i = 0; i < sectionItems.Length; i++)
-            {
-                if (!string.IsNullOrEmpty(sectionItems[i]))
+                if (!string.IsNullOrEmpty(sectionItemsArray[i]))
                 {
-                    var sectionItem = sectionItems[i];
-                    items = items.Where(item => item.SectionItems.Contains(sectionItem));
+                    var sectionItem = sectionItemsArray[i];
+                    contentItems = contentItems.Where(item => item.SectionItems.Contains(sectionItem));
                 }
             }
 
-            return await items.ToListAsync();
-        }
-
-        public async Task<List<ContentItem>> GetAllWithTextSearch(string type, string nameSearch,
-            string contentSearch,
-            string attribute01Search,
-            string attribute02Search,
-            string attribute03Search,
-            string attribute04Search,
-            string attribute05Search,
-            string attribute06Search,
-            string attribute07Search,
-            string attribute08Search,
-            string attribute09Search,
-            string attribute10Search,
-            string attribute11Search,
-            string attribute12Search,
-            string attribute13Search,
-            string attribute14Search,
-            string attribute15Search,
-            string attribute16Search,
-            string attribute17Search,
-            string attribute18Search,
-            string attribute19Search,
-            string attribute20Search
-            )
-        {
-            var items = from item in this.DbContext.ContentItems
-                select item;
-            
-            if (!string.IsNullOrEmpty(nameSearch))
+            if (!string.IsNullOrEmpty(name))
             {
-                items = items.Where(item => item.Name.Contains(nameSearch));
+                contentItems = contentItems.Where(item => item.Name.Contains(name));
             }
 
-            if (!string.IsNullOrEmpty(contentSearch))
+            if (!string.IsNullOrEmpty(content))
             {
-                items = items.Where(item => item.Content.Contains(contentSearch));
+                contentItems = contentItems.Where(item => item.Content.Contains(content));
             }
 
-            if (!string.IsNullOrEmpty(attribute01Search))
+            if (!string.IsNullOrEmpty(attribute01))
             {
-                items = items.Where(item => item.Attribute01.Contains(attribute01Search));
+                contentItems = contentItems.Where(item => item.Attribute01.Contains(attribute01));
             }
 
-            if (!string.IsNullOrEmpty(attribute02Search))
+            if (!string.IsNullOrEmpty(attribute02))
             {
-                items = items.Where(item => item.Attribute02.Contains(attribute02Search));
+                contentItems = contentItems.Where(item => item.Attribute02.Contains(attribute02));
             }
 
-            if (!string.IsNullOrEmpty(attribute03Search))
+            if (!string.IsNullOrEmpty(attribute03))
             {
-                items = items.Where(item => item.Attribute03.Contains(attribute03Search));
+                contentItems = contentItems.Where(item => item.Attribute03.Contains(attribute03));
             }
 
-            if (!string.IsNullOrEmpty(attribute04Search))
+            if (!string.IsNullOrEmpty(attribute04))
             {
-                items = items.Where(item => item.Attribute04.Contains(attribute04Search));
+                contentItems = contentItems.Where(item => item.Attribute04.Contains(attribute04));
             }
 
-            if (!string.IsNullOrEmpty(attribute05Search))
+            if (!string.IsNullOrEmpty(attribute05))
             {
-                items = items.Where(item => item.Attribute05.Contains(attribute05Search));
+                contentItems = contentItems.Where(item => item.Attribute05.Contains(attribute05));
             }
 
-            if (!string.IsNullOrEmpty(attribute06Search))
+            if (!string.IsNullOrEmpty(attribute06))
             {
-                items = items.Where(item => item.Attribute06.Contains(attribute06Search));
+                contentItems = contentItems.Where(item => item.Attribute06.Contains(attribute06));
             }
 
-            if (!string.IsNullOrEmpty(attribute07Search))
+            if (!string.IsNullOrEmpty(attribute07))
             {
-                items = items.Where(item => item.Attribute07.Contains(attribute07Search));
+                contentItems = contentItems.Where(item => item.Attribute07.Contains(attribute07));
             }
 
-            if (!string.IsNullOrEmpty(attribute08Search))
+            if (!string.IsNullOrEmpty(attribute08))
             {
-                items = items.Where(item => item.Attribute08.Contains(attribute08Search));
+                contentItems = contentItems.Where(item => item.Attribute08.Contains(attribute08));
             }
 
-            if (!string.IsNullOrEmpty(attribute09Search))
+            if (!string.IsNullOrEmpty(attribute09))
             {
-                items = items.Where(item => item.Attribute09.Contains(attribute09Search));
+                contentItems = contentItems.Where(item => item.Attribute09.Contains(attribute09));
             }
 
-            if (!string.IsNullOrEmpty(attribute10Search))
+            if (!string.IsNullOrEmpty(attribute10))
             {
-                items = items.Where(item => item.Attribute10.Contains(attribute10Search));
+                contentItems = contentItems.Where(item => item.Attribute10.Contains(attribute10));
             }
 
-            if (!string.IsNullOrEmpty(attribute11Search))
+            if (!string.IsNullOrEmpty(attribute11))
             {
-                items = items.Where(item => item.Attribute11.Contains(attribute11Search));
+                contentItems = contentItems.Where(item => item.Attribute11.Contains(attribute11));
             }
 
-            if (!string.IsNullOrEmpty(attribute12Search))
+            if (!string.IsNullOrEmpty(attribute12))
             {
-                items = items.Where(item => item.Attribute12.Contains(attribute12Search));
+                contentItems = contentItems.Where(item => item.Attribute12.Contains(attribute12));
             }
 
-            if (!string.IsNullOrEmpty(attribute13Search))
+            if (!string.IsNullOrEmpty(attribute13))
             {
-                items = items.Where(item => item.Attribute13.Contains(attribute13Search));
+                contentItems = contentItems.Where(item => item.Attribute13.Contains(attribute13));
             }
 
-            if (!string.IsNullOrEmpty(attribute14Search))
+            if (!string.IsNullOrEmpty(attribute14))
             {
-                items = items.Where(item => item.Attribute14.Contains(attribute14Search));
+                contentItems = contentItems.Where(item => item.Attribute14.Contains(attribute14));
             }
 
-            if (!string.IsNullOrEmpty(attribute15Search))
+            if (!string.IsNullOrEmpty(attribute15))
             {
-                items = items.Where(item => item.Attribute15.Contains(attribute15Search));
+                contentItems = contentItems.Where(item => item.Attribute15.Contains(attribute15));
             }
 
-            if (!string.IsNullOrEmpty(attribute16Search))
+            if (!string.IsNullOrEmpty(attribute16))
             {
-                items = items.Where(item => item.Attribute16.Contains(attribute16Search));
+                contentItems = contentItems.Where(item => item.Attribute16.Contains(attribute16));
             }
 
-            if (!string.IsNullOrEmpty(attribute17Search))
+            if (!string.IsNullOrEmpty(attribute17))
             {
-                items = items.Where(item => item.Attribute17.Contains(attribute17Search));
+                contentItems = contentItems.Where(item => item.Attribute17.Contains(attribute17));
             }
 
-            if (!string.IsNullOrEmpty(attribute18Search))
+            if (!string.IsNullOrEmpty(attribute18))
             {
-                items = items.Where(item => item.Attribute18.Contains(attribute18Search));
+                contentItems = contentItems.Where(item => item.Attribute18.Contains(attribute18));
             }
 
-            if (!string.IsNullOrEmpty(attribute19Search))
+            if (!string.IsNullOrEmpty(attribute19))
             {
-                items = items.Where(item => item.Attribute19.Contains(attribute19Search));
+                contentItems = contentItems.Where(item => item.Attribute19.Contains(attribute19));
             }
 
-            if (!string.IsNullOrEmpty(attribute20Search))
+            if (!string.IsNullOrEmpty(attribute20))
             {
-                items = items.Where(item => item.Attribute20.Contains(attribute20Search));
+                contentItems = contentItems.Where(item => item.Attribute20.Contains(attribute20));
             }
 
-            return await items.ToListAsync();
+            return await contentItems.ToListAsync();
         }
 
         // Returns no. of objects saved, ie., 1
@@ -246,7 +204,9 @@ namespace Banico.Data.Repositories
 
         public async Task<int> Update(ContentItem item)
         {
-            var updateItem = await this.Get(item.Id);
+            var updateItem = (await this.Get(item.Id, "", "", "", 0, "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
+                .FirstOrDefault();
             updateItem.Name = item.Name;
             updateItem.Content = item.Content;
             updateItem.SectionItems = item.SectionItems;
@@ -277,7 +237,9 @@ namespace Banico.Data.Repositories
 
         public async Task<int> Delete(int id)
         {
-            var item = await this.Get(id);
+            var item = (await this.Get(id, "", "", "", 0, "", "", "", "", "", "",
+            "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
+                .FirstOrDefault();
             this.DbContext.Remove(item);
             return await this.DbContext.SaveChangesAsync();
         }
