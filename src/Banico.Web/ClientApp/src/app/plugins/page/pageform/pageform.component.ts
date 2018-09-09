@@ -22,11 +22,13 @@ export class PageFormComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.page = new Page();
-        this.sub = this.route.params.subscribe(params => {
+        this.page = new Page(null);
+        this.sub = this.route.params.subscribe(async params => {
             var alias = params['alias'];
-            this.pageService.GetPageByAlias(alias)
-                .subscribe(page => this.setPage(page));
+            if (alias) {
+                var page = await this.pageService.GetPageByAlias(alias);
+                this.setPage(page);
+            }
         });
     }
 

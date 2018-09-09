@@ -13,7 +13,7 @@ import { SectionItemsQueryResult } from './section.queryresults';
 
 import { Section } from '../../../entities/section';
 import { SectionItem } from '../../../entities/sectionitem';
-import { Item } from '../../../entities/item';
+import { ContentItem } from '../../../entities/contentitem';
 //import { status, json } from '../../../shared/fetch';
 
 @Injectable()
@@ -178,13 +178,13 @@ export class SectionService {
     }
     
     // Observable<Item[]>
-    public GetItemsByPathUrl(pathUrl: string): Observable<Item[]> {
+    public GetItemsByPathUrl(pathUrl: string): Observable<ContentItem[]> {
         let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'pathUrl=' + pathUrl;
 
         return this.http
-            .post<Item[]>(this.itemApiBaseUrl + '/GetByPathUrl', data, {
+            .post<ContentItem[]>(this.itemApiBaseUrl + '/GetByPathUrl', data, {
                 headers: headers
             });
             //.map(this.ExtractData);

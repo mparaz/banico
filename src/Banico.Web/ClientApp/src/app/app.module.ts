@@ -10,10 +10,14 @@ import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { SharedModule } from './shared/shared.module';
-import { AccountModule }  from './account/account.module';
-import { ManageModule } from './manage/manage.module';
-import { NavBarModule } from './components/navbar/navbar.module';
-import { SectionModule } from './components/section/section.module';
+
+import { AccountModule }  from './identity/account/account.module';
+import { ManageModule } from './identity/manage/manage.module';
+
+import { NavBarModule } from './common/navbar/navbar.module';
+import { SectionModule } from './common/section/section.module';
+
+import { PluginsModule } from '../app/plugins/plugins.module';
 
 @NgModule({
   declarations: [
@@ -21,17 +25,18 @@ import { SectionModule } from './components/section/section.module';
     NavMenuComponent
   ],
   imports: [
-    SharedModule,
-    AccountModule,
-    ManageModule,
-    NavBarModule,
-    SectionModule,
     BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
     HttpClientModule,
     FormsModule,
     ApolloModule,
     HttpLinkModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule,
+    AccountModule,
+    ManageModule,
+    NavBarModule,
+    SectionModule,
+    PluginsModule
   ],
   bootstrap: [AppComponent]
 })

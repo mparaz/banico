@@ -1,11 +1,12 @@
-export class Item {
+export class ContentItem {
   parentId: string;
   id: string;
-  type: string;
+  alias: string;
+  module: string;
   createdBy: string;
   createdDate: string;
   lastUpdate: string;
-  title: string;
+  name: string;
   content: string;
   htmlcontent: string;
   snippet: string;
@@ -29,5 +30,5 @@ export class Item {
   attribute18: string;
   attribute19: string;
   attribute20: string;
-  sections: string;
+  sectionItems: string;
 }

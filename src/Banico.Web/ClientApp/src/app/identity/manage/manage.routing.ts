@@ -7,7 +7,7 @@ import { ManageComponent } from './manage.component';
 import { ManageLoginsComponent } from './manage-logins/manage-logins.component';
 import { SetPasswordComponent } from './set-password/set-password.component';
 
-import { AuthGuard } from '../shared/services/auth.guard';
+import { AuthGuard } from '../../shared/services/auth.guard';
 
 export const ROUTES: Routes = [
   { path: 'manage', component: ManageComponent, children: [

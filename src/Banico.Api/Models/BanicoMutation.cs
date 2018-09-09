@@ -8,7 +8,8 @@ namespace Banico.Api.Models
     {
         public BanicoMutation(
             ISectionRepository sectionRepository,
-            ISectionItemRepository sectionItemRepository
+            ISectionItemRepository sectionItemRepository,
+            IContentItemRepository contentItemRepository
         )
         {
             Name = "BanicoMutation";
@@ -35,6 +36,17 @@ namespace Banico.Api.Models
                 {
                     var sectionItem = context.GetArgument<SectionItem>("sectionItem");
                     return sectionItemRepository.Add(sectionItem);
+                });
+
+            Field<ContentItemType>(
+                "addContentItem",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ContentItemInputType>> { Name = "contentItem" }
+                ),
+                resolve: context =>
+                {
+                    var contentItem = context.GetArgument<ContentItem>("contentItem");
+                    return contentItemRepository.Add(contentItem);
                 });
         }
     }

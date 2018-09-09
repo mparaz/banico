@@ -1,6 +1,6 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../../entities/item';
+import { ContentItem } from '../../../entities/contentitem';
 import { SectionItem } from '../../../entities/sectionitem';
 import { SectionService } from '../services/section.service';
 
@@ -13,7 +13,7 @@ export class SectionListComponent implements OnInit, OnDestroy {
     public isAdmin: boolean;
     //private section: string;
     private pathUrl: string;
-    public items: Item[];
+    public contentItems: ContentItem[];
     public sectionItems: SectionItem[];
     private sub: any;
 
@@ -32,7 +32,7 @@ export class SectionListComponent implements OnInit, OnDestroy {
             if (this.pathUrl != null)
             {
                 this.sectionService.GetItemsByPathUrl(this.pathUrl)
-                    .subscribe(items => this.items = items);
+                    .subscribe(contentItems => this.contentItems = contentItems);
             }
         });
     }

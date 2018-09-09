@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../page';
 import { PageService } from '../page.service';
-import { ModalComponent } from '../../../app/components/modal/modal.component';
+import { ModalComponent } from '../../../common/modal/modal.component';
 
 @Component({
     selector: 'pagedisplay',
@@ -24,11 +24,11 @@ export class PageDisplayComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.page = new Page();
+        this.page = new Page(null);
         this.sub = this.route.params.subscribe(params => {
             var alias = params['alias'];
             this.pageService.GetPageByAlias(alias)
-                .subscribe(page => this.setPage(page));
+                .then(page => this.setPage(page));
         });
 
         this.isAdmin = false;

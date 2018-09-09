@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export const ContentItemsQuery = gql`
     query contentItemsQuery(
+        $id: Int!,
         $name: String!,
         $alias: String!,
         $module: String!,
@@ -31,6 +32,7 @@ export const ContentItemsQuery = gql`
         $attribute20: String
     ) {
         contentItems(
+            id: $id,
             name: $name,
             alias: $alias,
             module: $module,

@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Page } from './page';
-import { status, json } from '../../app/shared/fetch';
 import { Observable } from 'rxjs/Observable';
-import { ORIGIN_URL } from '../../app/shared/constants/baseurl.constants';
+import { ContentItemService } from '../services/contentItem.service';
 
 @Injectable()
 export class PageService {
@@ -13,7 +12,8 @@ export class PageService {
 
     constructor(
         private http: Http,
-        @Inject(ORIGIN_URL) private baseUrl: string
+        @Inject('BASE_URL') private baseUrl: string,
+        private contentItemService: ContentItemService
     ) {
         this.pageType = 'page';
         this.accountUrl = `${this.baseUrl}/api/Account`;
@@ -43,30 +43,28 @@ export class PageService {
             //});
     }
 
-    public GetPage(id: string): Observable<Page> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'id=' + id;
+    public async GetPage(id: number): Promise<Page> {
+        var contentItem = await this.contentItemService.GetContentItems(id, '', '',
+        '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '').first().toPromise();
 
-        return this.http
-            .post(this.appBaseUrl + '/Get', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+        if (contentItem.length >= 1) {
+            return new Page(await contentItem[0]);
+        } else {
+            return null;
+        }
     }
     
-    public GetPageByAlias(alias: string): Observable<Page> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'alias=' + alias + '&pageType=' + this.pageType;
+    public async GetPageByAlias(alias: string): Promise<Page> {
+        var contentItem = await this.contentItemService.GetContentItems(0, '', alias,
+        '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '').first().toPromise();
 
-        return this.http
-            .post(this.appBaseUrl + '/GetByAliasAndPageType', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+        if (contentItem.length >= 1) {
+            return new Page(contentItem[0]);
+        } else {
+            return null;
+        }
     }
 
     public AddPage(page: Page): Observable<Page> {
