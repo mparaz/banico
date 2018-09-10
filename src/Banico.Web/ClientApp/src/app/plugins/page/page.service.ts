@@ -1,20 +1,25 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { BaseService } from "../../shared/services/base.service";
 import { Page } from './page';
 import { Observable } from 'rxjs/Observable';
 import { ContentItemService } from '../services/contentItem.service';
+import { ContentItem } from '../../entities/contentitem';
+import { ObservableQuery } from 'apollo-client';
 
 @Injectable()
-export class PageService {
+export class PageService extends BaseService {
     pageType: string;
     accountUrl: string;
     appBaseUrl: string;
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         @Inject('BASE_URL') private baseUrl: string,
         private contentItemService: ContentItemService
     ) {
+        super();
+
         this.pageType = 'page';
         this.accountUrl = `${this.baseUrl}/api/Account`;
         this.appBaseUrl = `${this.baseUrl}/api/Page`;
@@ -28,64 +33,41 @@ export class PageService {
         return body || {};
     }
 
-    public IsLoggedIn(): Observable<string> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http
-            .post(this.accountUrl + '/IsLoggedIn', '', {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
-    }
-
-    public async GetPage(id: number): Promise<Page> {
-        var contentItem = await this.contentItemService.GetContentItems(id, '', '',
+    public GetPage(id: number): Observable<Page> {
+        return this.contentItemService.GetContentItems(id, '', '',
         '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '', '', '', '').first().toPromise();
-
-        if (contentItem.length >= 1) {
-            return new Page(await contentItem[0]);
-        } else {
-            return null;
-        }
+        '', '', '', '', '', '', '', '', '', '')
+        .map(items => {
+            if (items.length >= 1) {
+                return new Page(items[0]);
+            } else {
+                return new Page(null);
+            }
+        });
     }
     
-    public async GetPageByAlias(alias: string): Promise<Page> {
-        var contentItem = await this.contentItemService.GetContentItems(0, '', alias,
+    public GetPageByAlias(alias: string): Observable<Page> {
+        return this.contentItemService.GetContentItems(0, '', alias,
         '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
-        '', '', '', '', '', '', '', '', '', '').first().toPromise();
-
-        if (contentItem.length >= 1) {
-            return new Page(contentItem[0]);
-        } else {
-            return null;
-        }
+        '', '', '', '', '', '', '', '', '', '')
+        .map(items => {
+            if (items.length >= 1) {
+                return new Page(items[0]);
+            } else {
+                return new Page(null);
+            }
+        });
     }
 
     public AddPage(page: Page): Observable<Page> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'title=' + page.title + '&content=' + page.content + '&alias=' + page.alias +
-            '&pageType=' + this.pageType;
-        return this.http
-            .post(this.appBaseUrl + '/Add', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
+        let contentItem: ContentItem = page.ToContentItem();
+        return this.contentItemService.AddContentItem(contentItem)
+            .map(contentItem => new Page(contentItem))
+            .catch(this.handleError);
     }
 
-    public UpdatePage(page: Page): Observable<Response> {
-        let headers = new Headers();
+    public UpdatePage(page: Page): Observable<boolean> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'id=' + page.id + '&title=' + page.title + '&content=' + page.content + 
             '&alias=' + page.alias;
@@ -93,34 +75,29 @@ export class PageService {
             .post(this.appBaseUrl + '/Update', data, {
                 headers: headers
             })
-            .map(this.ExtractData);
-            //.subscribe({
+            .map(res => true)
+            .catch(this.handleError);
+                //.subscribe({
                 //next: x => console.log('Observer got a next value: ' + x),
                 //error: err => alert(JSON.stringify(err)),
                 //complete: () => console.log('Saved completed.'),
             //});
     }
 
-    public DeletePage(page: Page): Observable<Response> {
-        let headers = new Headers();
+    public DeletePage(page: Page): Observable<boolean> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'id=' + page.id;
         return this.http
             .post(this.appBaseUrl + '/Delete', data, {
                 headers: headers
             })
-            .map(this.ExtractData);
-            //.subscribe({
+            .map(res => true)
+            .catch(this.handleError);
+                //.subscribe({
                 //next: x => console.log('Observer got a next value: ' + x),
                 //error: err => alert(JSON.stringify(err)),
                 //complete: () => console.log('Saved completed.'),
             //});
-    }
-
-    private handleError(error: Response) {
-        // in a real world app, we may send the server to some remote logging infrastructure
-        // instead of just logging it to the console
-        console.error(error);
-        //return Observable.throw(error.json().error || 'Server error');
     }
 }

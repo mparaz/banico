@@ -19,7 +19,7 @@ namespace Banico.Data.Migrations
                     Tenant = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Alias = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
+                    Module = table.Column<string>(nullable: true),
                     ParentId = table.Column<int>(nullable: false),
                     SectionItems = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),

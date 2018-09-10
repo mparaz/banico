@@ -2,14 +2,14 @@ import gql from 'graphql-tag';
 
 export const ContentItemsQuery = gql`
     query contentItemsQuery(
-        $id: Int!,
-        $name: String!,
-        $alias: String!,
-        $module: String!,
-        $parentId: Int!,
-        $createdBy: String!,
-        $sectionItems: String!,
-        $content: String!,
+        $id: Int,
+        $name: String,
+        $alias: String,
+        $module: String,
+        $parentId: Int,
+        $createdBy: String,
+        $sectionItems: String,
+        $content: String,
         $attribute01: String,
         $attribute02: String,
         $attribute03: String,

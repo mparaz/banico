@@ -20,6 +20,8 @@ namespace Banico.Api
       services.AddSingleton<SectionInputType>();
       services.AddSingleton<SectionItemType>();
       services.AddSingleton<SectionItemInputType>();
+      services.AddSingleton<ContentItemType>();
+      services.AddSingleton<ContentItemInputType>();
 
       var sp = services.BuildServiceProvider();
       services.AddSingleton<ISchema>(new BanicoSchema(new FuncDependencyResolver(type => sp.GetService(type))));

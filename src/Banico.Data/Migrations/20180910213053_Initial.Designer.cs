@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banico.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180818224312_Initial")]
+    [Migration("20180910213053_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,8 @@ namespace Banico.Data.Migrations
 
                     b.Property<DateTimeOffset>("LastUpdate");
 
+                    b.Property<string>("Module");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("ParentId");
@@ -80,8 +82,6 @@ namespace Banico.Data.Migrations
                     b.Property<string>("SectionItems");
 
                     b.Property<string>("Tenant");
-
-                    b.Property<string>("Type");
 
                     b.HasKey("Id");
 

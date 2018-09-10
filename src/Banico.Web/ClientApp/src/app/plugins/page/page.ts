@@ -10,7 +10,7 @@ export class Page {
   alias: string;
 
   constructor(private contentItem: ContentItem) {
-    if (contentItem) {
+    if ((contentItem) && (contentItem.module == 'page')) {
       this.id = contentItem.id;
       this.title = contentItem.name;
       this.content = contentItem.content;
@@ -18,5 +18,19 @@ export class Page {
       this.lastUpdate = contentItem.lastUpdate;
       this.alias = contentItem.alias;
     }
+  }
+
+  public ToContentItem(): ContentItem {
+    let output: ContentItem = new ContentItem();
+
+    output.module = "page";
+    output.id = this.id;
+    output.name = this.title;
+    output.content = this.content;
+    output.createdDate = this.createdDate;
+    output.lastUpdate = this.lastUpdate;
+    output.alias = this.alias;
+
+    return output;
   }
 }

@@ -4,6 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../page';
 import { PageService } from '../page.service';
 import { ModalComponent } from '../../../common/modal/modal.component';
+import { AccountService } from '../../../identity/account/account.service';
 
 @Component({
     selector: 'pagedisplay',
@@ -17,6 +18,7 @@ export class PageDisplayComponent implements OnInit, OnDestroy {
 
     constructor(
         @Inject(PageService) private pageService: PageService,
+        @Inject(AccountService) private accountService: AccountService,
         private route: ActivatedRoute,
         private router: Router,
         private modalService: NgbModal
@@ -28,12 +30,12 @@ export class PageDisplayComponent implements OnInit, OnDestroy {
         this.sub = this.route.params.subscribe(params => {
             var alias = params['alias'];
             this.pageService.GetPageByAlias(alias)
-                .then(page => this.setPage(page));
+                .subscribe(page => this.setPage(page));
         });
 
         this.isAdmin = false;
-        this.pageService.IsLoggedIn()
-            .subscribe(result => this.setAdmin(result));
+        this.accountService.isLoggedIn()
+            .subscribe(result => this.setAdmin('True'));
     }
 
     public setAdmin(isLoggedIn: string) {

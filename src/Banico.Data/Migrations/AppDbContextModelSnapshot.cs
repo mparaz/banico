@@ -71,6 +71,8 @@ namespace Banico.Data.Migrations
 
                     b.Property<DateTimeOffset>("LastUpdate");
 
+                    b.Property<string>("Module");
+
                     b.Property<string>("Name");
 
                     b.Property<int>("ParentId");
@@ -78,8 +80,6 @@ namespace Banico.Data.Migrations
                     b.Property<string>("SectionItems");
 
                     b.Property<string>("Tenant");
-
-                    b.Property<string>("Type");
 
                     b.HasKey("Id");
 

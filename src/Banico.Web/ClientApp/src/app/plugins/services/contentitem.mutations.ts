@@ -2,12 +2,12 @@ import gql from 'graphql-tag';
 
 export const AddContentItemMutation = gql`
     mutation (
-        $name: String!,
-        $alias: String!,
-        $module: String!,
-        $parentId: Int!,
-        $sectionItems: String!,
-        $content: String!,
+        $name: String,
+        $alias: String,
+        $module: String,
+        $parentId: Int,
+        $sectionItems: String,
+        $content: String,
         $attribute01: String,
         $attribute02: String,
         $attribute03: String,

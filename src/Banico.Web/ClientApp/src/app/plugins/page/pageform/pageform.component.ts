@@ -26,8 +26,9 @@ export class PageFormComponent implements OnInit {
         this.sub = this.route.params.subscribe(async params => {
             var alias = params['alias'];
             if (alias) {
-                var page = await this.pageService.GetPageByAlias(alias);
-                this.setPage(page);
+                this.pageService.GetPageByAlias(alias)
+                .subscribe(page => this.setPage(page));
+                
             }
         });
     }
@@ -40,7 +41,7 @@ export class PageFormComponent implements OnInit {
     public save() {
         if (!this.isEdit) {
             this.pageService.AddPage(this.page)
-                .subscribe(page => this.savePageSuccess(page));
+                .subscribe(result => this.savePageSuccess(this.page));
         } else {
             this.pageService.UpdatePage(this.page)
                 .subscribe(response => this.SaveResponse(response));
@@ -48,13 +49,8 @@ export class PageFormComponent implements OnInit {
     }
 
     private savePageSuccess(page: Page) {
-        if (page.id != '0') {
-            alert('Saved.');
-            this.router.navigateByUrl('page/' + page.alias);
-        }
-        else {
-            alert('Save failed.');
-        }
+        alert('Saved.');
+        this.router.navigateByUrl('page/' + page.alias);
     }
     
     private SaveResponse(data: any) {
