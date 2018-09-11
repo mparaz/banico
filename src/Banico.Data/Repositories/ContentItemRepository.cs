@@ -23,11 +23,11 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<ContentItem>> Get(
-            string id,
+            Guid? id,
             string name,
             string alias,
             string module,
-            string parentId,
+            Guid? parentId,
             string createdBy,
             string sectionItems,
             string content,
@@ -54,10 +54,10 @@ namespace Banico.Data.Repositories
         ) {
             var contentItems = from c in this.DbContext.ContentItems
                 where 
-                    (c.Id == Guid.Parse(id) || id == string.Empty) &&
+                    (c.Id == id || id == null) &&
                     (c.Module == module || string.IsNullOrEmpty(module)) && 
                     (c.Alias == alias || string.IsNullOrEmpty(alias)) && 
-                    (c.ParentId == Guid.Parse(parentId) || parentId == string.Empty) &&
+                    (c.ParentId == parentId || parentId == null) &&
                     (c.Name == name || string.IsNullOrEmpty(name)) && 
                     (c.CreatedBy == createdBy || string.IsNullOrEmpty(createdBy))
                 select c;
@@ -204,7 +204,7 @@ namespace Banico.Data.Repositories
 
         public async Task<ContentItem> Update(ContentItem item)
         {
-            var updateItem = (await this.Get(item.Id.ToString(), "", "", "","", "", "", "", "", "", "",
+            var updateItem = (await this.Get(item.Id, "", "", "", null, "", "", "", "", "", "",
             "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
                 .FirstOrDefault();
             updateItem.LastUpdate = DateTimeOffset.Now;
@@ -243,9 +243,9 @@ namespace Banico.Data.Repositories
             return new ContentItem();
         }
 
-        public async Task<ContentItem> Delete(string id)
+        public async Task<ContentItem> Delete(Guid id)
         {
-            var item = (await this.Get(id, "", "", "", "", "", "", "", "", "", "",
+            var item = (await this.Get(id, "", "", "", null, "", "", "", "", "", "",
             "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
                 .FirstOrDefault();
             this.DbContext.Remove(item);

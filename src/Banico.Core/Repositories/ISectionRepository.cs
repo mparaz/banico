@@ -10,7 +10,7 @@ namespace Banico.Core.Repositories
     public interface ISectionRepository
     {
         Task<List<Section>> Get(
-            string id,
+            Guid? id,
             string module,
             string name);
         Task<Section> Add(Section section);

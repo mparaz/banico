@@ -65,23 +65,23 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<SectionItem>> Get(
-            string id,
+            Guid? id,
             string section,
             string pathUrl,
             string alias,
             string name,
-            string parentId,
+            Guid? parentId,
             bool isRoot)
         {
             var sectionItems = from s in this.DbContext.SectionItems
                 where 
-                    (s.Id == Guid.Parse(id) || id == string.Empty) &&
+                    (s.Id == id || id == null) &&
                     (s.Section == section || string.IsNullOrEmpty(section)) && 
                     (s.PathUrl == pathUrl || string.IsNullOrEmpty(pathUrl)) && 
                     (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
                     (s.Name == name || string.IsNullOrEmpty(name)) && 
-                    (s.ParentId == Guid.Parse(parentId) || parentId == string.Empty) &&
-                    (s.ParentId == Guid.Empty || !isRoot)
+                    (s.ParentId == parentId || parentId == null) &&
+                    (s.ParentId == null || !isRoot)
                 select s;
 
             return await sectionItems.ToListAsync();
@@ -106,9 +106,9 @@ namespace Banico.Data.Repositories
         // Returns no. of objects saved
         public async Task<SectionItem> Update(SectionItem sectionItem)
         {
-            var storedSectionItem = (await this.Get(sectionItem.Id.ToString(),
+            var storedSectionItem = (await this.Get(sectionItem.Id,
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, string.Empty, false))
+                string.Empty, null, false))
                 .FirstOrDefault();
 
             storedSectionItem.LastUpdate = DateTimeOffset.Now;
@@ -127,11 +127,11 @@ namespace Banico.Data.Repositories
             return new SectionItem();
         }
 
-        public async Task<SectionItem> Delete(string id)
+        public async Task<SectionItem> Delete(Guid id)
         {
             var sectionItem = (await this.Get(id,
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, string.Empty, false))
+                string.Empty, null, false))
                 .FirstOrDefault();
 
             this.DbContext.Remove(sectionItem);

@@ -86,6 +86,24 @@
           "lib/netstandard1.3/GraphQL.Authorization.dll": {}
         }
       },
+      "GraphQL.Conventions/1.4.0": {
+        "type": "package",
+        "dependencies": {
+          "GraphQL": "2.0.0-alpha-887",
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.3",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.4.0",
+          "System.Runtime": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.6.1/GraphQL.Conventions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.6.1/GraphQL.Conventions.dll": {}
+        }
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.4": {
         "type": "package",
         "dependencies": {
@@ -4819,6 +4837,17 @@
         "graphql.authorization.nuspec",
         "lib/net46/GraphQL.Authorization.dll",
         "lib/netstandard1.3/GraphQL.Authorization.dll"
+      ]
+    },
+    "GraphQL.Conventions/1.4.0": {
+      "sha512": "fjrTmyuedwiv3cUlm3P0UfDQ8bm516dAvV3o0/zJ7hd2DHwYJZZyLRr2NuQ6a0SacrOJQtAYgQF9Y9p20iffvA==",
+      "type": "package",
+      "path": "graphql.conventions/1.4.0",
+      "files": [
+        "graphql.conventions.1.4.0.nupkg.sha512",
+        "graphql.conventions.nuspec",
+        "lib/net45/GraphQL.Conventions.dll",
+        "lib/netstandard1.6.1/GraphQL.Conventions.dll"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.4": {
@@ -12504,6 +12533,7 @@
       "Banico.Data >= 1.0.0",
       "GraphQL >= 2.0.0-alpha-912",
       "GraphQL.Authorization >= 1.0.16-alpha-16",
+      "GraphQL.Conventions >= 1.4.0",
       "Microsoft.AspNetCore.App",
       "Microsoft.NETCore.App >= 2.1.0",
       "graphiql >= 1.1.0"
@@ -12563,6 +12593,10 @@
           "GraphQL.Authorization": {
             "target": "Package",
             "version": "[1.0.16-alpha-16, )"
+          },
+          "GraphQL.Conventions": {
+            "target": "Package",
+            "version": "[1.4.0, )"
           },
           "Microsoft.AspNetCore.App": {
             "target": "Package",

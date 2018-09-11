@@ -10,11 +10,11 @@ namespace Banico.Core.Repositories
     public interface IContentItemRepository
     {
         Task<List<ContentItem>> Get(
-            string id,
+            Guid? id,
             string name,
             string alias,
             string module,
-            string parentId,
+            Guid? parentId,
             string createdBy,
             string sectionItems,
             string content,
@@ -41,6 +41,6 @@ namespace Banico.Core.Repositories
         );
         Task<ContentItem> Add(ContentItem item);
         Task<ContentItem> Update(ContentItem item);
-        Task<ContentItem> Delete(string id);
+        Task<ContentItem> Delete(Guid id);
     }
 }
