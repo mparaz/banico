@@ -86,7 +86,7 @@ namespace Banico.Api.Models
                     new QueryArgument<StringGraphType> { 
                         Name = "createdBy" 
                     },
-                    new QueryArgument<IntGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "sectionItems" 
                     },
                     new QueryArgument<StringGraphType> { 

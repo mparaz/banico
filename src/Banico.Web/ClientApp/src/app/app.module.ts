@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Inject, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 //import { AuthenticateXHRBackend } from './authenticate-xhr.backend';
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
@@ -30,6 +31,7 @@ import { PluginsModule } from '../app/plugins/plugins.module';
     FormsModule,
     ApolloModule,
     HttpLinkModule,
+    NgbModule.forRoot(),
     AppRoutingModule,
     SharedModule,
     AccountModule,

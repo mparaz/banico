@@ -68,6 +68,8 @@ export const ContentItemsQuery = gql`
                 createdBy,
                 sectionItems,
                 content,
+                htmlContent,
+                snippet,
                 attribute01,
                 attribute02,
                 attribute03,

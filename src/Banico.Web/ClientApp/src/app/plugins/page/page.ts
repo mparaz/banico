@@ -14,6 +14,7 @@ export class Page {
       this.id = contentItem.id;
       this.title = contentItem.name;
       this.content = contentItem.content;
+      this.htmlContent = contentItem.htmlContent;
       this.createdDate = contentItem.createdDate;
       this.lastUpdate = contentItem.lastUpdate;
       this.alias = contentItem.alias;

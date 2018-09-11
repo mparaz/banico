@@ -8,7 +8,7 @@ export class ContentItem {
   lastUpdate: string;
   name: string;
   content: string;
-  htmlcontent: string;
+  htmlContent: string;
   snippet: string;
   attribute01: string;
   attribute02: string;
