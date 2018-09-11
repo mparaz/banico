@@ -44,7 +44,7 @@ export class PageFormComponent implements OnInit {
                 .subscribe(result => this.savePageSuccess(this.page));
         } else {
             this.pageService.UpdatePage(this.page)
-                .subscribe(response => this.SaveResponse(response));
+                .subscribe(response => this.SaveResponse(this.page));
         }
     }
 

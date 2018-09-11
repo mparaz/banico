@@ -21,7 +21,7 @@ export class SectionAdminComponent implements OnInit {
         this.sections = new Array();
         this.section = new Section();
         this.section.initialize();
-        this.sectionService.GetSections(0, '', '')
+        this.sectionService.GetSections('', '', '')
             .subscribe(sections => this.setSections(sections));
     }
 

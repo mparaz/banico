@@ -11,8 +11,7 @@ namespace Banico.Data.Migrations
                 name: "ContentItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),
@@ -20,7 +19,7 @@ namespace Banico.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     Alias = table.Column<string>(nullable: true),
                     Module = table.Column<string>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false),
+                    ParentId = table.Column<Guid>(nullable: false),
                     SectionItems = table.Column<string>(nullable: true),
                     Content = table.Column<string>(nullable: true),
                     Attribute01 = table.Column<string>(nullable: true),
@@ -68,14 +67,13 @@ namespace Banico.Data.Migrations
                 name: "SectionItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),
                     Tenant = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    ParentId = table.Column<int>(nullable: false),
+                    ParentId = table.Column<Guid>(nullable: false),
                     Section = table.Column<string>(nullable: true),
                     PathUrl = table.Column<string>(nullable: true),
                     PathName = table.Column<string>(nullable: true),
@@ -91,8 +89,7 @@ namespace Banico.Data.Migrations
                 name: "Sections",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(nullable: false),
                     CreatedBy = table.Column<string>(nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(nullable: false),
                     LastUpdate = table.Column<DateTimeOffset>(nullable: false),

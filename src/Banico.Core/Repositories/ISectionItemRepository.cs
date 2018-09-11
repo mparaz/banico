@@ -15,15 +15,15 @@ namespace Banico.Core.Repositories
             out string[] pathUrls, 
             out string[] aliases);
         Task<List<SectionItem>> Get(
-            int id,
+            string id,
             string section,
             string pathUrl,
             string alias,
             string name,
-            int parentId,
+            string parentId,
             bool isRoot);
         Task<SectionItem> Add(SectionItem section);
-        Task<int> Update(SectionItem section);
-        Task<int> Delete(int id);
+        Task<SectionItem> Update(SectionItem section);
+        Task<SectionItem> Delete(string id);
     }
 }

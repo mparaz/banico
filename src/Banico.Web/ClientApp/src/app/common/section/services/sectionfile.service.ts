@@ -23,13 +23,13 @@ export class SectionFileService {
 
     public UploadFile(sectionType: string, inputString: string) {
         var lines = inputString.split('\n');
-        this.ProcessPair(new SectionItem(), sectionType, 0, '', '', lines[0].split(','), lines);
+        this.ProcessPair(new SectionItem(), sectionType, '', '', '', lines[0].split(','), lines);
     }
 
     public ProcessPair(
         sectionItem: SectionItem, 
         section: string, 
-        parentId: number, 
+        parentId: string, 
         pathName: string, 
         path: string, 
         remainingFields: string[], 
@@ -41,7 +41,7 @@ export class SectionFileService {
                 remainingFields.splice(0, 2);
 
                 this.sectionService.GetSectionItems(
-                    0, '', '', '', name, parentId, false
+                    '', '', '', '', name, parentId, false
                 )
                     .subscribe(sectionItem => this.ProcessSectionItem(
                         sectionItem[0], 
@@ -56,14 +56,14 @@ export class SectionFileService {
             } else {
                 if (lines.length > 0) {
                     lines.splice(0, 1);
-                    this.ProcessPair(new SectionItem(), section, 0, '', '', lines[0].split(','), lines);
+                    this.ProcessPair(new SectionItem(), section, '', '', '', lines[0].split(','), lines);
                 }
             }
         }
         else {
             if (lines.length > 0) {
                 lines.splice(0, 1);
-                this.ProcessPair(new SectionItem(), section, 0, '', '', lines[0].split(','), lines);
+                this.ProcessPair(new SectionItem(), section, '', '', '', lines[0].split(','), lines);
             }
         }
     }
@@ -73,7 +73,7 @@ export class SectionFileService {
         sectionType: string, 
         name: string, 
         alias: string, 
-        parentId: number, 
+        parentId: string, 
         pathName: string, 
         path: string, 
         remainingFields: string[], 

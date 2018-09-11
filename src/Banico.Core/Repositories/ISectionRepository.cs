@@ -10,10 +10,10 @@ namespace Banico.Core.Repositories
     public interface ISectionRepository
     {
         Task<List<Section>> Get(
-            int id,
+            string id,
             string module,
             string name);
         Task<Section> Add(Section section);
-        Task<int> Delete(string name);
+        Task<Section> Delete(string name);
     }
 }

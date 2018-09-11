@@ -33,9 +33,9 @@ export class PageService extends BaseService {
         return body || {};
     }
 
-    public GetPage(id: number): Observable<Page> {
+    public GetPage(id: string): Observable<Page> {
         return this.contentItemService.GetContentItems(id, '', '',
-        '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '', '', '', '')
         .map(items => {
             if (items.length >= 1) {
@@ -47,8 +47,8 @@ export class PageService extends BaseService {
     }
     
     public GetPageByAlias(alias: string): Observable<Page> {
-        return this.contentItemService.GetContentItems(0, '', alias,
-        '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '',
+        return this.contentItemService.GetContentItems('', '', alias,
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
         '', '', '', '', '', '', '', '', '', '')
         .map(items => {
             if (items.length >= 1) {
@@ -66,22 +66,11 @@ export class PageService extends BaseService {
             .catch(this.handleError);
     }
 
-    public UpdatePage(page: Page): Observable<boolean> {
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'id=' + page.id + '&title=' + page.title + '&content=' + page.content + 
-            '&alias=' + page.alias;
-        return this.http
-            .post(this.appBaseUrl + '/Update', data, {
-                headers: headers
-            })
-            .map(res => true)
+    public UpdatePage(page: Page): Observable<Page> {
+        let contentItem: ContentItem = page.ToContentItem();
+        return this.contentItemService.UpdateContentItem(contentItem)
+            .map(contentItem => new Page(contentItem))
             .catch(this.handleError);
-                //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
     }
 
     public DeletePage(page: Page): Observable<boolean> {

@@ -65,23 +65,23 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<SectionItem>> Get(
-            int id,
+            string id,
             string section,
             string pathUrl,
             string alias,
             string name,
-            int parentId,
+            string parentId,
             bool isRoot)
         {
             var sectionItems = from s in this.DbContext.SectionItems
                 where 
-                    (s.Id == id || id == 0) &&
+                    (s.Id == Guid.Parse(id) || id == string.Empty) &&
                     (s.Section == section || string.IsNullOrEmpty(section)) && 
                     (s.PathUrl == pathUrl || string.IsNullOrEmpty(pathUrl)) && 
                     (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
                     (s.Name == name || string.IsNullOrEmpty(name)) && 
-                    (s.ParentId == parentId || parentId == 0) &&
-                    (s.ParentId == 0 || !isRoot)
+                    (s.ParentId == Guid.Parse(parentId) || parentId == string.Empty) &&
+                    (s.ParentId == Guid.Empty || !isRoot)
                 select s;
 
             return await sectionItems.ToListAsync();
@@ -89,6 +89,7 @@ namespace Banico.Data.Repositories
 
         public async Task<SectionItem> Add(SectionItem sectionItem)
         {
+            sectionItem.Id = Guid.NewGuid();
             sectionItem.CreatedDate = DateTimeOffset.Now;
             this.DbContext.SectionItems.Add(sectionItem);
             var result = await this.DbContext.SaveChangesAsync();
@@ -103,11 +104,11 @@ namespace Banico.Data.Repositories
 
         // Update(item, i => i.Title)
         // Returns no. of objects saved
-        public async Task<int> Update(SectionItem sectionItem)
+        public async Task<SectionItem> Update(SectionItem sectionItem)
         {
-            var storedSectionItem = (await this.Get(sectionItem.Id,
+            var storedSectionItem = (await this.Get(sectionItem.Id.ToString(),
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, 0, false))
+                string.Empty, string.Empty, false))
                 .FirstOrDefault();
 
             storedSectionItem.LastUpdate = DateTimeOffset.Now;
@@ -116,18 +117,32 @@ namespace Banico.Data.Repositories
             storedSectionItem.Alias = sectionItem.Alias;
             storedSectionItem.Description = sectionItem.Description;
             
-            return await this.DbContext.SaveChangesAsync();
+            var result = await this.DbContext.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return sectionItem;
+            }
+
+            return new SectionItem();
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<SectionItem> Delete(string id)
         {
             var sectionItem = (await this.Get(id,
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, 0, false))
+                string.Empty, string.Empty, false))
                 .FirstOrDefault();
 
             this.DbContext.Remove(sectionItem);
-            return await this.DbContext.SaveChangesAsync();
+            var result = await this.DbContext.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return sectionItem;
+            }
+
+            return new SectionItem();
         }
     }
 }

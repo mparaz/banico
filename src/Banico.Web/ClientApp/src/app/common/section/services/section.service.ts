@@ -65,7 +65,7 @@ export class SectionService {
     }
 
     public GetSections(
-        id: number,
+        id: string,
         module: string,
         name: string
     ): Observable<Section[]> {
@@ -108,7 +108,7 @@ export class SectionService {
         var parentPathUrl = this.getParentPathUrl(pathUrl);
         var alias = this.getAlias(pathUrl);
 
-        return this.GetSectionItems(0, section, parentPathUrl, alias, '', 0, false)
+        return this.GetSectionItems('', section, parentPathUrl, alias, '', '', false)
     }
 
     private getSection(pathUrl: string): string {
@@ -148,12 +148,12 @@ export class SectionService {
     }
 
     public GetSectionItems(
-        id: number,
+        id: string,
         section: string,
         pathUrl: string,
         alias: string,
         name: string,
-        parentId: number,
+        parentId: string,
         isRoot: boolean
     ): Observable<SectionItem[]> {
         var result = this.apollo.watchQuery<SectionItemsQueryResult>({

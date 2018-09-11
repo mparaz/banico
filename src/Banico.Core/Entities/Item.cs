@@ -6,7 +6,7 @@ namespace Banico.Core.Entities
     public class Item
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string CreatedBy { get; set; }
         public DateTimeOffset CreatedDate { get; set; }

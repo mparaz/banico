@@ -12,7 +12,7 @@ namespace Banico.Core.Entities
         public string Alias { get; set; }
         public string Module { get; private set; }
 
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
         public string SectionItems { get; set; }
 
         [NotMapped]

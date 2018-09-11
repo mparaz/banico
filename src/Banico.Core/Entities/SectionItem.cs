@@ -5,7 +5,7 @@ namespace Banico.Core.Entities
 {
     public class SectionItem : Item
     {
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
 
         public string Section { get; set; }
         public string PathUrl { get; set; }

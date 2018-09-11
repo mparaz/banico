@@ -112,7 +112,7 @@ export class SectionItemAdminComponent implements OnInit {
     }
 
     private addSectionItemSuccess(sectionItem: SectionItem) {
-        if (sectionItem.id > 0) {
+        if (sectionItem.id != '') {
             alert('Saved.');
             this.navBarService.addSectionItem(0, sectionItem);
             this.resetNewSectionItem();

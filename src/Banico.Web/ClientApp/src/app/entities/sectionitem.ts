@@ -1,7 +1,7 @@
 export class SectionItem {
-  id: number = 0;
+  id: string = "";
   section: string = "";
-  parentId: number = 0;
+  parentId: string = "";
   pathUrl: string = "";
   pathName: string = "";
   name: string = "";

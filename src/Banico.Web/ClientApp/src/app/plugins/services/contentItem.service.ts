@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { ContentItemsQuery } from './contentitem.queries';
 import { AddContentItemMutation } from './contentitem.mutations';
+import { UpdateContentItemMutation } from './contentitem.mutations';
 import { ContentItemsQueryResult } from './contentitem.queryresults';
 import { ContentItem } from '../../entities/contentitem';
 //import { status, json } from '../../../shared/fetch';
@@ -33,14 +34,14 @@ export class ContentItemService {
     }
 
     private AddResult(res: any) {
-        var id = 0;
+        var id = '';
         var output;
         if (res.data.addContentItem) {
             id = res.data.addContentItem.id;
             output = res.data.addContentItem;
         }
 
-        if (id == 0){
+        if (id == ''){
             throw new Error('Unable to create object.');
         }
         return output || {};
@@ -55,11 +56,11 @@ export class ContentItemService {
     }
 
     public GetContentItems(
-        id: number,
+        id: string,
         name: string,
         alias: string,
         module: string,
-        parentId: number,
+        parentId: string,
         createdBy: string,
         sectionItems: string,
         content: string,
@@ -143,6 +144,47 @@ export class ContentItemService {
     public AddContentItem(contentItem: ContentItem): Observable<any> {
         var result = this.apollo.mutate({
             mutation: AddContentItemMutation,
+            variables: {
+                name: contentItem.name,
+                alias: contentItem.alias,
+                module: contentItem.module,
+                parentId: contentItem.parentId,
+                sectionItems: contentItem.sectionItems,
+                content: contentItem.content,
+                attribute01: contentItem.attribute01,
+                attribute02: contentItem.attribute02,
+                attribute03: contentItem.attribute03,
+                attribute04: contentItem.attribute04,
+                attribute05: contentItem.attribute05,
+                attribute06: contentItem.attribute06,
+                attribute07: contentItem.attribute07,
+                attribute08: contentItem.attribute08,
+                attribute09: contentItem.attribute09,
+                attribute10: contentItem.attribute10,
+                attribute11: contentItem.attribute11,
+                attribute12: contentItem.attribute12,
+                attribute13: contentItem.attribute13,
+                attribute14: contentItem.attribute14,
+                attribute15: contentItem.attribute15,
+                attribute16: contentItem.attribute16,
+                attribute17: contentItem.attribute17,
+                attribute18: contentItem.attribute18,
+                attribute19: contentItem.attribute19,
+                attribute20: contentItem.attribute20
+            }
+        }).map(this.AddResult);
+
+        return result;
+            //.subscribe({
+                //next: x => console.log('Observer got a next value: ' + x),
+                //error: err => alert(JSON.stringify(err)),
+                //complete: () => console.log('Saved completed.'),
+            //});
+    }
+
+    public UpdateContentItem(contentItem: ContentItem): Observable<any> {
+        var result = this.apollo.mutate({
+            mutation: UpdateContentItemMutation,
             variables: {
                 name: contentItem.name,
                 alias: contentItem.alias,

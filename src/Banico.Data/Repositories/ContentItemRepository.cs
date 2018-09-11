@@ -23,11 +23,11 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<ContentItem>> Get(
-            int id,
+            string id,
             string name,
             string alias,
             string module,
-            int parentId,
+            string parentId,
             string createdBy,
             string sectionItems,
             string content,
@@ -54,12 +54,11 @@ namespace Banico.Data.Repositories
         ) {
             var contentItems = from c in this.DbContext.ContentItems
                 where 
-                    (c.Id == id || id == 0) &&
+                    (c.Id == Guid.Parse(id) || id == string.Empty) &&
                     (c.Module == module || string.IsNullOrEmpty(module)) && 
                     (c.Alias == alias || string.IsNullOrEmpty(alias)) && 
-                    (c.ParentId == parentId || parentId == 0) &&
+                    (c.ParentId == Guid.Parse(parentId) || parentId == string.Empty) &&
                     (c.Name == name || string.IsNullOrEmpty(name)) && 
-                    (c.ParentId == parentId || parentId == 0) &&
                     (c.CreatedBy == createdBy || string.IsNullOrEmpty(createdBy))
                 select c;
 
@@ -189,6 +188,7 @@ namespace Banico.Data.Repositories
         // Returns no. of objects saved, ie., 1
         public async Task<ContentItem> Add(ContentItem item)
         {
+            item.Id = Guid.NewGuid();
             item.CreatedDate = DateTimeOffset.Now;
             item.LastUpdate = DateTimeOffset.Now;
             this.DbContext.ContentItems.Add(item);
@@ -202,13 +202,15 @@ namespace Banico.Data.Repositories
             return new ContentItem();
         }
 
-        public async Task<int> Update(ContentItem item)
+        public async Task<ContentItem> Update(ContentItem item)
         {
-            var updateItem = (await this.Get(item.Id, "", "", "", 0, "", "", "", "", "", "",
+            var updateItem = (await this.Get(item.Id.ToString(), "", "", "","", "", "", "", "", "", "",
             "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
                 .FirstOrDefault();
+            updateItem.LastUpdate = DateTimeOffset.Now;
             updateItem.Name = item.Name;
             updateItem.Content = item.Content;
+            updateItem.Alias = item.Alias;
             updateItem.SectionItems = item.SectionItems;
             updateItem.Attribute01 = item.Attribute01;
             updateItem.Attribute02 = item.Attribute02;
@@ -231,17 +233,30 @@ namespace Banico.Data.Repositories
             updateItem.Attribute19 = item.Attribute19;
             updateItem.Attribute20 = item.Attribute20;
             updateItem.LastUpdate = DateTimeOffset.Now;
-            
-            return await this.DbContext.SaveChangesAsync();
+            var result = await this.DbContext.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return item;
+            }
+
+            return new ContentItem();
         }
 
-        public async Task<int> Delete(int id)
+        public async Task<ContentItem> Delete(string id)
         {
-            var item = (await this.Get(id, "", "", "", 0, "", "", "", "", "", "",
+            var item = (await this.Get(id, "", "", "", "", "", "", "", "", "", "",
             "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""))
                 .FirstOrDefault();
             this.DbContext.Remove(item);
-            return await this.DbContext.SaveChangesAsync();
+            var result = await this.DbContext.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return item;
+            }
+
+            return new ContentItem();
         }
     }
 }

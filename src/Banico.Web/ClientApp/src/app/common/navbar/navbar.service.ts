@@ -38,7 +38,7 @@ export class NavBarService {
             section.name = adminSection;
             sections.push(section);
         } else {
-            sections = await this.sectionService.GetSections(0, module, '').first().toPromise();
+            sections = await this.sectionService.GetSections('', module, '').first().toPromise();
         }
 
         this.initializeNavBarItems(sections);
@@ -74,8 +74,8 @@ export class NavBarService {
         }
 
         if (!sectionPathUrl) {
-            sectionItems = await this.sectionService.GetSectionItems(0, sectionName, 
-                '', '', '', 0, true).first().toPromise();
+            sectionItems = await this.sectionService.GetSectionItems('', sectionName, 
+                '', '', '', '', true).first().toPromise();
             navBarItem.childSectionItems = this.cleanChildSectionItems(navBarItem, sectionItems);
         }
 
@@ -102,7 +102,7 @@ export class NavBarService {
         this.setPathUrls(navBarItem, sectionPathUrl);
 
         // set child section items
-        var sectionItems = await this.sectionService.GetSectionItems(0, '', '', '', '', navBarItem.sectionItem.id, false).first().toPromise();
+        var sectionItems = await this.sectionService.GetSectionItems('', '', '', '', '', navBarItem.sectionItem.id, false).first().toPromise();
         navBarItem.childSectionItems = this.cleanChildSectionItems(navBarItem, sectionItems);
     }
 

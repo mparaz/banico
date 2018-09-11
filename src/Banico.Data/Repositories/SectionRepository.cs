@@ -19,14 +19,14 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<Section>> Get(
-            int id,
+            string id,
             string module,
             string name)
         {
             var sections = from section in this.DbContext.Sections
                 where 
-                    (section.Id == id || 
-                        id == 0) &&
+                    (section.Id == Guid.Parse(id) || 
+                        id == string.Empty) &&
                     (section.Modules.Contains(module) || 
                         string.IsNullOrEmpty(section.Modules) ||
                         string.IsNullOrEmpty(module)) &&
@@ -39,6 +39,7 @@ namespace Banico.Data.Repositories
 
         public async Task<Section> Add(Section section)
         {
+            section.Id = Guid.NewGuid();
             section.CreatedDate = DateTimeOffset.Now;
             this.DbContext.Sections.Add(section);
             var result = await this.DbContext.SaveChangesAsync();
@@ -51,11 +52,19 @@ namespace Banico.Data.Repositories
             return new Section();
         }
 
-        public async Task<int> Delete(string name)
+        public async Task<Section> Delete(string name)
         {
-            var st = await this.Get(0, string.Empty, name);
-            this.DbContext.Remove(st);
-            return await this.DbContext.SaveChangesAsync();
+            var section = (await this.Get(string.Empty, string.Empty, name))
+                .FirstOrDefault();
+            this.DbContext.Remove(section);
+            var result = await this.DbContext.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return section;
+            }
+
+            return new Section();
         }
     }
 }

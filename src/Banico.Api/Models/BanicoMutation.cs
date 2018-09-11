@@ -48,6 +48,17 @@ namespace Banico.Api.Models
                     var contentItem = context.GetArgument<ContentItem>("contentItem");
                     return contentItemRepository.Add(contentItem);
                 });
+
+            Field<ContentItemType>(
+                "updateContentItem",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ContentItemInputType>> { Name = "contentItem" }
+                ),
+                resolve: context =>
+                {
+                    var contentItem = context.GetArgument<ContentItem>("contentItem");
+                    return contentItemRepository.Update(contentItem);
+                });
         }
     }
 }
