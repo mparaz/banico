@@ -8,18 +8,16 @@ namespace Banico.Api.Models
     {
         public ContentItemType(IContentItemRepository contentItemRepository)
         {
+            Field(x => x.Tenant, nullable:true);
             Field(x => x.Id, nullable:true);
-
+            Field(x => x.Name, nullable:true);
             Field(x => x.CreatedBy, nullable:true);
             Field(x => x.CreatedDate, nullable:true);
             Field(x => x.LastUpdate, nullable:true);
-
-            Field(x => x.Tenant, nullable:true);
-            Field(x => x.Name, nullable:true);
+            Field(x => x.ParentId, nullable:true);
 
             Field(x => x.Alias, nullable:true);
             Field(x => x.Module, nullable:true);
-            Field(x => x.ParentId, nullable:true);
             Field(x => x.SectionItems, nullable:true);
             Field(x => x.Content, nullable:true);
             Field(x => x.HtmlContent, nullable:true);

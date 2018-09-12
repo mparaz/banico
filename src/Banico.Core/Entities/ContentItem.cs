@@ -7,12 +7,11 @@ using Markdig;
 
 namespace Banico.Core.Entities
 {
-    public class ContentItem : Item
+    public class ContentItem : HierarchicalItem
     {
         public string Alias { get; set; }
         public string Module { get; private set; }
 
-        public Guid ParentId { get; set; }
         public string SectionItems { get; set; }
 
         [NotMapped]

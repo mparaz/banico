@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Banico.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180911132123_Initial")]
+    [Migration("20180912092122_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.ContentItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Alias");
@@ -77,7 +77,7 @@ namespace Banico.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid>("ParentId");
+                    b.Property<string>("ParentId");
 
                     b.Property<string>("SectionItems");
 
@@ -106,7 +106,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.Section", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CreatedBy");
@@ -128,7 +128,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.SectionItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Alias");
@@ -143,7 +143,7 @@ namespace Banico.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid>("ParentId");
+                    b.Property<string>("ParentId");
 
                     b.Property<string>("PathName");
 

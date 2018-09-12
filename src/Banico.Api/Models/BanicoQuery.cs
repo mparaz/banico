@@ -1,6 +1,5 @@
 using System;
 using GraphQL.Types;
-using GraphQL.Conventions.Adapters.Types;
 using Banico.Core.Repositories;
 
 namespace Banico.Api.Models
@@ -15,7 +14,7 @@ namespace Banico.Api.Models
             Field<ListGraphType<SectionType>>(
                 "sections",
                 arguments: new QueryArguments(
-                    new QueryArgument<GuidGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "id" 
                     },
                     new QueryArgument<StringGraphType> { 
@@ -26,7 +25,7 @@ namespace Banico.Api.Models
                     }
                     ),
                 resolve: context =>  sectionRepository.Get(
-                    context.GetArgument<Guid>("id"),
+                    context.GetArgument<string>("id"),
                     context.GetArgument<string>("module"),
                     context.GetArgument<string>("name")
                     ));
@@ -34,7 +33,7 @@ namespace Banico.Api.Models
             Field<ListGraphType<SectionItemType>>(
                 "sectionItems",
                 arguments: new QueryArguments(
-                    new QueryArgument<GuidGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "id" 
                     },
                     new QueryArgument<StringGraphType> { 
@@ -49,7 +48,7 @@ namespace Banico.Api.Models
                     new QueryArgument<StringGraphType> { 
                         Name = "name" 
                     },
-                    new QueryArgument<GuidGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "parentId" 
                     },
                     new QueryArgument<BooleanGraphType> { 
@@ -57,12 +56,12 @@ namespace Banico.Api.Models
                     }
                     ),
                 resolve: context =>  sectionItemRepository.Get(
-                    context.GetArgument<Guid>("id"),
+                    context.GetArgument<string>("id"),
                     context.GetArgument<string>("section"),
                     context.GetArgument<string>("pathUrl"),
                     context.GetArgument<string>("alias"),
                     context.GetArgument<string>("name"),
-                    context.GetArgument<Guid>("parentId"),
+                    context.GetArgument<string>("parentId"),
                     context.GetArgument<bool>("isRoot")
                     )
                 );
@@ -70,7 +69,7 @@ namespace Banico.Api.Models
             Field<ListGraphType<ContentItemType>>(
                 "contentItems",
                 arguments: new QueryArguments(
-                    new QueryArgument<GuidGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "id" 
                     },
                     new QueryArgument<StringGraphType> { 
@@ -82,7 +81,7 @@ namespace Banico.Api.Models
                     new QueryArgument<StringGraphType> { 
                         Name = "module" 
                     },
-                    new QueryArgument<GuidGraphType> { 
+                    new QueryArgument<StringGraphType> { 
                         Name = "parentId" 
                     },
                     new QueryArgument<StringGraphType> { 
@@ -156,11 +155,11 @@ namespace Banico.Api.Models
                     }
                     ),
                 resolve: context =>  contentItemRepository.Get(
-                    context.GetArgument<Guid>("id"),
+                    context.GetArgument<string>("id"),
                     context.GetArgument<string>("name"),
                     context.GetArgument<string>("alias"),
                     context.GetArgument<string>("module"),
-                    context.GetArgument<Guid>("parentId"),
+                    context.GetArgument<string>("parentId"),
                     context.GetArgument<string>("createdBy"),
                     context.GetArgument<string>("sectionItems"),
                     context.GetArgument<string>("content"),

@@ -65,22 +65,22 @@ namespace Banico.Data.Repositories
         }
 
         public async Task<List<SectionItem>> Get(
-            Guid? id,
+            string id,
             string section,
             string pathUrl,
             string alias,
             string name,
-            Guid? parentId,
+            string parentId,
             bool isRoot)
         {
             var sectionItems = from s in this.DbContext.SectionItems
                 where 
-                    (s.Id == id || id == null) &&
+                    (s.Id == id || string.IsNullOrEmpty(id)) &&
                     (s.Section == section || string.IsNullOrEmpty(section)) && 
                     (s.PathUrl == pathUrl || string.IsNullOrEmpty(pathUrl)) && 
                     (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
                     (s.Name == name || string.IsNullOrEmpty(name)) && 
-                    (s.ParentId == parentId || parentId == null) &&
+                    (s.ParentId == parentId || string.IsNullOrEmpty(parentId)) &&
                     (s.ParentId == null || !isRoot)
                 select s;
 
@@ -89,7 +89,7 @@ namespace Banico.Data.Repositories
 
         public async Task<SectionItem> Add(SectionItem sectionItem)
         {
-            sectionItem.Id = Guid.NewGuid();
+            sectionItem.Id = Guid.NewGuid().ToString();
             sectionItem.CreatedDate = DateTimeOffset.Now;
             this.DbContext.SectionItems.Add(sectionItem);
             var result = await this.DbContext.SaveChangesAsync();
@@ -108,7 +108,7 @@ namespace Banico.Data.Repositories
         {
             var storedSectionItem = (await this.Get(sectionItem.Id,
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, null, false))
+                string.Empty, string.Empty, false))
                 .FirstOrDefault();
 
             storedSectionItem.LastUpdate = DateTimeOffset.Now;
@@ -127,11 +127,11 @@ namespace Banico.Data.Repositories
             return new SectionItem();
         }
 
-        public async Task<SectionItem> Delete(Guid id)
+        public async Task<SectionItem> Delete(string id)
         {
             var sectionItem = (await this.Get(id,
                 string.Empty, string.Empty, string.Empty,
-                string.Empty, null, false))
+                string.Empty, string.Empty, false))
                 .FirstOrDefault();
 
             this.DbContext.Remove(sectionItem);

@@ -8,15 +8,13 @@ namespace Banico.Api.Models
         {
             Name = "SectionInput";
 
-            Field<IntGraphType>("id");
-
+            Field<StringGraphType>("tenant");
+            Field<StringGraphType>("id");
+            Field<StringGraphType>("name");
             Field<StringGraphType>("createdBy");
             Field<DateGraphType>("createdDate");
             Field<DateGraphType>("lastUpdate");
             
-            Field<StringGraphType>("tenant");
-            Field<StringGraphType>("name");
-
             Field<StringGraphType>("modules");
         }
     }

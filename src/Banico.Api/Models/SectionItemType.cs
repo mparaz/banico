@@ -8,16 +8,14 @@ namespace Banico.Api.Models
     {
         public SectionItemType(ISectionItemRepository sectionItemRepository)
         {
+            Field(x => x.Tenant, nullable:true);
             Field(x => x.Id, nullable:true);
-
+            Field(x => x.Name, nullable:true);
             Field(x => x.CreatedBy, nullable:true);
             Field(x => x.CreatedDate, nullable:true);
             Field(x => x.LastUpdate, nullable:true);
-
-            Field(x => x.Tenant, nullable:true);
-            Field(x => x.Name, nullable:true);
-
             Field(x => x.ParentId, nullable:true);
+            
             Field(x => x.Section, nullable:true);
             Field(x => x.PathUrl, nullable:true);
             Field(x => x.PathName, nullable:true);

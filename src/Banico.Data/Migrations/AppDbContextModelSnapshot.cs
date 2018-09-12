@@ -18,7 +18,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.ContentItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Alias");
@@ -75,7 +75,7 @@ namespace Banico.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid>("ParentId");
+                    b.Property<string>("ParentId");
 
                     b.Property<string>("SectionItems");
 
@@ -104,7 +104,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.Section", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("CreatedBy");
@@ -126,7 +126,7 @@ namespace Banico.Data.Migrations
 
             modelBuilder.Entity("Banico.Core.Entities.SectionItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Alias");
@@ -141,7 +141,7 @@ namespace Banico.Data.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<Guid>("ParentId");
+                    b.Property<string>("ParentId");
 
                     b.Property<string>("PathName");
 
