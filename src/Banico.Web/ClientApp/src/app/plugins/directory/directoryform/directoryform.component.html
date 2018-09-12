@@ -1,0 +1,35 @@
+<h1>Directory</h1>
+<form class="container">
+    <div class="form-group row">
+        <label for="name">Name</label>
+        <input type="text" [(ngModel)]="directoryItem.name" name="name" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="name">Sections</label>
+        <input type="text" [(ngModel)]="directoryItem.sections" name="sections" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="description">Description</label>
+        <textarea rows="4" [(ngModel)]="directoryItem.description" name="description" class="form-control">
+        </textarea>
+    </div>
+    <div class="form-group row">
+        <label for="name"><i class="fa fa-map-marker" aria-hidden="true"></i>Address</label>
+        <input type="text" [(ngModel)]="directoryItem.address" name="address" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="name"><i class="fa fa-phone" aria-hidden="true"></i> Phone</label>
+        <input type="text" [(ngModel)]="directoryItem.phone" name="phone" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="name"><i class="fa fa-globe" aria-hidden="true"></i>Website</label>
+        <input type="text" [(ngModel)]="directoryItem.website" name="website" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="name"><i class="fa fa-envelope" aria-hidden="true"></i>Email</label>
+        <input type="text" [(ngModel)]="directoryItem.email" name="email" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="saveDirectoryItem()" value="save">Save Directory Item</button>
+    </div>
+</form>

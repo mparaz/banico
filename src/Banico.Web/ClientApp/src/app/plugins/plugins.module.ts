@@ -1,13 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PageModule } from './page/page.module';
 import { ContentItemService } from './services/contentItem.service';
+
+import { DirectoryModule } from './directory/directory.module';
+import { PageModule } from './page/page.module';
 
 @NgModule({
     imports: [ 
         CommonModule,
-        PageModule 
+        DirectoryModule,
+        PageModule
     ],
     providers: [ 
         ContentItemService

@@ -1,0 +1,27 @@
+<span *ngIf="isAdmin">
+    <div class="card">
+        <div class="card-block">
+            <a href="/directory/edit/{{directoryItem.id}}"><i class="fa fa-edit" aria-hidden="true" style="padding-right: 5px;"></i>Edit</a> | 
+            <span class="link text-primary" (click)="delete()"><i class="fa fa-trash-o" aria-hidden="true" style="padding-right: 5px;"></i>Delete</span>
+        </div>
+    </div>
+    <br />
+</span>
+
+<h1>{{directoryItem.name}}</h1>
+
+<p>
+    <i class="fa fa-phone" aria-hidden="true"></i> {{directoryItem.phone}} | 
+    <i class="fa fa-globe" aria-hidden="true"></i> <a href="http://{{directoryItem.website}}" target="_blank">{{directoryItem.website}}</a> | 
+    <i class="fa fa-envelope" aria-hidden="true"></i> {{directoryItem.email}}
+</p>
+
+<div [innerHtml]="directoryItem.htmlDescription"></div>
+
+<iframe
+width="100%"
+height="450"
+frameborder="0" style="border:0"
+[src]='mapUrl()'
+allowfullscreen>
+</iframe>

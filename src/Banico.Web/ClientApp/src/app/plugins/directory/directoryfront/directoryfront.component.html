@@ -1,0 +1,16 @@
+<div *ngFor="let directoryItem of directoryItems">
+    <div class="card">
+        <div class="card-block">
+            <h5><a href="/directory/item/{{directoryItem.id}}">{{directoryItem.name}}</a></h5>
+            <p class="text-small">{{directoryItem.sectionOrderKey}}</p>
+            <p>{{directoryItem.snippet}}</p>
+            <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{directoryItem.address}}</p>
+            <p>
+                <i class="fa fa-phone" aria-hidden="true"></i> {{directoryItem.phone}} | 
+                <i class="fa fa-globe" aria-hidden="true"></i> <a href="http://{{directoryItem.website}}" target="_blank">{{directoryItem.website}}</a> | 
+                <i class="fa fa-envelope" aria-hidden="true"></i> {{directoryItem.email}}
+            </p>
+        </div>
+    </div>
+    <br />
+</div>
