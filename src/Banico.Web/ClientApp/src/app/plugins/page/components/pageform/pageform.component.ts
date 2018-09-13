@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Page } from '../page';
-import { PageService } from '../page.service';
+import { Page } from '../../main/page';
+import { PageService } from '../../main/page.service';
 
 @Component({
     selector: 'pageform',

@@ -1,9 +1,9 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ContentItem } from '../../../entities/contentitem';
-import { DirectoryItem } from '../directoryitem';
-import { NavBarService } from '../../../common/navbar/navbar.service';
-import { DirectoryService } from '../directory.service';
+import { ContentItem } from '../../../../entities/contentitem';
+import { DirectoryItem } from '../../main/directoryitem';
+import { NavBarService } from '../../../../common/navbar/navbar.service';
+import { DirectoryService } from '../../main/directory.service';
 
 @Component({
     selector: 'directoryform',
@@ -24,7 +24,7 @@ export class DirectoryFormComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.directoryItem = new DirectoryItem();
+        this.directoryItem = new DirectoryItem(null);
         this.sub = this.route.params.subscribe(params => {
             var id = params['id'];
             var path = params['path'];
@@ -34,19 +34,19 @@ export class DirectoryFormComponent implements OnInit {
             }
             if (path) {
                 this.navBarService.initialize('directory', path, '', '/directory');
-                this.directoryItem.sections = path;
+                this.directoryItem.sectionItems = path;
             }
         });
     }
 
     private setDirectoryItem(directoryItem: DirectoryItem) {
         this.directoryItem = directoryItem;
-        this.navBarService.initialize('directory', directoryItem.sections, '', '/directory');
+        this.navBarService.initialize('directory', directoryItem.sectionItems, '', '/directory');
         this.isEdit = true;
     }
 
     private toDirectoryItem(item: ContentItem): DirectoryItem {
-        var output: DirectoryItem = new DirectoryItem();
+        var output: DirectoryItem = new DirectoryItem(null);
 
         output.id = item.id;
         output.name = item.name;
@@ -55,7 +55,7 @@ export class DirectoryFormComponent implements OnInit {
         output.phone = item.attribute02;
         output.website = item.attribute03;
         output.email = item.attribute04;
-        output.sections = item.sectionItems;
+        output.sectionItems = item.sectionItems;
 
         return output;
     }

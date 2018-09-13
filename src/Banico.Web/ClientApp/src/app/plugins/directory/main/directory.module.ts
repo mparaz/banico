@@ -5,11 +5,11 @@ import { FormsModule } from '@angular/forms';
 
 import { DirectoryRoutingModule } from './directory.routing';
 import { DirectoryComponent }  from './directory.component';
-import { DirectoryDisplayComponent } from './directorydisplay/directorydisplay.component';
-import { DirectoryItemDisplayComponent } from './directoryitemdisplay/directoryitemdisplay.component';
-import { DirectoryFormComponent } from './directoryform/directoryform.component';
-import { DirectorySearchComponent } from './directorysearch/directorysearch.component';
-import { DirectoryFrontComponent } from './directoryfront/directoryfront.component';
+import { DirectoryDisplayComponent } from '../components/directorydisplay/directorydisplay.component';
+import { DirectoryItemDisplayComponent } from '../components/directoryitemdisplay/directoryitemdisplay.component';
+import { DirectoryFormComponent } from '../components/directoryform/directoryform.component';
+import { DirectorySearchComponent } from '../components/directorysearch/directorysearch.component';
+import { DirectoryFrontComponent } from '../components/directoryfront/directoryfront.component';
 
 @NgModule({
   imports: [ 

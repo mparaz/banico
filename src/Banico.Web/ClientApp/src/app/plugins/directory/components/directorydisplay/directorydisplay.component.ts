@@ -1,19 +1,19 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DirectoryItem } from '../directoryitem';
-import { NavBarService } from '../../../common/navbar/navbar.service';
-import { SectionService } from '../../../common/section/services/section.service';
-import { DirectoryService } from '../directory.service';
+import { DirectoryItem } from '../../main/directoryitem';
+import { NavBarService } from '../../../../common/navbar/navbar.service';
+import { SectionService } from '../../../../common/section/services/section.service';
+import { DirectoryService } from '../../main/directory.service';
 
 @Component({
-    selector: 'directorysearch',
-    templateUrl: './directorysearch.component.html',
+    selector: 'directorydisplay',
+    templateUrl: './directorydisplay.component.html',
     providers: [DirectoryService]
 })
-export class DirectorySearchComponent implements OnInit, OnDestroy {
+export class DirectoryDisplayComponent implements OnInit, OnDestroy {
     private id: string;
     private sub: any;
-    public path: string;
+    private path: string;
     public directoryItems: DirectoryItem[];
     public isAdmin: boolean;
 
@@ -31,24 +31,26 @@ export class DirectorySearchComponent implements OnInit, OnDestroy {
         //         .subscribe(item => this.item = item);
         // });
 
-        this.isAdmin = false;
-        this.directoryService.IsLoggedIn()
-            .subscribe(result => this.setAdmin(result));
         this.sub = this.route.params.subscribe(params => {
-            var search = params['search'];
-            this.navBarService.initialize('directory', '', '', '/directory');
+            this.path = params['path'];
+            this.navBarService.initialize('directory', this.path, '', '/directory');
 
-        if (search)
-            {
-                this.directoryService.GetWithTextSearch(search)
+            if (this.path) {
+                this.directoryService.GetDirectoryItems(this.path)
                 .subscribe(directoryItems => this.setDirectoryItems(directoryItems));
             }
         });
+
+        this.isAdmin = false;
+        this.directoryService.IsLoggedIn()
+            .subscribe(result => this.setAdmin('True'));
     }
 
     public setAdmin(isLoggedIn: string) {
-        if (isLoggedIn == 'True') {
-            this.isAdmin = true;
+        if (this.path) {
+            if (isLoggedIn == 'True') {
+                this.isAdmin = true;
+            }
         }
     }
     

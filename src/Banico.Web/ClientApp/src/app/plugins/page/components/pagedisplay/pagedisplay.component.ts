@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Page } from '../page';
-import { PageService } from '../page.service';
-import { ModalComponent } from '../../../common/modal/modal.component';
-import { AccountService } from '../../../identity/account/account.service';
+import { Page } from '../../main/page';
+import { PageService } from '../../main/page.service';
+import { ModalComponent } from '../../../../common/modal/modal.component';
+import { AccountService } from '../../../../identity/account/account.service';
 
 @Component({
     selector: 'pagedisplay',

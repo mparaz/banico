@@ -2,12 +2,12 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
-import { ContentItem } from '../../../entities/contentitem';
-import { DirectoryItem } from '../directoryitem';
-import { DirectoryService } from '../directory.service';
-import { NavBarService } from '../../../common/navbar/navbar.service';
-import { ModalComponent } from '../../../common/modal/modal.component';
-import { AppConfig } from '../../../../../../config/app.config';
+import { ContentItem } from '../../../../entities/contentitem';
+import { DirectoryItem } from '../../main/directoryitem';
+import { DirectoryService } from '../../main/directory.service';
+import { NavBarService } from '../../../../common/navbar/navbar.service';
+import { ModalComponent } from '../../../../common/modal/modal.component';
+import { AppConfig } from '../../../../../../../config/app.config';
 
 @Component({
     selector: 'directoryitemdisplay',
@@ -32,7 +32,7 @@ export class DirectoryItemDisplayComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.directoryItem = new DirectoryItem();
+        this.directoryItem = new DirectoryItem(null);
         this.sub = this.route.params.subscribe(params => {
             this.id = params['id'];
             this.directoryService.GetDirectoryItem(this.id)
@@ -53,7 +53,7 @@ export class DirectoryItemDisplayComponent implements OnInit, OnDestroy {
     private SetDirectoryItem(directoryItem: DirectoryItem) {
         this.directoryItem = directoryItem;
         this.uriEncodeAddress = encodeURIComponent(directoryItem.address);
-        this.navBarService.initialize('directory', directoryItem.sections, '', '/directory');
+        this.navBarService.initialize('directory', directoryItem.sectionItems, '', '/directory');
     }
 
     public mapUrl(): SafeUrl {
@@ -62,7 +62,7 @@ export class DirectoryItemDisplayComponent implements OnInit, OnDestroy {
     }
 
     private ToDirectoryItem(item: ContentItem): DirectoryItem {
-        var output: DirectoryItem = new DirectoryItem();
+        var output: DirectoryItem = new DirectoryItem(null);
         output.id = item.id;
         output.name = item.name;
         output.description = item.content;
@@ -88,7 +88,7 @@ export class DirectoryItemDisplayComponent implements OnInit, OnDestroy {
             if (data.value != null) {
                 if (data.value == '1') {
                     alert('Saved.');
-                    this.router.navigateByUrl('directory/' + this.directoryItem.sections);
+                    this.router.navigateByUrl('directory/' + this.directoryItem.sectionItems);
                 } else {
                     alert('Save failed.');
                 }

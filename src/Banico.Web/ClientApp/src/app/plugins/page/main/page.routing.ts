@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PageComponent } from './page.component';
-import { PageDisplayComponent } from './pagedisplay/pagedisplay.component';
-import { PageFormComponent } from './pageform/pageform.component';
+import { PageDisplayComponent } from '../components/pagedisplay/pagedisplay.component';
+import { PageFormComponent } from '../components/pageform/pageform.component';
 
 const PAGE_ROUTES: Routes = [
   { path: 'page', component: PageComponent, children: [

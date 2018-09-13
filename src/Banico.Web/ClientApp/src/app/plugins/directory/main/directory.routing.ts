@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { DirectoryComponent } from './directory.component';
-import { DirectorySearchComponent } from './directorysearch/directorysearch.component';
-import { DirectoryDisplayComponent } from './directorydisplay/directorydisplay.component';
-import { DirectoryItemDisplayComponent } from './directoryitemdisplay/directoryitemdisplay.component';
-import { DirectoryFormComponent } from './directoryform/directoryform.component';
-import { DirectoryFrontComponent } from './directoryfront/directoryfront.component';
+import { DirectorySearchComponent } from '../components/directorysearch/directorysearch.component';
+import { DirectoryDisplayComponent } from '../components/directorydisplay/directorydisplay.component';
+import { DirectoryItemDisplayComponent } from '../components/directoryitemdisplay/directoryitemdisplay.component';
+import { DirectoryFormComponent } from '../components/directoryform/directoryform.component';
+import { DirectoryFrontComponent } from '../components/directoryfront/directoryfront.component';
 
 const LIST_ROUTES: Routes = [
   { path: 'directory', component: DirectoryComponent, children: [

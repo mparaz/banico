@@ -1,11 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { BaseService } from "../../shared/services/base.service";
-import { Page } from './page';
 import { Observable } from 'rxjs/Observable';
-import { ContentItemService } from '../services/contentItem.service';
-import { ContentItem } from '../../entities/contentitem';
-import { ObservableQuery } from 'apollo-client';
+import { BaseService } from "../../../shared/services/base.service";
+import { Page } from './page';
+import { ContentItemService } from '../../services/contentItem.service';
+import { ContentItem } from '../../../entities/contentitem';
 
 @Injectable()
 export class PageService extends BaseService {
