@@ -1,0 +1,12 @@
+<span *ngIf="isAdmin">
+    <div class="card">
+        <div class="card-block">
+            <a href="/profile/edit/"><i class="fa fa-edit" aria-hidden="true" style="padding-right: 5px;"></i>Edit</a>
+        </div>
+    </div>
+    <br />
+</span>
+
+<h1>{{profile.firstName}} {{profile.lastName}} ({{profile.alias}})</h1>
+<div [innerHtml]="profile.htmlContent"></div>
+<p class="text-muted">Last Update: {{ profile.lastUpdate | date }}</p>

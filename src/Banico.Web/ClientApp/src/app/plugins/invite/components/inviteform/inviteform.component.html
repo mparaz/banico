@@ -1,0 +1,11 @@
+<h1>Invite</h1>
+
+<form class="container">
+    <div class="form-group row">
+        <label for="emails">Emails</label>
+        <input type="text" [(ngModel)]="invite.emails" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="submit()">Send Invites</button>
+    </div>
+</form>

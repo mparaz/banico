@@ -1,0 +1,51 @@
+<h1>FAQ</h1>
+<form class="container">
+    <div class="form-group row">
+        <label for="title">Title</label>
+        <input type="text" [(ngModel)]="faq.title" name="title" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="title">Alias</label>
+        <input type="text" [(ngModel)]="faq.alias" name="alias" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="question">Question</label>
+        <input type="text" [(ngModel)]="question" name="question" class="form-control" />
+    </div>
+    <div class="form-group row">
+            <label for="answer">Answer</label>
+            <input type="text" [(ngModel)]="answer" name="answer" class="form-control" />
+    </div>
+    <div class="form-group row">
+            <button type="button" class="btn btn-primary" (click)="saveQA()">Save Q & A</button>
+            <button type="button" class="btn btn-danger" (click)="cancelQA()">Cancel</button>
+        </div>
+    <hr />
+    <div class="form-group row">
+        <p>Preview</p>
+    </div>   
+    <div class="form-group row">
+        <span *ngFor="let qa of faq.qas; let i = index" style="width: 100%;padding-bottom: 10px;">
+            <div div class="card">
+                <div class="card-header" role="tab" id="heading_{{i}}">
+                    <p class="mb-0">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse_{{i}}" aria-expanded="true">
+                        {{qa.question}}
+                    </a>
+                </p>
+                    <span class="link text-primary" (click)="edit(i)">Edit</span>
+                    <span class="link text-primary" (click)="delete(i)">Delete</span>
+                </div>
+                <div id="collapse_{{i}}" class="collapse" role="tabpanel">
+                    <div class="card-block">
+                        <p>{{qa.answer}}</p>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+    <hr />
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="save()">Save FAQ</button>
+    </div>
+</form>

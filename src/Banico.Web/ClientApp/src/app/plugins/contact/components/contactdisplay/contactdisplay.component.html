@@ -1,0 +1,35 @@
+<span *ngIf="isAdmin">
+    <div class="card">
+        <div class="card-block">
+            <a href="/contact/edit/{{contact.alias}}"><i class="fa fa-edit" aria-hidden="true" style="padding-right: 5px;"></i>Edit</a> | 
+            <span class="link text-primary" (click)="delete()"><i class="fa fa-trash-o" aria-hidden="true" style="padding-right: 5px;"></i>Delete</span>
+        </div>
+    </div>
+    <br />
+</span>
+
+<h1>{{contact.title}}</h1>
+
+<form class="container">
+    <div class="form-group row">
+        <label for="email">Name</label>
+        <input type="text" [(ngModel)]="contact.senderName" class="form-control" />
+    </div>
+    <div class="form-group row">
+        <label for="email">Email</label>
+        <input type="text" [(ngModel)]="contact.senderEmail" class="form-control" />
+    </div>
+    <span *ngFor="let field of contact.fields; let i = index" style="width: 100%;padding-bottom: 10px;">
+        <div class="form-group row">
+                <label for="{{field.name}}">{{field.name}}</label>
+                <input *ngIf="field.type == 'text1'" type="text" class="form-control" [(ngModel)]="fieldValue[i]" />
+                <textarea *ngIf="field.type == 'text4'" rows="4" [(ngModel)]="fieldValue[i]" class="form-control"></textarea>
+                <textarea *ngIf="field.type == 'text6'" rows="6" [(ngModel)]="fieldValue[i]" class="form-control"></textarea>
+                <textarea *ngIf="field.type == 'text8'" rows="8" [(ngModel)]="fieldValue[i]" class="form-control"></textarea>
+            </div>
+    </span>
+    
+    <div class="form-group row">
+        <button type="submit" class="btn btn-primary" (click)="send()">Send</button>
+    </div>
+</form>

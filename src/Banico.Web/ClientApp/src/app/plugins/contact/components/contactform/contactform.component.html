@@ -1,0 +1,68 @@
+<h1>Contact</h1>
+
+<form class="container">
+    <div class="form-group row">
+            <label for="title">Title</label>
+            <input type="text" [(ngModel)]="contact.title" name="title" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="alias">Alias</label>
+            <input type="text" [(ngModel)]="contact.alias" name="alias" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="email">Recipient Name</label>
+            <input type="text" [(ngModel)]="contact.recipientName" name="recipientName" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="email">Recipient Email</label>
+            <input type="text" [(ngModel)]="contact.recipientEmail" name="recipientEmail" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="email">Subject</label>
+            <input type="text" [(ngModel)]="contact.subject" name="subject" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="name">Field Name</label>
+            <input type="text" [(ngModel)]="name" name="name" class="form-control" />
+        </div>
+        <div class="form-group row">
+            <label for="type">Field Type</label>
+            <div class="radio" class="form-control">
+                <label><input type="radio" [(ngModel)]="type" name="type" value="text1">Single Line Text</label>
+            </div>
+            <div class="radio" class="form-control">
+                <label><input type="radio" [(ngModel)]="type" name="type" value="text4">4-Line Text</label>
+            </div>
+            <div class="radio" class="form-control">
+                <label><input type="radio" [(ngModel)]="type" name="type" value="text6">6-Line Text</label>
+            </div>
+            <div class="radio" class="form-control">
+                <label><input type="radio" [(ngModel)]="type" name="type" value="text8">8-Line Text</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <button type="button" class="btn btn-primary" (click)="saveField()">Save Field</button>
+            <button type="button" class="btn btn-danger" (click)="cancelField()">Cancel</button>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <p>Preview</p>
+        </div>   
+        <div class="form-group row">
+            <span *ngFor="let field of contact.fields; let i = index" style="width: 100%;padding-bottom: 10px;">
+                <div class="form-group row">
+                    <label for="{{field.name}}">{{field.name}}</label>
+                    <span class="link text-primary" (click)="edit(i)">Edit</span>
+                    <span class="link text-primary" (click)="delete(i)">Delete</span>
+                    <input *ngIf="field.type == 'text1'" type="text" class="form-control" />
+                    <textarea *ngIf="field.type == 'text4'" rows="4" class="form-control"></textarea>
+                    <textarea *ngIf="field.type == 'text6'" rows="6" class="form-control"></textarea>
+                    <textarea *ngIf="field.type == 'text8'" rows="8" class="form-control"></textarea>
+                </div>
+            </span>
+        </div>
+        <hr />
+        <div class="form-group row">
+            <button type="submit" class="btn btn-primary" (click)="save()">Save Contact Form</button>
+        </div>
+</form>
