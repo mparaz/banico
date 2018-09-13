@@ -81,7 +81,7 @@ namespace Banico.Data.Repositories
                     (s.Alias == alias || string.IsNullOrEmpty(alias)) &&
                     (s.Name == name || string.IsNullOrEmpty(name)) && 
                     (s.ParentId == parentId || string.IsNullOrEmpty(parentId)) &&
-                    (s.ParentId == null || !isRoot)
+                    (s.ParentId == string.Empty || !isRoot)
                 select s;
 
             return await sectionItems.ToListAsync();

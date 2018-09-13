@@ -14,7 +14,7 @@ export class DirectoryItem {
   sectionOrderKey: string;
 
   constructor(private contentItem: ContentItem) {
-    if ((contentItem) && (contentItem.module == 'directoryitem')) {
+    if ((contentItem) && (contentItem.module == 'directory')) {
       this.id = contentItem.id;
       this.name = contentItem.name;
       this.description = contentItem.content;
@@ -31,7 +31,7 @@ export class DirectoryItem {
   public ToContentItem(): ContentItem {
     let output: ContentItem = new ContentItem();
 
-    output.module = "page";
+    output.module = "directory";
     output.id = this.id;
     output.name = this.name;
     output.content = this.description;

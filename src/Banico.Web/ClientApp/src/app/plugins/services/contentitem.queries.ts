@@ -61,6 +61,7 @@ export const ContentItemsQuery = gql`
             attribute19: $attribute19,
             attribute20: $attribute20
             ) {
+                id,
                 name,
                 alias,
                 module,

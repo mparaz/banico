@@ -19,7 +19,7 @@ export const AddSectionMutation = gql`
 export const AddSectionItemMutation = gql`
     mutation (
         $section: String!,
-        $parentId: Int!,
+        $parentId: String!,
         $pathUrl: String!,
         $pathName: String!,
         $name: String!

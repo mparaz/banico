@@ -45,21 +45,6 @@ export class DirectoryFormComponent implements OnInit {
         this.isEdit = true;
     }
 
-    private toDirectoryItem(item: ContentItem): DirectoryItem {
-        var output: DirectoryItem = new DirectoryItem(null);
-
-        output.id = item.id;
-        output.name = item.name;
-        output.description = item.content;
-        output.address = item.attribute01;
-        output.phone = item.attribute02;
-        output.website = item.attribute03;
-        output.email = item.attribute04;
-        output.sectionItems = item.sectionItems;
-
-        return output;
-    }
-
     public saveDirectoryItem() {
         if (!this.isEdit) {
             this.directoryService.AddDirectoryItem(this.directoryItem)
