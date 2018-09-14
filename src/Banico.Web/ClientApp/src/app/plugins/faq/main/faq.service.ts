@@ -1,73 +1,38 @@
 import { Injectable, Inject } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
+import { PluginService } from '../../services/plugin.service';
+import { ContentItem } from '../../../entities/contentitem';
 import { Faq } from './faq';
 import { Qa } from './qa';
-import { status, json } from '../../app/shared/fetch';
-import { Observable } from 'rxjs/Observable';
-import { ORIGIN_URL } from '../../app/shared/constants/baseurl.constants';
 
 @Injectable()
-export class FaqService {
-    pageType: string;
-    accountUrl: string;
-    appBaseUrl: string;
-
-    constructor(
-        private http: Http,
-        @Inject(ORIGIN_URL) private baseUrl: string
-    ) {
-        this.pageType = 'faq';
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.appBaseUrl = `${this.baseUrl}/api/Page`;
-    }
-
-    private ExtractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Response status: ' + res.status);
-        }
-        let body = res.json();
-        return body || {};
-    }
-
-    public IsLoggedIn(): Observable<string> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http
-            .post(this.accountUrl + '/IsLoggedIn', '', {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
-    }
+export class FaqService extends PluginService {
 
     public GetFaq(id: string): Observable<Faq> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'id=' + id;
-
-        return this.http
-            .post(this.appBaseUrl + '/Get', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+        return this.contentItemService.GetContentItems(id, '', '',
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '')
+        .map(items => {
+            if (items.length >= 1) {
+                return new Faq(items[0]);
+            } else {
+                return new Faq(null);
+            }
+        });
     }
     
     public GetFaqByAlias(alias: string): Observable<Faq> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'alias=' + alias + '&pageType=' + this.pageType;
-        
-        return this.http
-            .post(this.appBaseUrl + '/GetByAliasAndPageType', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.catch(this.handleError);
+        return this.contentItemService.GetContentItems('', '', alias,
+        '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',
+        '', '', '', '', '', '', '', '', '', '')
+        .map(items => {
+            if (items.length >= 1) {
+                return new Faq(items[0]);
+            } else {
+                return new Faq(null);
+            }
+        });
     }
 
     public SetQa(content: string): Qa[] {
@@ -84,40 +49,21 @@ export class FaqService {
     }
 
     public AddFaq(faq: Faq): Observable<Faq> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'title=' + faq.title + '&content=' + faq.content + '&alias=' + faq.alias +
-            '&pageType=' + this.pageType;
-        return this.http
-            .post(this.appBaseUrl + '/Add', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
+        let contentItem: ContentItem = faq.ToContentItem();
+        return this.contentItemService.AddContentItem(contentItem)
+            .map(contentItem => new Faq(contentItem))
+            .catch(this.handleError);
     }
 
-    public UpdateFaq(faq: Faq): Observable<Response> {
-        let headers = new Headers();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        let data = 'id=' + faq.id + '&title=' + faq.title + '&content=' + faq.content + '&alias=' + faq.alias;
-        return this.http
-            .post(this.appBaseUrl + '/Update', data, {
-                headers: headers
-            })
-            .map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
+    public UpdateFaq(faq: Faq): Observable<Faq> {
+        let contentItem: ContentItem = faq.ToContentItem();
+        return this.contentItemService.UpdateContentItem(contentItem)
+            .map(contentItem => new Faq(contentItem))
+            .catch(this.handleError);
     }
 
-    public DeleteFaq(faq: Faq): Observable<Response> {
-        let headers = new Headers();
+    public DeleteFaq(faq: Faq): Observable<{}> {
+        let headers = new HttpHeaders();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         let data = 'id=' + faq.id;
         return this.http
@@ -130,12 +76,5 @@ export class FaqService {
                 //error: err => alert(JSON.stringify(err)),
                 //complete: () => console.log('Saved completed.'),
             //});
-    }
-
-    private handleError(error: Response) {
-        // in a real world app, we may send the server to some remote logging infrastructure
-        // instead of just logging it to the console
-        console.error(error);
-        //return Observable.throw(error.json().error || 'Server error');
     }
 }

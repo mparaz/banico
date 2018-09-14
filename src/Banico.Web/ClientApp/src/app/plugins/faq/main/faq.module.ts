@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { FaqRoutingModule } from './faq.routing';
 import { FaqComponent }  from './faq.component';
-import { FaqDisplayComponent } from './faqdisplay/faqdisplay.component';
-import { FaqFormComponent } from './faqform/faqform.component';
+import { FaqDisplayComponent } from '../components/faqdisplay/faqdisplay.component';
+import { FaqFormComponent } from '../components/faqform/faqform.component';
 
 @NgModule({
   imports: [ 

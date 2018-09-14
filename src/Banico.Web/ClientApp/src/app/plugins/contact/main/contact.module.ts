@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ContactRoutingModule } from './contact.routing';
 import { ContactComponent }  from './contact.component';
-import { ContactDisplayComponent } from './contactdisplay/contactdisplay.component';
-import { ContactFormComponent } from './contactform/contactform.component';
+import { ContactDisplayComponent } from '../components/contactdisplay/contactdisplay.component';
+import { ContactFormComponent } from '../components/contactform/contactform.component';
 
 @NgModule({
   imports: [ 

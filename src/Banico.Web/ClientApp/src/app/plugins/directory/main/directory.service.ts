@@ -1,34 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { BaseService } from "../../../shared/services/base.service";
+import { PluginService } from "../../services/plugin.service";
 import { ContentItem } from '../../../entities/contentitem';
 import { DirectoryItem } from './directoryitem';
-import { ContentItemService } from '../../services/contentItem.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
-export class DirectoryService extends BaseService {
-    accountUrl: string;
-    appBaseUrl: string;
-
-    constructor(
-        private http: HttpClient,
-        @Inject('BASE_URL') private baseUrl: string,
-        private contentItemService: ContentItemService
-    ) {
-        super();
-
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.appBaseUrl = `${this.baseUrl}/api/Directory`;
-    }
-
-    private ExtractData(res: Response): Promise<string> {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Response status: ' + res.status);
-        }
-        let body = res.json();
-        return body;
-    }
+export class DirectoryService extends PluginService {
 
     public GetDirectoryItem(id: string): Observable<DirectoryItem> {
         return this.contentItemService.GetContentItems(id, '', '',
@@ -83,21 +61,6 @@ export class DirectoryService extends BaseService {
 
             return directoryItems;
         });
-    }
-
-    public IsLoggedIn(): Observable<string> {
-        let headers = new HttpHeaders();
-        headers.append('Content-Type', 'application/x-www-form-urlencoded');
-        return this.http
-            .post<string>(this.accountUrl + '/IsLoggedIn', '', {
-                headers: headers
-            });
-            //.map(this.ExtractData);
-            //.subscribe({
-                //next: x => console.log('Observer got a next value: ' + x),
-                //error: err => alert(JSON.stringify(err)),
-                //complete: () => console.log('Saved completed.'),
-            //});
     }
 
     public AddDirectoryItem(directoryItem: DirectoryItem): Observable<DirectoryItem> {

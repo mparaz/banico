@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Faq } from '../faq';
-import { Qa } from '../qa';
-import { FaqService } from '../faq.service';
-import { ModalComponent } from '../../../app/components/modal/modal.component';
+import { Faq } from '../../main/faq';
+import { Qa } from '../../main/qa';
+import { FaqService } from '../../main/faq.service';
+import { ModalComponent } from '../../../../common/modal/modal.component';
 
 @Component({
     selector: 'faqdisplay',
@@ -25,7 +25,7 @@ export class FaqDisplayComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.faq = new Faq();
+        this.faq = new Faq(null);
         this.sub = this.route.params.subscribe(params => {
             var alias = params['alias'];
             this.faqService.GetFaqByAlias(alias)

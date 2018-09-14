@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { InviteRoutingModule } from './invite.routing';
 import { InviteComponent }  from './invite.component';
-import { InviteFormComponent } from './inviteform/inviteform.component';
+import { InviteFormComponent } from '../components/inviteform/inviteform.component';
 
 @NgModule({
   imports: [ 

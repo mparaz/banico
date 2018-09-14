@@ -1,9 +1,8 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Profile } from '../profile';
-import { ProfileService } from '../profile.service';
-import { ModalComponent } from '../../../app/components/modal/modal.component';
+import { Profile } from '../../main/profile';
+import { ProfileService } from '../../main/profile.service';
 
 @Component({
     selector: 'profiledisplay',

@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Contact } from '../contact';
-import { Field } from '../field';
-import { ContactService } from '../contact.service';
-import { ModalComponent } from '../../../app/components/modal/modal.component';
+import { Contact } from '../../main/contact';
+import { Field } from '../../main/field';
+import { ContactService } from '../../main/contact.service';
+import { ModalComponent } from '../../../../common/modal/modal.component';
 
 @Component({
     selector: 'contactform',
@@ -29,7 +29,7 @@ export class ContactFormComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.contact = new Contact();
+        this.contact = new Contact(null);
         this.contact.fields = [];
         this.fieldId = -1;
         

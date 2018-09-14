@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ProfileComponent } from './profile.component';
-import { ProfileDisplayComponent } from './profiledisplay/profiledisplay.component';
-import { ProfileFormComponent } from './profileform/profileform.component';
+import { ProfileDisplayComponent } from '../components/profiledisplay/profiledisplay.component';
+import { ProfileFormComponent } from '../components/profileform/profileform.component';
 
 const PROFILE_ROUTES: Routes = [
   { path: 'profile', component: ProfileComponent, children: [

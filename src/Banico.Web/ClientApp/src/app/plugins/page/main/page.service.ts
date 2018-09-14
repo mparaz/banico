@@ -1,37 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { BaseService } from "../../../shared/services/base.service";
-import { Page } from './page';
-import { ContentItemService } from '../../services/contentItem.service';
 import { ContentItem } from '../../../entities/contentitem';
+import { PluginService } from '../../services/plugin.service';
+import { Page } from './page';
 
 @Injectable()
-export class PageService extends BaseService {
-    pageType: string;
-    accountUrl: string;
-    appBaseUrl: string;
-
-    constructor(
-        private http: HttpClient,
-        @Inject('BASE_URL') private baseUrl: string,
-        private contentItemService: ContentItemService
-    ) {
-        super();
-
-        this.pageType = 'page';
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.appBaseUrl = `${this.baseUrl}/api/Page`;
-    }
-
-    private ExtractData(res: Response) {
-        if (res.status < 200 || res.status >= 300) {
-            throw new Error('Response status: ' + res.status);
-        }
-        let body = res.json();
-        return body || {};
-    }
-
+export class PageService extends PluginService {
+    
     public GetPage(id: string): Observable<Page> {
         return this.contentItemService.GetContentItems(id, '', '',
         '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',

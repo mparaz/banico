@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Profile } from './profile';
-import { status, json } from '../../app/shared/fetch';
 import { Observable } from 'rxjs/Observable';
-import { ORIGIN_URL } from '../../app/shared/constants/baseurl.constants';
+import { ORIGIN_URL } from '../../../shared/constants/baseurl.constants';
 
 @Injectable()
 export class ProfileService {

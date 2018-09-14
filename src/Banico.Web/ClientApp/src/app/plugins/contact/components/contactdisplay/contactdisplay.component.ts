@@ -1,10 +1,10 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Contact } from '../contact';
-import { Field } from '../field';
-import { ContactService } from '../contact.service';
-import { ModalComponent } from '../../../app/components/modal/modal.component';
+import { Contact } from '../../main/contact';
+import { Field } from '../../main/field';
+import { ContactService } from '../../main/contact.service';
+import { ModalComponent } from '../../../../common/modal/modal.component';
 
 @Component({
     selector: 'contactdisplay',
@@ -26,7 +26,7 @@ export class ContactDisplayComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.contact = new Contact();
+        this.contact = new Contact(null);
         this.sub = this.route.params.subscribe(params => {
             var alias = params['alias'];
             this.contactService.GetContactByAlias(alias)
