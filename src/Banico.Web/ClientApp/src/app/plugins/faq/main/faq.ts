@@ -26,6 +26,7 @@ export class Faq {
     output.id = this.id;
     output.name = this.title;
     output.content = this.content;
+    output.alias = this.alias;
     
     return output;
   }

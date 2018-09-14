@@ -35,6 +35,7 @@ export class DirectoryItem {
     output.id = this.id;
     output.name = this.name;
     output.content = this.description;
+    output.sectionItems = this.sectionItems;
     output.attribute01 = this.address;
     output.attribute02 = this.phone;
     output.attribute03 = this.website;
