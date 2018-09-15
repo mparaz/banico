@@ -9,7 +9,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { NavMenuComponent } from './common/navmenu/navmenu.component';
 import { SharedModule } from './shared/shared.module';
 
 import { AccountModule }  from './identity/account/account.module';

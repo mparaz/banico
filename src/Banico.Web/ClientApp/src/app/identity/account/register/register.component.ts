@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as toastr from 'toastr';
 
 import { AccountService } from '../account.service';
 
@@ -22,7 +23,7 @@ export class RegisterComponent implements OnInit {
         code: ['', Validators.required]
     });
 
-      constructor (
+    constructor (
         private accountService: AccountService,
         private router: Router,
         private fb: FormBuilder
@@ -30,6 +31,12 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
+        toastr.options = {
+            preventDuplicates: true,
+            timeOut: 0,
+            extendedTimeOut: 0,
+            closeButton: true
+          };    
     }
   
     public cleanStringify(object) {
@@ -92,6 +99,8 @@ export class RegisterComponent implements OnInit {
                             this.errors[fieldName].push(error);
                         }
                     }
+
+                    this.errors[''].forEach(error => toastr.error(error));
                 });
                     // this.router.navigate(['/login'], {
                     //     queryParams: {

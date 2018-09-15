@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as toastr from 'toastr';
 import { AccountService } from '../account.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { AccountService } from '../account.service';
 export class LoginComponent {
   isRequesting: boolean = false;
   isSuccessful: boolean = false;
-  errors: string;  
+  errors: string[] = new Array<string>();  
   returnUrl: string = '/';
 
   loginForm = this.fb.group({
@@ -27,6 +28,13 @@ export class LoginComponent {
   ) { }
   
   ngOnInit() {
+    toastr.options = {
+      preventDuplicates: true,
+      timeOut: 0,
+      extendedTimeOut: 0,
+      closeButton: true
+    };    
+
     this.route.queryParams
       .subscribe(params => {
         if (params.returnUrl) {
@@ -48,12 +56,13 @@ export class LoginComponent {
           var myResult: any = result;
           window.localStorage.setItem('auth_token', myResult.auth_token);
           this.isSuccessful = true;
+          alert(this.returnUrl);
           this.router.navigate([this.returnUrl]);                         
         } else {
         }
       },
       errors => {
-        this.errors = errors;
+        errors[''].forEach(error => toastr.error(error));
       });
   }
 }

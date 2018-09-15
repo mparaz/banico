@@ -27,19 +27,11 @@
 </div>
 <hr />
 -->
-<div class="alert alert-danger" role="alert" *ngIf="errors['']">
-    <ul>
-        <li *ngFor="let error of errors['']">
-            {{ error }}
-        </li>
-    </ul>
-</div>
 
 <div class="row">
     <div class="col">
         <section>
-            <form [formGroup]="loginForm" novalidate (ngSubmit)="login()">
-                <p>Use a local account to log in.</p>
+            <form [formGroup]="loginForm" novalidate>
                 <div class="text-danger"></div>
 
                 <div class="form-group">
@@ -109,7 +101,7 @@
                 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-primary">Log in</button>
+                        <button type="submit" (click)="login()" class="btn btn-primary">Log in</button>
                     </div>
                 </div>
                 

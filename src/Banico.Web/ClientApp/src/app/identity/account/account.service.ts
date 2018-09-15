@@ -21,13 +21,13 @@ export class AccountService extends BaseService {
         }
     }
 
-    public isLoggedIn(): Observable<Object> {
-        return this.http.get(this.baseUrl + "api/Account/IsLoggedIn", this.jsonAuthRequestOptions )
+    public isLoggedIn(): Observable<boolean> {
+        return this.http.get<boolean>(this.baseUrl + "api/Account/IsLoggedIn", this.jsonAuthRequestOptions )
         .catch(this.handleError);
     }
 
-    public loggedInAs(): Observable<Object> {
-        return this.http.post(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
+    public loggedInAs(): Observable<string> {
+        return this.http.post<string>(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }
 

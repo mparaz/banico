@@ -2,14 +2,6 @@
 
 <span *ngIf="!isSuccessful">
 
-    <div class="alert alert-danger" role="alert" *ngIf="errors['']">
-        <ul>
-            <li *ngFor="let error of errors['']">
-                {{ error }}
-            </li>
-        </ul>
-    </div>
-
     <form [formGroup]="registerForm" novalidate (ngSubmit)="register()">
         <div class="text-danger"></div>
 

@@ -1,37 +1,39 @@
-<div *ngFor="let navBarItem of navBarService.navBarItems">
-    <div class="panel">
-            <ol class="breadcrumb">
-                    <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
-                        <a href="{{navBarService.pathUrlRoot}}"><i class="fas fa-home" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
-                        <a href="{{navBarService.pathUrlRoot}}/section/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
-                    </li>
-                    <li class="breadcrumb-item" *ngIf="!navBarService.isAdmin">
-                        {{navBarItem.section.name}}
-                        <a href="{{navBarService.pathUrlRoot}}/{{navBarItem.homePath}}"><i class="fas fa-home" aria-hidden="true"></i></a>
-                    </li>
-                    <li class="breadcrumb-item" *ngFor="let pathName of navBarItem.pathNames; let i = index">
-                        <a href="{{navBarService.pathUrlRoot}}/{{navBarItem.pathUrls[i]}}">{{pathName}}</a>
-                    </li>
-                    <li class="breadcrumb-item" *ngIf="navBarItem.sectionItem.name" > 
-                        {{navBarItem.sectionItem.name | decodeUri}} 
-                    </li>
-            
-                    <span *ngIf="navBarItem.showDropdown">
-                        <a href="javascript:;" (click)="navBarService.setVisible($event, navBarItem)">
-                            <i class="fas fa-caret-up" style="padding-left:5px;" aria-hidden="true" [style.display]="navBarItem.childrenVisible ? '' : 'none'"></i>
-                            <i class="fas fa-caret-down" style="padding-left:5px;" aria-hidden="true" [style.display]="navBarItem.childrenVisible ? 'none' : ''"></i>
-                        </a>
-                    </span>
-                </ol>
-                <div class="flex-row row container" [style.display]="navBarItem.childrenVisible ? '' : 'none'">
-                    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let childSectionItem of navBarItem.childSectionItems">
-                        <a class="small" href="{{navBarService.pathUrlRoot}}/{{navBarService.pathWithAlias(childSectionItem)}}">{{childSectionItem.name | decodeUri}}</a>
+<div class="container">
+    <div *ngFor="let navBarItem of navBarService.navBarItems">
+        <div class="panel">
+                <ol class="breadcrumb">
+                        <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
+                            <a href="{{navBarService.pathUrlRoot}}"><i class="fas fa-home" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="breadcrumb-item" *ngIf="navBarService.isAdmin">
+                            <a href="{{navBarService.pathUrlRoot}}/section/{{navBarItem.section.name}}">{{navBarItem.section.name}}</a>
+                        </li>
+                        <li class="breadcrumb-item" *ngIf="!navBarService.isAdmin">
+                            {{navBarItem.section.name}}
+                            <a href="{{navBarService.pathUrlRoot}}/{{navBarItem.homePath}}"><i class="fas fa-home" aria-hidden="true"></i></a>
+                        </li>
+                        <li class="breadcrumb-item" *ngFor="let pathName of navBarItem.pathNames; let i = index">
+                            <a href="{{navBarService.pathUrlRoot}}/{{navBarItem.pathUrls[i]}}">{{pathName}}</a>
+                        </li>
+                        <li class="breadcrumb-item" *ngIf="navBarItem.sectionItem.name" > 
+                            {{navBarItem.sectionItem.name | decodeUri}} 
+                        </li>
+                
+                        <span *ngIf="navBarItem.showDropdown">
+                            <a href="javascript:;" (click)="navBarService.setVisible($event, navBarItem)">
+                                <i class="fas fa-caret-up" style="padding-left:5px;" aria-hidden="true" [style.display]="navBarItem.childrenVisible ? '' : 'none'"></i>
+                                <i class="fas fa-caret-down" style="padding-left:5px;" aria-hidden="true" [style.display]="navBarItem.childrenVisible ? 'none' : ''"></i>
+                            </a>
+                        </span>
+                    </ol>
+                    <div class="flex-row row container" [style.display]="navBarItem.childrenVisible ? '' : 'none'">
+                        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" *ngFor="let childSectionItem of navBarItem.childSectionItems">
+                            <a class="small" href="{{navBarService.pathUrlRoot}}/{{navBarService.pathWithAlias(childSectionItem)}}">{{childSectionItem.name | decodeUri}}</a>
+                        </div>
+                        <br />
                     </div>
-                    <br />
-                </div>
-            
-
+                
+    
+        </div>
     </div>
 </div>

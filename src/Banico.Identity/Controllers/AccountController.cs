@@ -85,27 +85,6 @@ namespace Banico.Identity.Controllers
             }
         }
 
-        // public override void OnActionExecuting(ActionExecutingContext filterContext)
-        // {
-        //     ViewData["SiteName"] = _configuration["SiteName"];
-        //     ViewData["Footer"] = _configuration["Footer"];
-        //     ViewData["GoogleAnalytics"] = _configuration["GoogleAnalytics"];
-        //     ViewData["GoogleAdsense"] = _configuration["GoogleAdsense"];
-        // }
-
-        //
-        // GET: /api/Account/Login
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public async Task<IActionResult> Login(string returnUrl = null)
-        // {
-        //     // Clear the existing external cookie to ensure a clean login process
-        //     await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
-        //     ViewData["ReturnUrl"] = returnUrl;
-        //     return View();
-        // }
-
         private Task<AppUser> GetCurrentUserAsync()
         {
             //var customer = await _appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
@@ -150,6 +129,7 @@ namespace Banico.Identity.Controllers
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     HttpContext.User = await _userClaimsPrincipalFactory.CreateAsync(user);
@@ -160,39 +140,32 @@ namespace Banico.Identity.Controllers
                     var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, model.Email, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
                     return new OkObjectResult(jwt);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(SendCode), new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning(2, "User account locked out.");
-                    return BadRequest(Errors.AddErrorToModelState("Email", "User account is locked out.", ModelState));
+                    string message = "User account locked out.";
+                    _logger.LogWarning(2, message);
+                    return BadRequest(Errors.AddErrorToModelState("Email", message, ModelState));
                 }
-                else
+
+                if (result.IsNotAllowed)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return BadRequest(Errors.AddErrorToModelState("", "Invalid login attempt.", ModelState));
+                    string message = "User account is not allowed to sign in.";
+                    _logger.LogWarning(2, message);
+                    return BadRequest(Errors.AddErrorToModelState("Email", message, ModelState));
                 }
+
+                return BadRequest(Errors.AddErrorToModelState("", "Sign in failed.", ModelState));
             }
 
             // If we got this far, something failed, redisplay form
             return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
         }
-
-        //
-        // GET: /api/Account/Register
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult Register(string email = null, string code = null, string returnUrl = null)
-        // {
-        //     RegisterViewModel model = new RegisterViewModel();
-        //     model.Email = email;
-        //     model.Code = code;
-        //     model.InviteOnly = _InviteOnly;
-        //     ViewData["ReturnUrl"] = returnUrl;
-        //     return View(model);
-        // }
 
         private async Task SendConfirmationEmail(AppUser user)
         {
@@ -467,15 +440,6 @@ namespace Banico.Identity.Controllers
         }
 
         //
-        // GET: /api/Account/ForgotPassword
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult ForgotPassword()
-        // {
-        //     return View();
-        // }
-
-        //
         // POST: /api/Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -499,21 +463,6 @@ namespace Banico.Identity.Controllers
             return BadRequest(Errors.AddErrorToModelState("", "", ModelState));
         }
 
-        //
-        // GET: /api/Account/ForgotPasswordConfirmation
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult ForgotPasswordConfirmation()
-        // {
-        //     return View();
-        // }
-
-        // [AllowAnonymous]
-        // public IActionResult ResendConfirmation()
-        // {
-        //     return View();
-        // }
-
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> ResendConfirmation([FromBody]ResendConfirmationViewModel model)
@@ -528,22 +477,6 @@ namespace Banico.Identity.Controllers
             //return RedirectToAction(nameof(ConfirmationSent));
             return BadRequest(Errors.AddErrorToModelState("", "Unknown error", ModelState));
         }
-
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult ConfirmationSent()
-        // {
-        //     return View();
-        // }
-
-        //
-        // GET: /api/Account/ResetPassword
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult ResetPassword(string code = null)
-        // {
-        //     return code == null ? View("Error") : View();
-        // }
 
         //
         // POST: /api/Account/ResetPassword
@@ -561,7 +494,8 @@ namespace Banico.Identity.Controllers
             {
                 // Don't reveal that the user does not exist
                 //return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-                return BadRequest(Errors.AddErrorToModelState("", "User not found", ModelState));
+                //return BadRequest(Errors.AddErrorToModelState("", "User not found", ModelState));
+                return new OkObjectResult("");
             }
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
@@ -572,15 +506,6 @@ namespace Banico.Identity.Controllers
             AddErrors(result);
             return BadRequest(Errors.AddErrorToModelState("", "Unknown error", ModelState));
         }
-
-        //
-        // GET: /api/Account/ResetPasswordConfirmation
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public IActionResult ResetPasswordConfirmation()
-        // {
-        //     return View();
-        // }
 
         //
         // GET: /api/Account/SendCode
@@ -682,14 +607,6 @@ namespace Banico.Identity.Controllers
                 return View(model);
             }
         }
-
-        //
-        // GET /Account/AccessDenied
-        // [HttpGet]
-        // public IActionResult AccessDenied()
-        // {
-        //     return View();
-        // }
 
         #region Helpers
 
