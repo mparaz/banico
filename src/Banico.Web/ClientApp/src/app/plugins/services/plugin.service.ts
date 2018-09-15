@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/com
 import { Observable } from 'rxjs/Observable';
 import { BaseService } from '../../shared/services/base.service';
 import { ContentItemService } from './contentItem.service';
+import { WindowRefService } from '../../shared/services/windowref.service';
 
 @Injectable()
 export class PluginService extends BaseService {
@@ -11,10 +12,11 @@ export class PluginService extends BaseService {
 
     constructor(
         protected http: HttpClient,
+        @Inject(WindowRefService) windowRefService: WindowRefService,
         @Inject('BASE_URL') protected baseUrl: string,
         protected contentItemService: ContentItemService
     ) {
-        super();
+        super(windowRefService);
 
         this.accountUrl = `${this.baseUrl}/api/Account`;
         this.appBaseUrl = `${this.baseUrl}/api/Page`;

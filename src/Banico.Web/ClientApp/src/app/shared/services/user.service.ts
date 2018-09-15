@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 // Add the RxJS Observable operators we need in this app.
 import '../../rxjs-operators';
 import { isPlatformBrowser } from '@angular/common';
+import { WindowRefService } from './windowref.service';
 
 @Injectable()
 
@@ -29,9 +30,10 @@ export class UserService extends BaseService {
   constructor(
     private http: HttpClient, 
     private configService: ConfigService,
+    @Inject(WindowRefService) windowRefService: WindowRefService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    super();
+    super(windowRefService);
     if (isPlatformBrowser(this.platformId)) {
       this.loggedIn = !!localStorage.getItem('auth_token');
     }
@@ -73,7 +75,7 @@ export class UserService extends BaseService {
       .map(res => {
         var result: any = res;
         if (isPlatformBrowser(this.platformId)) {
-          window.localStorage.setItem('auth_token', result.auth_token);
+          this.windowRefService.nativeWindow.localStorage.setItem('auth_token', result.auth_token);
         }
         this.loggedIn = true;
         return true;
@@ -83,7 +85,7 @@ export class UserService extends BaseService {
 
   public logout() {
     if (isPlatformBrowser(this.platformId)) {
-      window.localStorage.removeItem('auth_token');
+      this.windowRefService.nativeWindow.localStorage.removeItem('auth_token');
     }
     this.loggedIn = false;
   }

@@ -1,12 +1,16 @@
+import { Inject } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
+import { WindowRefService } from './windowref.service';
 
 export abstract class BaseService {  
     public jsonHeader = new HttpHeaders({ 'Content-Type': 'application/json' });
     public jsonRequestOptions = { headers: this.jsonHeader };
     public jsonAuthRequestOptions = { headers: this.authHeader() };
 
-  constructor() { }
+  constructor(
+    protected windowRefService: WindowRefService
+    ) { }
   
   protected handleError(error: any) {
       var applicationError = error.headers.get('Application-Error');
@@ -48,7 +52,7 @@ export abstract class BaseService {
   private authHeader(): HttpHeaders {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-      let authToken = window.localStorage.getItem('auth_token');
+      let authToken = this.windowRefService.nativeWindow.localStorage.getItem('auth_token');
       headers = headers.set('Authorization', 'Bearer ' + authToken);
       headers = headers.set('X-XSRF-TOKEN', this.getCookie('XSRF-TOKEN'));
       return headers;

@@ -4,6 +4,7 @@ import { BaseService } from "../../shared/services/base.service";
 import { Observable } from 'rxjs/Rx';
 import { isPlatformBrowser } from '@angular/common';
 import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
+import { WindowRefService } from '../../shared/services/windowref.service';
 
 @Injectable()
 export class AccountService extends BaseService {
@@ -11,13 +12,14 @@ export class AccountService extends BaseService {
 
     constructor(
         private http: HttpClient,
+        @Inject(WindowRefService) windowRefService: WindowRefService,
         @Inject(PLATFORM_ID) private platformId: Object,
         @Inject('BASE_URL') private baseUrl: string
     ) {
-        super();
+        super(windowRefService);
 
         if (isPlatformBrowser(this.platformId)) {
-            this.loggedIn = !!window.localStorage.getItem('auth_token');
+            this.loggedIn = !!this.windowRefService.nativeWindow.localStorage.getItem('auth_token');
         }
     }
 
