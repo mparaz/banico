@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../main/page';
 import { PageService } from '../../main/page.service';
-import { ModalComponent } from '../../../../common/modal/modal.component';
+import { ModalComponent } from '../../../../shell/modal/modal.component';
 import { AccountService } from '../../../../identity/account/account.service';
 
 @Component({

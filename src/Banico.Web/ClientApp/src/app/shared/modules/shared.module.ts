@@ -8,13 +8,11 @@ import { CommonModule }       from '@angular/common';
  
 import { myFocus } from '../../directives/focus.directive';
 import { EmailValidator } from '../../directives/email.validator.directive';
-import { SpinnerComponent } from '../../spinner/spinner.component';  
-
 
 @NgModule({
   imports:      [CommonModule],
-  declarations: [myFocus,EmailValidator,SpinnerComponent],
-  exports:      [myFocus,EmailValidator,SpinnerComponent],
+  declarations: [myFocus,EmailValidator],
+  exports:      [myFocus,EmailValidator],
   providers:    []
 })
 export class SharedModule { }

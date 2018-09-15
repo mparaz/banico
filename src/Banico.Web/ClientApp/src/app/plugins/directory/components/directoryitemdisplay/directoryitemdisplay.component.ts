@@ -5,8 +5,8 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { ContentItem } from '../../../../entities/contentitem';
 import { DirectoryItem } from '../../main/directoryitem';
 import { DirectoryService } from '../../main/directory.service';
-import { NavBarService } from '../../../../common/navbar/navbar.service';
-import { ModalComponent } from '../../../../common/modal/modal.component';
+import { NavBarService } from '../../../../shell/navbar/navbar.service';
+import { ModalComponent } from '../../../../shell/modal/modal.component';
 import { AppConfig } from '../../../../../../../config/app.config';
 
 @Component({

@@ -5,7 +5,7 @@ import { Contact } from '../../main/contact';
 import { Field } from '../../main/field';
 import { AccountService } from '../../../../identity/account/account.service';
 import { ContactService } from '../../main/contact.service';
-import { ModalComponent } from '../../../../common/modal/modal.component';
+import { ModalComponent } from '../../../../shell/modal/modal.component';
 
 @Component({
     selector: 'contactdisplay',

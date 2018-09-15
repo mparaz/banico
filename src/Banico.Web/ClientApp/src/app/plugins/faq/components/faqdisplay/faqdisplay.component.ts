@@ -4,7 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Faq } from '../../main/faq';
 import { Qa } from '../../main/qa';
 import { FaqService } from '../../main/faq.service';
-import { ModalComponent } from '../../../../common/modal/modal.component';
+import { ModalComponent } from '../../../../shell/modal/modal.component';
 
 @Component({
     selector: 'faqdisplay',

@@ -1,8 +1,8 @@
 ﻿import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DirectoryItem } from '../../main/directoryitem';
-import { NavBarService } from '../../../../common/navbar/navbar.service';
-import { SectionService } from '../../../../common/section/services/section.service';
+import { NavBarService } from '../../../../shell/navbar/navbar.service';
+import { SectionService } from '../../../../shell/section/services/section.service';
 import { DirectoryService } from '../../main/directory.service';
 
 @Component({

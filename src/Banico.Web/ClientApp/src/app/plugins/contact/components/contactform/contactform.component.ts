@@ -4,7 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Contact } from '../../main/contact';
 import { Field } from '../../main/field';
 import { ContactService } from '../../main/contact.service';
-import { ModalComponent } from '../../../../common/modal/modal.component';
+import { ModalComponent } from '../../../../shell/modal/modal.component';
 
 @Component({
     selector: 'contactform',

@@ -9,21 +9,15 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './common/navmenu/navmenu.component';
+import { IdentityModule } from './identity/identity.module';
+import { PipesModule } from './pipes/pipes.module';
+import { PluginsModule } from './plugins/plugins.module';
 import { SharedModule } from './shared/shared.module';
-
-import { AccountModule }  from './identity/account/account.module';
-import { ManageModule } from './identity/manage/manage.module';
-
-import { NavBarModule } from './common/navbar/navbar.module';
-import { SectionModule } from './common/section/section.module';
-
-import { PluginsModule } from '../app/plugins/plugins.module';
+import { ShellModule } from './shell/shell.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavMenuComponent
+    AppComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'Banico.Web' }),
@@ -33,12 +27,11 @@ import { PluginsModule } from '../app/plugins/plugins.module';
     HttpLinkModule,
     NgbModule.forRoot(),
     AppRoutingModule,
+    IdentityModule,
+    PipesModule,
+    PluginsModule,
     SharedModule,
-    AccountModule,
-    ManageModule,
-    NavBarModule,
-    SectionModule,
-    PluginsModule
+    ShellModule
   ],
   bootstrap: [AppComponent]
 })
