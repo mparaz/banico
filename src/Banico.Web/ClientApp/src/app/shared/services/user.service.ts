@@ -31,10 +31,11 @@ export class UserService extends BaseService {
     private http: HttpClient, 
     private configService: ConfigService,
     @Inject(WindowRefService) windowRefService: WindowRefService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) platformId: Object
   ) {
-    super(windowRefService);
-    if (isPlatformBrowser(this.platformId)) {
+    super(windowRefService, platformId);
+
+    if (isPlatformBrowser(platformId)) {
       this.loggedIn = !!localStorage.getItem('auth_token');
     }
     this.baseUrl = configService.getApiURI();

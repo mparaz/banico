@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { BaseService } from '../../shared/services/base.service';
@@ -13,10 +13,11 @@ export class PluginService extends BaseService {
     constructor(
         protected http: HttpClient,
         @Inject(WindowRefService) windowRefService: WindowRefService,
+        @Inject(PLATFORM_ID) platformId: Object,
         @Inject('BASE_URL') protected baseUrl: string,
         protected contentItemService: ContentItemService
     ) {
-        super(windowRefService);
+        super(windowRefService, platformId);
 
         this.accountUrl = `${this.baseUrl}/api/Account`;
         this.appBaseUrl = `${this.baseUrl}/api/Page`;

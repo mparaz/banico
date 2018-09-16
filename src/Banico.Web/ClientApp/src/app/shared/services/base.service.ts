@@ -1,4 +1,5 @@
 import { Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 import { WindowRefService } from './windowref.service';
@@ -9,7 +10,8 @@ export abstract class BaseService {
     public jsonAuthRequestOptions = { headers: this.authHeader() };
 
   constructor(
-    protected windowRefService: WindowRefService
+    protected windowRefService: WindowRefService,
+    protected platformId: Object
     ) { }
   
   protected handleError(error: any) {
@@ -51,10 +53,13 @@ export abstract class BaseService {
 
   private authHeader(): HttpHeaders {
       let headers = new HttpHeaders();
-      headers = headers.set('Content-Type', 'application/json');
-      let authToken = this.windowRefService.nativeWindow.localStorage.getItem('auth_token');
-      headers = headers.set('Authorization', 'Bearer ' + authToken);
-      headers = headers.set('X-XSRF-TOKEN', this.getCookie('XSRF-TOKEN'));
+      if (isPlatformBrowser(this.platformId)) {
+        headers = headers.set('Content-Type', 'application/json');
+        let authToken = this.windowRefService.nativeWindow.localStorage.getItem('auth_token');
+        headers = headers.set('Authorization', 'Bearer ' + authToken);
+        headers = headers.set('X-XSRF-TOKEN', this.getCookie('XSRF-TOKEN'));
+      }
+
       return headers;
     }
 }

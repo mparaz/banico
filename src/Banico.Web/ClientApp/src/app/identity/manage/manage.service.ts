@@ -13,10 +13,10 @@ export class ManageService extends BaseService {
     constructor(
         private http: HttpClient,
         @Inject(WindowRefService) windowRefService: WindowRefService,
-        @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(PLATFORM_ID) platformId: Object,
         @Inject('BASE_URL') private baseUrl: string
     ) {
-        super(windowRefService);
+        super(windowRefService, platformId);
 
         if (isPlatformBrowser(this.platformId)) {
             this.loggedIn = !!window.localStorage.getItem('auth_token');
