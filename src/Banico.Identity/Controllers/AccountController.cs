@@ -85,22 +85,22 @@ namespace Banico.Identity.Controllers
             }
         }
 
-        private Task<AppUser> GetCurrentUserAsync()
+        private string GetCurrentUserId()
         {
-            //var customer = await _appDbContext.Customers.Include(c => c.Identity).SingleAsync(c => c.Identity.Id == userId.Value);
-            return _userManager.GetUserAsync(_caller);
+            var userIdClaim = _caller.Claims.Single(c => c.Type == "id");
+            return userIdClaim.Value;
         }
 
         [AllowAnonymous]
         public async Task<JsonResult> IsLoggedIn()
         {
-            return new JsonResult(_signInManager.IsSignedIn(User).ToString());
+            return new JsonResult(!string.IsNullOrEmpty(this.GetCurrentUserId()));
         }
 
+        [AllowAnonymous]
         public async Task<JsonResult> LoggedInAs()
         {
-            var user = _userManager.GetUserAsync(_caller);
-            return new JsonResult(user);
+            return new JsonResult(_userManager.FindByIdAsync(this.GetCurrentUserId()));
         }
 
         //

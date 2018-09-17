@@ -20,8 +20,7 @@ export class NavMenuComponent implements OnInit {
     this.accountService.isLoggedIn()
       .subscribe(result => this.isLoggedIn = result);
     this.accountService.loggedInAs()
-      .subscribe(result => JSON.stringify(result));
-        //this.loggedInAs = result);
+      .subscribe(data => this.loggedInAs = data);
   }
 
   collapse() {

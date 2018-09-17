@@ -29,7 +29,16 @@ export class AccountService extends BaseService {
     }
 
     public loggedInAs(): Observable<string> {
-        return this.http.post<string>(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
+        return this.http.post<any>(this.baseUrl + "api/Account/LoggedInAs", { } , this.jsonAuthRequestOptions)
+        .map(data => {
+            if (data.result) {
+                if (data.result.userName) {
+                return data.result.userName;
+                }
+            }
+
+            return '';
+        })
         .catch(this.handleError);
     }
 
