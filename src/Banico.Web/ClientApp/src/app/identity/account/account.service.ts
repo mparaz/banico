@@ -54,6 +54,15 @@ export class AccountService extends BaseService {
         .catch(this.handleError);
     }
 
+    public logout() {
+        this.http.post(this.baseUrl + "api/Account/Logout", {}, this.jsonAuthRequestOptions)
+        .subscribe(data => {
+            if (isPlatformBrowser(this.platformId)) {
+                this.windowRefService.nativeWindow.localStorage.removeItem('auth_token');
+            }
+        });
+    }
+
     public register(
         email: string,
         password: string,

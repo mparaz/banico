@@ -56,7 +56,6 @@ export class LoginComponent {
           var myResult: any = result;
           window.localStorage.setItem('auth_token', myResult.auth_token);
           this.isSuccessful = true;
-          alert(this.returnUrl);
           this.router.navigate([this.returnUrl]);                         
         } else {
         }
