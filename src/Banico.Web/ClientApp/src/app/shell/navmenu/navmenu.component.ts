@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { AccountService } from '../../identity/account/account.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class NavMenuComponent implements OnInit {
 
   constructor(
     @Inject(AccountService) private accountService: AccountService,
+    private location: Location
   ) {
   }
 

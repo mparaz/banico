@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { Inject, NgModule } from '@angular/core';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpXhrBackend } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -32,6 +33,12 @@ import { ShellModule } from './shell/shell.module';
     PluginsModule,
     SharedModule,
     ShellModule
+  ],
+  providers: [
+    Location, {
+      provide: LocationStrategy, 
+      useClass: PathLocationStrategy
+    }
   ],
   bootstrap: [AppComponent]
 })

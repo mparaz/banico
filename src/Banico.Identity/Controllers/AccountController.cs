@@ -87,8 +87,14 @@ namespace Banico.Identity.Controllers
 
         private string GetCurrentUserId()
         {
-            var userIdClaim = _caller.Claims.Single(c => c.Type == "id");
-            return userIdClaim.Value;
+            if (_caller.Claims != null) {
+                var userIdClaim = _caller.Claims.Single(c => c.Type == "id");
+                if (userIdClaim != null) {
+                    return userIdClaim.Value;
+                }
+            }
+
+            return string.Empty;
         }
 
         [AllowAnonymous]

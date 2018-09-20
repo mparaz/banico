@@ -59,6 +59,7 @@ export class AccountService extends BaseService {
         .subscribe(data => {
             if (isPlatformBrowser(this.platformId)) {
                 this.windowRefService.nativeWindow.localStorage.removeItem('auth_token');
+                this.windowRefService.nativeWindow.location.reload();
             }
         });
     }

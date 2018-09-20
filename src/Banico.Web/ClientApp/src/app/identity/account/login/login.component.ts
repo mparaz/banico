@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as toastr from 'toastr';
 import { AccountService } from '../account.service';
+import { WindowRefService } from '../../../shared/services/windowref.service';
 
 @Component({
   selector: 'login',
@@ -21,6 +22,7 @@ export class LoginComponent {
   });
 
   constructor(
+    @Inject(WindowRefService) private windowRefService: WindowRefService,
     private accountService: AccountService,
     private router: Router,
     private route: ActivatedRoute,
@@ -56,7 +58,8 @@ export class LoginComponent {
           var myResult: any = result;
           window.localStorage.setItem('auth_token', myResult.auth_token);
           this.isSuccessful = true;
-          this.router.navigate([this.returnUrl]);                         
+          this.router.navigate([this.returnUrl]);
+          this.windowRefService.nativeWindow.location.reload();                       
         } else {
         }
       },
