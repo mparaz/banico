@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SectionModule } from './section/section.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { FrontComponent } from './front/front.component';
 import { ModalComponent } from './modal/modal.component';
@@ -13,8 +12,7 @@ import { NavBarService } from './navbar/navbar.service';
 @NgModule({
     imports: [ 
         CommonModule,
-        PipesModule,
-        SectionModule
+        PipesModule
     ],
     declarations: [ 
         FrontComponent,

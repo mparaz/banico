@@ -1,19 +1,19 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Section } from '../../../entities/section';
-import { SectionService } from '../services/section.service';
+import { SectionsService } from '../services/sections.service';
 
 @Component({
-    selector: 'sectionadmin',
-    templateUrl: './sectionadmin.component.html',
-    providers: [SectionService]
+    selector: 'sectionsadmin',
+    templateUrl: './sectionsadmin.component.html',
+    providers: [SectionsService]
 })
-export class SectionAdminComponent implements OnInit {
+export class SectionsAdminComponent implements OnInit {
     public sections: Section[];
     public section: Section;
 
     constructor(
-        @Inject(SectionService) public sectionService: SectionService
+        @Inject(SectionsService) public sectionService: SectionsService
     ) {
     }
 

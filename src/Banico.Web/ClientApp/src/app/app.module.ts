@@ -10,6 +10,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
+import { AdminModule } from './admin/admin.module';
 import { IdentityModule } from './identity/identity.module';
 import { PipesModule } from './pipes/pipes.module';
 import { PluginsModule } from './plugins/plugins.module';
@@ -28,6 +29,7 @@ import { ShellModule } from './shell/shell.module';
     HttpLinkModule,
     NgbModule.forRoot(),
     AppRoutingModule,
+    AdminModule,
     IdentityModule,
     PipesModule,
     PluginsModule,

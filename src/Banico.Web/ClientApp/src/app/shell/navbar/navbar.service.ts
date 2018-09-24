@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { NavBarItem } from '../../entities/navbaritem';
 import { SectionItem } from '../../entities/sectionitem';
 import { Section } from '../../entities/section';
-import { SectionService } from '../section/services/section.service';
+import { SectionsService } from '../../admin/sections/services/sections.service';
 
 @Injectable()
 export class NavBarService {
@@ -16,7 +16,7 @@ export class NavBarService {
     public readonly SECTION_DELIM: string = '*';
 
     public constructor(
-        @Inject(SectionService) private sectionService: SectionService
+        @Inject(SectionsService) private sectionsService: SectionsService
     ) {
     }
 
@@ -38,7 +38,7 @@ export class NavBarService {
             section.name = adminSection;
             sections.push(section);
         } else {
-            sections = await this.sectionService.GetSections('', module, '').first().toPromise();
+            sections = await this.sectionsService.GetSections('', module, '').first().toPromise();
         }
 
         this.initializeNavBarItems(sections);
@@ -68,13 +68,13 @@ export class NavBarService {
         var sectionPathUrl: string = this.pathUrlSegmentBySection(sectionName);
 
         if (sectionPathUrl) {
-            var sectionItems = await this.sectionService.GetSectionItemByPath(sectionName + this.TYPE_DELIM + 
+            var sectionItems = await this.sectionsService.GetSectionItemByPath(sectionName + this.TYPE_DELIM + 
                 sectionPathUrl).first().toPromise();
             await this.setNavBarItem(navBarItem, sectionItems[0]);
         }
 
         if (!sectionPathUrl) {
-            sectionItems = await this.sectionService.GetSectionItems('', sectionName, 
+            sectionItems = await this.sectionsService.GetSectionItems('', sectionName, 
                 '', '', '', '', true).first().toPromise();
             navBarItem.childSectionItems = this.cleanChildSectionItems(navBarItem, sectionItems);
         }
@@ -102,7 +102,7 @@ export class NavBarService {
         this.setPathUrls(navBarItem, sectionPathUrl);
 
         // set child section items
-        var sectionItems = await this.sectionService.GetSectionItems('', '', '', '', '', navBarItem.sectionItem.id, false).first().toPromise();
+        var sectionItems = await this.sectionsService.GetSectionItems('', '', '', '', '', navBarItem.sectionItem.id, false).first().toPromise();
         navBarItem.childSectionItems = this.cleanChildSectionItems(navBarItem, sectionItems);
     }
 

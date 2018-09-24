@@ -1,16 +1,16 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SectionItem } from '../../../entities/sectionitem';
-import { NavBarService } from '../../navbar/navbar.service';
-import { SectionService } from '../services/section.service';
-import { SectionFileService } from '../services/sectionfile.service';
+import { NavBarService } from '../../../shell/navbar/navbar.service';
+import { SectionsService } from '../services/sections.service';
+import { SectionsFileService } from '../services/sectionsfile.service';
 
 @Component({
-    selector: 'sectionitemadmin',
-    templateUrl: './sectionitemadmin.component.html',
-    providers: [SectionFileService]
+    selector: 'sectionitemsadmin',
+    templateUrl: './sectionitemsadmin.component.html',
+    providers: [SectionsFileService]
 })
-export class SectionItemAdminComponent implements OnInit {
+export class SectionItemsAdminComponent implements OnInit {
     public helper: string;
     public showDropdown: boolean;
 
@@ -26,8 +26,8 @@ export class SectionItemAdminComponent implements OnInit {
 
     public constructor(
         @Inject(NavBarService) private navBarService: NavBarService,
-        @Inject(SectionService) private sectionService: SectionService,
-        @Inject(SectionFileService) private sectionFileService: SectionFileService,
+        @Inject(SectionsService) private sectionsService: SectionsService,
+        @Inject(SectionsFileService) private sectionFileService: SectionsFileService,
         private route: ActivatedRoute
     ) {
     }
@@ -48,7 +48,7 @@ export class SectionItemAdminComponent implements OnInit {
             if (params['path']) {
                 pathUrl = params['path'];
                 section = pathUrl.split(this.TYPE_DELIM)[0];
-                this.sectionService.GetSectionItemByPath(pathUrl)
+                this.sectionsService.GetSectionItemByPath(pathUrl)
                     .subscribe(sectionItems => {
                         if (sectionItems.length > 0) {
                             this.setParentSectionItem(sectionItems[0], pathUrl);
@@ -107,7 +107,7 @@ export class SectionItemAdminComponent implements OnInit {
         alias = alias.replace(/\W/g, "");
         this.newSectionItem.alias = alias;
 
-        this.sectionService.AddSectionItem(this.newSectionItem)
+        this.sectionsService.AddSectionItem(this.newSectionItem)
             .subscribe(sectionItem => this.addSectionItemSuccess(sectionItem));
     }
 
@@ -139,7 +139,7 @@ export class SectionItemAdminComponent implements OnInit {
     }
     
     private updateSectionItem() {
-        this.sectionService.UpdateSectionItem(this.parentSectionItem)
+        this.sectionsService.UpdateSectionItem(this.parentSectionItem)
             .subscribe(data => this.SaveResponse(data));
     }
 

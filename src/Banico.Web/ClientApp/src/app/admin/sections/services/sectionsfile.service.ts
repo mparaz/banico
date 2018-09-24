@@ -3,10 +3,10 @@ import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/com
 import { SectionItem } from '../../../entities/sectionitem';
 //import { status, json } from '../../../shared/fetch';
 //import { Observable } from 'rxjs/Observable';
-import { SectionService } from './section.service';
+import { SectionsService } from './sections.service';
 
 @Injectable()
-export class SectionFileService {
+export class SectionsFileService {
     sectionApiBaseUrl: string;
 
     readonly PATH_DELIM: string = '_';
@@ -14,7 +14,7 @@ export class SectionFileService {
     readonly SECTION_DELIM: string = '*';
 
     constructor(
-        @Inject(SectionService) private sectionService: SectionService,
+        @Inject(SectionsService) private sectionService: SectionsService,
         private http: HttpClient,
         @Inject('BASE_URL') private baseUrl: string
     ) {

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Section } from '../../../../entities/section';
 import { DirectoryItem } from '../../main/directoryitem';
 import { NavBarService } from '../../../../shell/navbar/navbar.service';
-import { SectionService } from '../../../../shell/section/services/section.service';
+import { SectionsService } from '../../../../admin/sections/services/sections.service';
 import { DirectoryService } from '../../main/directory.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class DirectoryFrontComponent implements OnInit, OnDestroy {
 
     constructor(
         @Inject(NavBarService) private navBarService: NavBarService,
-        @Inject(SectionService) private sectionService: SectionService,
+        @Inject(SectionsService) private sectionsService: SectionsService,
         @Inject(DirectoryService) private directoryService: DirectoryService,
         private route: ActivatedRoute
     ) {

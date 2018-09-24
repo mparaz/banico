@@ -4,12 +4,12 @@ import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 
-import { SectionsQuery } from './section.queries';
-import { SectionItemsQuery } from './section.queries';
-import { AddSectionMutation } from './section.mutations';
-import { AddSectionItemMutation } from './section.mutations';
-import { SectionsQueryResult } from './section.queryresults';
-import { SectionItemsQueryResult } from './section.queryresults';
+import { SectionsQuery } from './sections.queries';
+import { SectionItemsQuery } from './sections.queries';
+import { AddSectionMutation } from './sections.mutations';
+import { AddSectionItemMutation } from './sections.mutations';
+import { SectionsQueryResult } from './sections.queryresults';
+import { SectionItemsQueryResult } from './sections.queryresults';
 
 import { Section } from '../../../entities/section';
 import { SectionItem } from '../../../entities/sectionitem';
@@ -17,7 +17,7 @@ import { ContentItem } from '../../../entities/contentitem';
 //import { status, json } from '../../../shared/fetch';
 
 @Injectable()
-export class SectionService {
+export class SectionsService {
     accountUrl: string;
     sectionApiBaseUrl: string;
     sectionTypeApiBaseUrl: string;

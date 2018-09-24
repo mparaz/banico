@@ -2,7 +2,7 @@
 import { ActivatedRoute } from '@angular/router';
 import { DirectoryItem } from '../../main/directoryitem';
 import { NavBarService } from '../../../../shell/navbar/navbar.service';
-import { SectionService } from '../../../../shell/section/services/section.service';
+import { SectionsService } from '../../../../admin/sections/services/sections.service';
 import { DirectoryService } from '../../main/directory.service';
 
 @Component({
