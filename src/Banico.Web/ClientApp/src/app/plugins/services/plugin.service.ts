@@ -19,8 +19,8 @@ export class PluginService extends BaseService {
     ) {
         super(windowRefService, platformId);
 
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.appBaseUrl = `${this.baseUrl}/api/Page`;
+        this.accountUrl = `${this.baseUrl}api/Account`;
+        this.appBaseUrl = `${this.baseUrl}api/Page`;
     }
 
     protected ExtractData(res: Response) {

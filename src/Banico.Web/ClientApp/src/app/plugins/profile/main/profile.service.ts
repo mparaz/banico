@@ -13,8 +13,8 @@ export class ProfileService {
         private http: Http,
         @Inject(ORIGIN_URL) private baseUrl: string
     ) {
-        this.accountUrl = `${this.baseUrl}/api/Account`;
-        this.appBaseUrl = `${this.baseUrl}/api/Profile`;
+        this.accountUrl = `${this.baseUrl}api/Account`;
+        this.appBaseUrl = `${this.baseUrl}api/Profile`;
     }
 
     private ExtractData(res: Response) {

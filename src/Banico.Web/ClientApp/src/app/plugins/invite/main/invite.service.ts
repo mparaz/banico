@@ -12,7 +12,7 @@ export class InviteService {
         private http: Http,
         @Inject(ORIGIN_URL) private baseUrl: string
     ) {
-        this.inviteUrl = `${this.baseUrl}/api/Invite`;
+        this.inviteUrl = `${this.baseUrl}api/Invite`;
     }
 
     private ExtractData(res: Response) {

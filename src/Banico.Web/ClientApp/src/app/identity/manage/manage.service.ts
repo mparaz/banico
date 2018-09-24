@@ -46,7 +46,7 @@ export class ManageService extends BaseService {
             newPassword,
             confirmPassword 
         });
-        return this.http.post(this.baseUrl + "/api/Account/SetPassword", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Account/SetPassword", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }

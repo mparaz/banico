@@ -18,7 +18,7 @@ export class SectionFileService {
         private http: HttpClient,
         @Inject('BASE_URL') private baseUrl: string
     ) {
-        this.sectionApiBaseUrl = `${this.baseUrl}/api/Section`;
+        this.sectionApiBaseUrl = `${this.baseUrl}api/Section`;
     }
 
     public UploadFile(sectionType: string, inputString: string) {
