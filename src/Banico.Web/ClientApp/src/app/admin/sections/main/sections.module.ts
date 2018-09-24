@@ -2,7 +2,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-import { SectionsRoutingModule } from './sections.routing';
 import { SectionsAdminComponent } from '../components/sectionsadmin/sectionsadmin.component';
 import { SectionItemsAdminComponent } from '../components/sectionitemsadmin/sectionitemsadmin.component';
 
@@ -12,8 +11,7 @@ import { SectionsFileService } from './services/sectionsfile.service';
 @NgModule({
   imports: [ 
     BrowserModule,
-    FormsModule,
-    SectionsRoutingModule
+    FormsModule
   ],
   declarations: [ 
     SectionsAdminComponent,
