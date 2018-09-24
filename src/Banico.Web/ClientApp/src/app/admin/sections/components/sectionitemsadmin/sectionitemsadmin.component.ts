@@ -1,9 +1,9 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SectionItem } from '../../../entities/sectionitem';
-import { NavBarService } from '../../../shell/navbar/navbar.service';
-import { SectionsService } from '../services/sections.service';
-import { SectionsFileService } from '../services/sectionsfile.service';
+import { SectionItem } from '../../../../entities/sectionitem';
+import { NavBarService } from '../../../../shell/navbar/navbar.service';
+import { SectionsService } from '../../main/services/sections.service';
+import { SectionsFileService } from '../../main/services/sectionsfile.service';
 
 @Component({
     selector: 'sectionitemsadmin',

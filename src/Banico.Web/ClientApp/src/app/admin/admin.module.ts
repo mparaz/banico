@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SectionsModule } from './sections/sections.module';
+import { SectionsModule } from './sections/main/sections.module';
 import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({

@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Section } from '../../../entities/section';
-import { SectionsService } from '../services/sections.service';
+import { Section } from '../../../../entities/section';
+import { SectionsService } from '../../main/services/sections.service';
 
 @Component({
     selector: 'sectionsadmin',

@@ -11,9 +11,9 @@ import { AddSectionItemMutation } from './sections.mutations';
 import { SectionsQueryResult } from './sections.queryresults';
 import { SectionItemsQueryResult } from './sections.queryresults';
 
-import { Section } from '../../../entities/section';
-import { SectionItem } from '../../../entities/sectionitem';
-import { ContentItem } from '../../../entities/contentitem';
+import { Section } from '../../../../entities/section';
+import { SectionItem } from '../../../../entities/sectionitem';
+import { ContentItem } from '../../../../entities/contentitem';
 //import { status, json } from '../../../shared/fetch';
 
 @Injectable()

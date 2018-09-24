@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { SectionItem } from '../../../entities/sectionitem';
+import { SectionItem } from '../../../../entities/sectionitem';
 //import { status, json } from '../../../shared/fetch';
 //import { Observable } from 'rxjs/Observable';
 import { SectionsService } from './sections.service';

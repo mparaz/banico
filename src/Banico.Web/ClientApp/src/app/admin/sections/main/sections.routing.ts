@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { SectionsAdminComponent } from './sectionsadmin/sectionsadmin.component';
-import { SectionItemsAdminComponent } from './sectionitemsadmin/sectionitemsadmin.component';
+import { SectionsAdminComponent } from '../components/sectionsadmin/sectionsadmin.component';
+import { SectionItemsAdminComponent } from '../components/sectionitemsadmin/sectionitemsadmin.component';
 
 const SECTION_ROUTES: Routes = [
     { path: 'sections/admin/section/:section', component: SectionItemsAdminComponent },

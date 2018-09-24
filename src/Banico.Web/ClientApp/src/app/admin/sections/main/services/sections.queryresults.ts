@@ -1,5 +1,5 @@
-import { Section } from '../../../entities/section';
-import { SectionItem } from '../../../entities/sectionitem';
+import { Section } from '../../../../entities/section';
+import { SectionItem } from '../../../../entities/sectionitem';
 
 export class SectionsQueryResult {
     sections: Section[];
