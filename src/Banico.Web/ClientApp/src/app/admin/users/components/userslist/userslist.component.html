@@ -1,0 +1,35 @@
+<h1>User Admin</h1>
+
+<div class="btn-group">
+    <a href="/admin/users/add" class="btn btn-primary">
+        <i class="glyphicon glyphicon-plus"></i>  Add User
+    </a>
+</div>
+<div class="top-buffer"></div>
+<table class="table table-bordered table-striped table-condensed">
+    <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Email</th>                   
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr *ngFor="item in items">
+                <td>{{item.id}}</td>
+                <td>{{item.email}}</td>                        
+                <td>
+                    <a href="/admin/users/edit/{{item.id}}"
+                        class="btn btn-primary">
+                        <i class="glyphicon glyphicon-pencil"></i>  Edit
+                    </a>
+                    <a href="/admin/users/delete/{{item.id}}" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-trash"></i>  Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
