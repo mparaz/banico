@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AccountService } from '../account.service';
+import { AccountService } from '../../main/account.service';
 
 @Component({
   selector: 'forgot-password',

@@ -3,14 +3,14 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AccountComponent } from './account.component';
-import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { ResendConfirmationComponent } from './resend-confirmation/resend-confirmation.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ConfirmEmailComponent } from '../components/confirm-email/confirm-email.component';
+import { ForgotPasswordComponent } from '../components/forgot-password/forgot-password.component';
+import { LoginComponent } from '../components/login/login.component';
+import { RegisterComponent } from '../components/register/register.component';
+import { ResendConfirmationComponent } from '../components/resend-confirmation/resend-confirmation.component';
+import { ResetPasswordComponent } from '../components/reset-password/reset-password.component';
 
-import { AuthGuard } from '../../shared/services/auth.guard';
+import { AuthGuard } from '../../../shared/services/auth.guard';
 
 export const ROUTES: Routes = [
   { path: 'account', component: AccountComponent, children: [

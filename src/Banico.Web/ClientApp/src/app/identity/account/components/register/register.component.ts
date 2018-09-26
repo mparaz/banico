@@ -3,7 +3,7 @@ import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as toastr from 'toastr';
 
-import { AccountService } from '../account.service';
+import { AccountService } from '../../main/account.service';
 
 @Component({
   selector: 'register',

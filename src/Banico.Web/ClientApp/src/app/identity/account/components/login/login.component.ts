@@ -2,8 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as toastr from 'toastr';
-import { AccountService } from '../account.service';
-import { WindowRefService } from '../../../shared/services/windowref.service';
+import { AccountService } from '../../main/account.service';
+import { WindowRefService } from '../../../../shared/services/windowref.service';
 
 @Component({
   selector: 'login',

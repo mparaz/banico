@@ -4,7 +4,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Page } from '../../main/page';
 import { PageService } from '../../main/page.service';
 import { ModalComponent } from '../../../../shell/modal/modal.component';
-import { AccountService } from '../../../../identity/account/account.service';
+import { AccountService } from '../../../../identity/account/main/account.service';
 
 @Component({
     selector: 'pagedisplay',

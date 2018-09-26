@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
-import { AccountService } from '../account.service';
+import { AccountService } from '../../main/account.service';
  
 @Component({
   selector: 'resend-confirmation',

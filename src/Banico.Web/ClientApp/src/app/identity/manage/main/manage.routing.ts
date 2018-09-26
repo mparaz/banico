@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ChangePasswordComponent } from '../components/change-password/change-password.component';
 import { ManageComponent } from './manage.component';
-import { ManageLoginsComponent } from './manage-logins/manage-logins.component';
-import { SetPasswordComponent } from './set-password/set-password.component';
+import { ManageLoginsComponent } from '../components/manage-logins/manage-logins.component';
+import { SetPasswordComponent } from '../components/set-password/set-password.component';
 
-import { AuthGuard } from '../../shared/services/auth.guard';
+import { AuthGuard } from '../../../shared/services/auth.guard';
 
 export const ROUTES: Routes = [
   { path: 'manage', component: ManageComponent, children: [

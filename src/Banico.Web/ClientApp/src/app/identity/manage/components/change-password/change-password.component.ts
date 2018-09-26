@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ManageService } from '../manage.service';
+import { ManageService } from '../../main/manage.service';
 
 @Component({
   selector: 'change-password',

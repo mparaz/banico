@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { AccountService } from '../../identity/account/account.service';
+import { AccountService } from '../../identity/account/main/account.service';
 
 @Component({
   selector: 'navmenu',
