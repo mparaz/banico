@@ -15,21 +15,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr *ngFor="item in items">
-                <td>{{item.id}}</td>
-                <td>{{item.email}}</td>                        
-                <td>
-                    <a href="/admin/users/edit/{{item.id}}"
-                        class="btn btn-primary">
-                        <i class="glyphicon glyphicon-pencil"></i>  Edit
-                    </a>
-                    <a href="/admin/users/delete/{{item.id}}" class="btn btn-danger">
-                        <i class="glyphicon glyphicon-trash"></i>  Delete
-                    </a>
-                </td>
-            </tr>
-        }
+        <tr *ngFor="let user of users">
+            <td>{{user.id}}</td>
+            <td>{{user.email}}</td>                        
+            <td>
+                <a href="/admin/users/edit/{{user.id}}"
+                    class="btn btn-primary">
+                    <i class="glyphicon glyphicon-pencil"></i>  Edit
+                </a>
+                <a href="/admin/users/delete/{{user.id}}" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-trash"></i>  Delete
+                </a>
+            </td>
+        </tr>
     </tbody>
 </table>

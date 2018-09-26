@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { BaseService } from '../../../shared/services/base.service';
 import { WindowRefService } from '../../../shared/services/windowref.service';
-import { User } from '../../../entities/user';
+import { Role } from '../../../entities/role';
 
 @Injectable()
-export class UsersService extends BaseService {
-    userUrl: string;
+export class RolesService extends BaseService {
+    roleUrl: string;
 
     constructor(
         private http: HttpClient,
@@ -17,7 +17,7 @@ export class UsersService extends BaseService {
         @Inject('BASE_URL') private baseUrl: string
     ) {
         super(windowRefService, platformId);
-        this.userUrl = `${this.baseUrl}/api/Users`;
+        this.roleUrl = `${this.baseUrl}/api/Roles`;
     }
 
     private addResult(res: any) {
@@ -46,46 +46,38 @@ export class UsersService extends BaseService {
         return body || {};
     }
 
-    public getUsers(): Observable<User[]> {
-        return this.http.get<User[]>(this.baseUrl + "api/Users/GetAll", this.jsonAuthRequestOptions)
+    public getRoles(): Observable<Role[]> {
+        return this.http.get<Role[]>(this.baseUrl + "api/Roles/GetAll", this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }
 
-    public getUser(id: string): Observable<User> {
-        return this.http.get<User>(this.baseUrl + "api/Users/Get", this.jsonAuthRequestOptions)
+    public getRole(id: string): Observable<Role> {
+        return this.http.get<Role>(this.baseUrl + "api/Roles/Get", this.jsonAuthRequestOptions)
         .catch(this.handleError);
     }
 
-    public addUser(
-        email: string,
-        password: string,
-        confirmPassword: string,
-        invite: string
+    public addRole(
+        id: string,
+        name: string
     ): Observable<boolean> {
         let body = JSON.stringify({ 
-            email,
-            password,
-            confirmPassword ,
-            invite
+            id,
+            name
         });
-        return this.http.post(this.baseUrl + "api/Users/Add", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Roles/Add", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
 
-    public updateUser(
-        email: string,
-        password: string,
-        confirmPassword: string,
-        invite: string
+    public updateRole(
+        id: string,
+        name: string
     ): Observable<boolean> {
         let body = JSON.stringify({ 
-            email,
-            password,
-            confirmPassword ,
-            invite
+            id,
+            name
         });
-        return this.http.post(this.baseUrl + "api/Users/Add", body, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Roles/Update", body, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
@@ -93,7 +85,7 @@ export class UsersService extends BaseService {
     public deleteUser(
         id: string
     ): Observable<boolean> {
-        return this.http.post(this.baseUrl + "api/Users/Delete", id, this.jsonRequestOptions)
+        return this.http.post(this.baseUrl + "api/Roles/Delete", id, this.jsonRequestOptions)
         .map(res => true)
         .catch(this.handleError);
     }
