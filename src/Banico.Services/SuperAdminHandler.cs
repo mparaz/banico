@@ -46,7 +46,7 @@ namespace Banico.Services
 
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, SuperAdminRequirement requirement)
         {
-            IConfigurationRoot configuration = _serviceProvider.GetService<IConfigurationRoot>();
+            IConfiguration configuration = _serviceProvider.GetService<IConfiguration>();
 
             if (context.User != null)
             {

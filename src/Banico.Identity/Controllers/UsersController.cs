@@ -13,6 +13,7 @@ using Banico.Core.Entities;
 
 namespace Banico.Web
 {
+    [Route("api/[controller]/[action]")]
     [Authorize(Policy="SuperAdmin")]
     public class UsersController : Controller
     {
@@ -32,7 +33,7 @@ namespace Banico.Web
 
 
         [HttpGet]
-        public async Task<List<AppUser>> GetUsers()
+        public async Task<List<AppUser>> GetAll()
         {
             var result = userManager.Users.ToList();
             return result;
