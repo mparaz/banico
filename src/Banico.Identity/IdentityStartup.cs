@@ -17,12 +17,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
-
+using Banico.Services;
 
 namespace Banico.Identity
 {
@@ -129,6 +130,13 @@ namespace Banico.Identity
       .AddSignInManager<SignInManager<AppUser>>()
       .AddEntityFrameworkStores<AppIdentityDbContext>()
       .AddDefaultTokenProviders();
+
+      services.AddAuthorization(options =>
+      {
+          options.AddPolicy("SuperAdmin",
+              policy => policy.Requirements.Add(new SuperAdminRequirement()));
+      });
+      services.AddSingleton<IAuthorizationHandler, SuperAdminHandler>();
 
       services.ConfigureApplicationCookie(options =>
         {
